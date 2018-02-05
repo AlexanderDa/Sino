@@ -1,38 +1,60 @@
 
-CREATE USER profesor WITH PASSWORD 'prop4$';
-GRANT all ON table alumno to profesor;
-
-
-GRANT all(quimestre,descripcion, tarea, individual,grupal,nota_parcial) ON table parcial to profesor;
-GRANT all(ciclo, quimestral, nota_cualitativa, laborados, justificados, injustificados) ON table quimestre to profesor;
-GRANT all(curso,alumno) ON table ciclo to profesor;
-GRANT all ON table curso to profesor;
-GRANT all ON table materia to profesor;
-GRANT all ON table docente to profesor;
-GRANT all ON table alumno to profesor;
-GRANT all ON table periodo to profesor;
-
-
-
-
-
+/******************************************************************
+*                      CREAR EL USUARIO ADMIN                     *
+******************************************************************/
 
 CREATE USER admin WITH PASSWORD 'adm!np4$';
-GRANT all ON table alumno to admin;
+
+grant all on sequence administrador_id_seq to admin;
+grant all on sequence ciclo_id_seq         to admin;
+grant all on sequence curso_id_seq         to admin;
+grant all on sequence materia_id_seq       to admin;
+grant all on sequence parcial_id_seq       to admin;
+grant all on sequence periodo_id_seq       to admin;
+grant all on sequence quimestre_id_seq     to admin;
+
+GRANT all ON table parcial 		to admin;
+GRANT all ON table quimestre 	to admin;
+GRANT all ON table ciclo 		to admin;           
+GRANT all ON table alumno 		to admin ;	
+GRANT all ON table curso 		to admin;
+GRANT all ON table materia 		to admin;
+GRANT all ON table docente 		to admin;
+GRANT all ON table alumno 		to admin;
+GRANT all ON table periodo 		to admin;
+GRANT all ON table administrador to admin;
 
 
-GRANT all(quimestre,descripcion, tarea, individual,grupal,nota_parcial) ON table parcial to admin;
-GRANT all(ciclo, quimestral, nota_cualitativa, laborados, justificados, injustificados) ON table quimestre to admin;
-GRANT select ON table ciclo to admin;
-GRANT select ON table curso to admin;
-GRANT select ON table materia to admin;
-GRANT all ON table docente to admin;
-GRANT select ON table alumno to admin;
-GRANT all ON table periodo to admin;
 
 
-/*
-GRANT UPDATE (nombre,apellido)
-     ON TABLE personas
-     TO usuario;
-*/
+
+
+/******************************************************************
+*                    CREAR EL USUARIO PROFESOR                    *
+******************************************************************/
+
+CREATE USER profesor WITH PASSWORD 'prop4$';
+
+
+grant all on sequence ciclo_id_seq         to profesor;
+grant all on sequence curso_id_seq         to profesor;
+grant all on sequence materia_id_seq       to profesor;
+grant all on sequence parcial_id_seq       to profesor;
+grant all on sequence periodo_id_seq       to profesor;
+grant all on sequence quimestre_id_seq     to profesor;
+
+
+
+GRANT all ON table parcial 		to profesor;
+GRANT all ON table quimestre 	to profesor;
+GRANT select ON table alumno 	to profesor;
+GRANT select ON table ciclo 	to profesor;
+GRANT select ON table curso 	to profesor;
+GRANT select ON table materia 	to profesor;
+GRANT select ON table docente 	to profesor;
+GRANT select ON table alumno 	to profesor;
+
+
+
+
+
