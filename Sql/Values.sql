@@ -38,14 +38,14 @@ insert into alumno(apellido,nombre,cedula) values
 
 
 ------------------------------------------------------------------------	
-insert into curso(periodo, alumno, docente, materia, grado, paralelo) values
-	(1,'065838557-6','060405974-1',1,'Septimo','A'),
-	(1,'056437659-4','060405974-1',1,'Septimo','A'),
-	(1,'041296490-8','060405974-1',1,'Septimo','A');
+insert into curso(periodo, docente, materia, grado, paralelo) values
+	(1,'060405974-1',1,'Septimo','A'),
+	(1,'060405974-1',1,'Septimo','A'),
+	(1,'060405974-1',1,'Septimo','A');
 
 
 --NOTAS DE LENLUAJE DE CAGUANO ERICK
-insert into ciclo(curso) values(1);
+insert into ciclo(curso,alumno) values(1,'065838557-6');
 insert into quimestre(ciclo,quimestral) values (1,9);
 
 insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
@@ -63,7 +63,7 @@ insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parc
 
 			
 --NOTAS DE LENLUAJE DE CAMACHO MATEO 
-insert into ciclo(curso) values(2);
+insert into ciclo(curso,alumno) values(2,'056437659-4');
 
 insert into quimestre(ciclo,quimestral) values (2,10);
 insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
@@ -81,7 +81,7 @@ insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parc
 
 
 --NOTAS DE LENLUAJE DE CARPINTERO LUIS 
-insert into ciclo(curso) values(3);
+insert into ciclo(curso,alumno) values(3,'041296490-8');
 insert into quimestre(ciclo,quimestral) values (3,8);
 
 insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
