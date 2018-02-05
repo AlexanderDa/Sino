@@ -6,7 +6,7 @@ create table periodo(
 	fecha_fin date not null,
 	director text not null,
 	subdirector text not null,
-	cordinador text not null,
+	coordinador text not null,
 	constraint pk_periodo primary key(id)
 );
 
@@ -32,7 +32,7 @@ create table alumno(
 create table docente(
 	cedula identification unique,
 	usuario character varying(30) not null,
-	clave character varying(32),
+	clave character varying(32) not null,
 	nombre text not null,
 	apellido text not null,
 	constraint pk_docente primary key(cedula)
@@ -42,7 +42,7 @@ create table docente(
 create table materia(
 	id serial not null,
 	nombre text,
-	dominio character(25),
+	dominio character varying(25),
 	constraint pk_materia primary key(id)
 );
 
@@ -54,7 +54,7 @@ create table curso(
 	periodo integer not null,
 	docente identification,	
 	materia integer not null,
-	grado character(15),
+	grado character varying(15),
 	paralelo character,
 	constraint pk_curso primary key(id),
 	constraint fk_curso_docente foreign key(docente) references docente(cedula),
@@ -79,8 +79,9 @@ create table ciclo(
 
 
 create table quimestre(
-	id serial not null,
+	id serial not null,  
 	ciclo integer not null,
+	descripcion character varying(20) NOT NULL, 
 	promedio_parcial note,
 	nota_parcial note,
 	quimestral note,
@@ -98,8 +99,8 @@ create table quimestre(
 
 create table parcial(
 	id serial not null,
-	quimestre integer not null,
-	descripcion text not null,
+	quimestre integer not null,   
+	descripcion character varying(15) NOT NULL,  
 	tarea note,
 	individual note,
 	grupal note,
