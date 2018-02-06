@@ -23,11 +23,9 @@ public class DBConnection {
     private String user;
     private String password;
     private Connection connection;
-    final private String URL = "jdbc:postgresql://localhost:5432/algas";
+    final private String URL = "jdbc:postgresql://localhost:5432/sino";
 
     public DBConnection() {
-        this.user = "postgres";
-        this.password = "postgres";
     }
 
     public DBConnection(String user, String password) {
@@ -49,7 +47,7 @@ public class DBConnection {
         }
         return connection;
     }
-    
+
     public void disconnect() throws SQLException {
         if (connection != null) {
             try {
@@ -59,7 +57,7 @@ public class DBConnection {
             }
         }
     }
-    
+
     public ResultSet executeQuery(String sql) throws ClassNotFoundException, SQLException {
         ResultSet rst = null;
 
@@ -74,7 +72,7 @@ public class DBConnection {
         }
         return rst;
     }
-    
+
     public ResultSet executeQuery(String sql, List<DBObject> lst) throws Exception {
         ResultSet rst = null;
         try {
@@ -96,9 +94,7 @@ public class DBConnection {
         }
         return rst;
     }
-    
-    
-    
+
     public int executeCommand(String sql) throws Exception {
         int affectedrows = 0;
         try {
@@ -114,7 +110,7 @@ public class DBConnection {
         return affectedrows;
     }
 
-    public int ejecutaComando(String sql, List<DBObject> lst) throws Exception {
+    public int executeCommand(String sql, List<DBObject> lst) throws Exception {
         int affectedrows = 0;
         try {
             connect();
@@ -136,7 +132,6 @@ public class DBConnection {
         return affectedrows;
     }
 
-
     public void setUser(String user) {
         this.user = user;
     }
@@ -144,7 +139,5 @@ public class DBConnection {
     public void setPassword(String password) {
         this.password = password;
     }
-
-  
 
 }
