@@ -28,13 +28,17 @@ public class MAdministrador implements IAdministrador {
     @Override
     public int insertar(Administrador administrador) throws Exception {
         int modificados = 0;
-        DBConnection connection = new DBConnection(usuario,clave);
+        DBConnection connection = new DBConnection(usuario, clave);
         String sql = "INSERT INTO administrador(usuario,clave,nombre,apellido) values(?,md5(?),?,?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, administrador.getUsuario()));
         dbos.add(new DBObject(2, administrador.getClave()));
         dbos.add(new DBObject(3, administrador.getNombre()));
         dbos.add(new DBObject(4, administrador.getApellido()));
+        if (administrador.getId() != 0) {
+            sql = "INSERT INTO administrador(usuario,clave,nombre,apellido,id) values(?,md5(?),?,?,?);";
+            dbos.add(new DBObject(5, administrador.getId()));
+        }
         try {
             modificados = connection.executeCommand(sql, dbos);
         } catch (Exception e) {
@@ -46,7 +50,7 @@ public class MAdministrador implements IAdministrador {
     @Override
     public int modificar(Administrador administrador) throws Exception {
         int modificados = 0;
-        DBConnection connection = new DBConnection(usuario,clave);
+        DBConnection connection = new DBConnection(usuario, clave);
         String sql = "update administrador  set usuario = ?  , nombre = ?, apellido = ? where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
 
@@ -65,7 +69,7 @@ public class MAdministrador implements IAdministrador {
     @Override
     public int modificarClave(Administrador administrador) throws Exception {
         int modificados = 0;
-        DBConnection connection = new DBConnection(usuario,clave);
+        DBConnection connection = new DBConnection(usuario, clave);
         String sql = "update administrador set clave = ? where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, administrador.getClave()));
@@ -85,7 +89,7 @@ public class MAdministrador implements IAdministrador {
                 + "WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, administrador.getId()));
-        DBConnection con = new DBConnection(usuario,clave);
+        DBConnection con = new DBConnection(usuario, clave);
         try {
             eliminados = con.executeCommand(sql, dbos);
         } catch (Exception e) {
@@ -102,7 +106,7 @@ public class MAdministrador implements IAdministrador {
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, usuario));
         dbos.add(new DBObject(2, clave));
-        DBConnection con = new DBConnection(usuario,clave);
+        DBConnection con = new DBConnection(this.usuario, this.clave);
         try {
             ResultSet rst = con.executeQuery(sql, dbos);
             while (rst.next()) {
@@ -124,7 +128,7 @@ public class MAdministrador implements IAdministrador {
     public ObservableList<Administrador> obtener() throws Exception {
         ObservableList<Administrador> lista = FXCollections.observableArrayList();
         String sql = "SELECT id,usuario,clave,nombre,apellido FROM administrador order by apellido asc;";
-        DBConnection con = new DBConnection(usuario,clave);
+        DBConnection con = new DBConnection(usuario, clave);
         try {
             ResultSet rst = con.executeQuery(sql);
             while (rst.next()) {
@@ -143,5 +147,5 @@ public class MAdministrador implements IAdministrador {
         }
         return lista;
     }
-    
+
 }
