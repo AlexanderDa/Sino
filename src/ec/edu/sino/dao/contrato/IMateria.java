@@ -24,7 +24,7 @@ public interface IMateria {
 
     int eliminar(Materia materia) throws Exception;
 
-    Materia obtener(String cedula) throws Exception;
+    Materia obtener(int id) throws Exception;
 
     ObservableList<Materia> obtener() throws Exception;
 }

@@ -24,7 +24,7 @@ public interface IPeriodo {
 
     int eliminar(Periodo periodo) throws Exception;
 
-    Periodo obtener(String id) throws Exception;
+    Periodo obtener(int id) throws Exception;
 
     ObservableList<Periodo> obtener() throws Exception;
 }

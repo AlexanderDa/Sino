@@ -24,7 +24,7 @@ public interface ICurso {
 
     int eliminar(Curso curso) throws Exception;
 
-    Curso obtener(String cedula) throws Exception;
+    Curso obtener(int id) throws Exception;
 
     ObservableList<Curso> obtener() throws Exception;
 }

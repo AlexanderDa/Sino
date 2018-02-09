@@ -24,7 +24,7 @@ public interface IParcial {
 
     int eliminar(Parcial parcial) throws Exception;
 
-    Parcial obtener(String id) throws Exception;
+    Parcial obtener(int id) throws Exception;
 
     ObservableList<Parcial> obtener() throws Exception;
 }

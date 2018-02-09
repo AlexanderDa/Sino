@@ -24,7 +24,7 @@ public interface ICiclo {
 
     int eliminar(Ciclo ciclo) throws Exception;
 
-    Ciclo obtener(String id) throws Exception;
+    Ciclo obtener(int id) throws Exception;
 
     ObservableList<Ciclo> obtener() throws Exception;
 }

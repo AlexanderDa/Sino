@@ -24,7 +24,7 @@ public interface IQuimestre {
 
     int eliminar(Quimestre quimestre) throws Exception;
 
-    Quimestre obtener(String id) throws Exception;
+    Quimestre obtener(int id) throws Exception;
 
     ObservableList<Quimestre> obtener() throws Exception;
 }
