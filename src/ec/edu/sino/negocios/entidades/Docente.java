@@ -70,7 +70,7 @@ public class Docente {
 
     @Override
     public String toString() {
-        return nombre + apellido;
+        return apellido + " " + nombre;
     }
 
 }
