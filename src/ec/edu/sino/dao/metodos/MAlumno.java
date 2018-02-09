@@ -108,10 +108,10 @@ public class MAlumno implements IAlumno {
         try {
             ResultSet rst = con.executeQuery(sql, dbos);
             while (rst.next()) {
-                alumno = new Alumno();
-                alumno.setCedula(rst.getString(1));
-                alumno.setApellido(rst.getString(2));
-                alumno.setNombre(rst.getString(3));
+                alumno = new Alumno();  
+                alumno.setCedula(rst.getString("cedula"));
+                alumno.setApellido(rst.getString("apellido"));
+                alumno.setNombre(rst.getString("nombre"));
 
             }
 
@@ -124,7 +124,7 @@ public class MAlumno implements IAlumno {
     @Override
     public ObservableList<Alumno> obtener() throws Exception {
         ObservableList<Alumno> lista = FXCollections.observableArrayList();
-        String sql = "SELECT cedula, apellido, nombre	FROM public.alumno by apellido asc;";
+        String sql = "SELECT cedula, apellido, nombre	FROM public.alumno order by apellido asc;";
         DBConnection con = new DBConnection(usuario, clave);
         try {
             ResultSet rst = con.executeQuery(sql);
