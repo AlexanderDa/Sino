@@ -47,7 +47,7 @@ public class MAdministrador implements IAdministrador {
     public int modificar(Administrador administrador) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario,clave);
-        String sql = "update administrador  set usuario = ? , nombre = ?, apellido = ? where id = ?;";
+        String sql = "update administrador  set usuario = ?  , nombre = ?, apellido = ? where id = ?;";
         List<DBObject> dbos = new ArrayList<>();
 
         dbos.add(new DBObject(1, administrador.getUsuario()));
