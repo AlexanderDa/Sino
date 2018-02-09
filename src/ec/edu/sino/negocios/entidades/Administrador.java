@@ -27,6 +27,22 @@ public class Administrador {
         this.nombre = nombre;
         this.apellido = apellido;
     }
+    public Administrador(int id, String usuario, String nombre, String apellido) {
+        this.id = id;
+        this.usuario = usuario;
+        this.nombre = nombre;
+        this.apellido = apellido;
+    }
+    public Administrador(int id, String clave) {
+        this.id = id;
+        this.clave = clave;
+    }
+
+    public Administrador(String usuario, String clave) {
+        this.usuario = usuario;
+        this.clave = clave;
+        
+    }
 
     public String getApellido() {
         return apellido;
