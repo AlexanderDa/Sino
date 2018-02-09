@@ -31,7 +31,7 @@ create table alumno(
 
 create table docente(
 	cedula identification unique,
-	usuario character varying(30) not null,
+	usuario character varying(30) unique not null,
 	clave character varying(32) not null,
 	nombre text not null,
 	apellido text not null,
