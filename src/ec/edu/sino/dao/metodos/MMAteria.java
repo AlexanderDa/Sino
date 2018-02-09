@@ -53,6 +53,10 @@ public class MMAteria implements IMateria {
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, materia.getNombre()));
         dbos.add(new DBObject(2, materia.getDominio()));
+        if (materia.getId() != 0) {
+            sql = "INSERT INTO public.materia(nombre, dominio, id) VALUES (?, ?, ?);";
+            dbos.add(new DBObject(3, materia.getId()));
+        }
 
         try {
             modificados = connection.executeCommand(sql, dbos);
@@ -71,7 +75,7 @@ public class MMAteria implements IMateria {
         dbos.add(new DBObject(1, materia.getNombre()));
         dbos.add(new DBObject(2, materia.getDominio()));
         dbos.add(new DBObject(3, materia.getId()));
-        dbos.add(new DBObject());
+        
 
         try {
             modificados = connection.executeCommand(sql, dbos);
