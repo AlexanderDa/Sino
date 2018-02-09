@@ -17,7 +17,7 @@ public class TAdministrador {
     
     public static void main(String[] args) throws Exception {
         
-        Administrador admin = new Administrador(33,"alexgualli33", "alex", "Alex", "Gualli");
+        Administrador admin = new Administrador(37,"alexgualli37", "alex", "Alex", "Gualli");
         
         MAdministrador dao = new MAdministrador();
         
@@ -32,7 +32,7 @@ public class TAdministrador {
             System.out.println(e.getMessage());
         }        
         
-        admin= new Administrador(33, "paul","paul", "paul");
+        admin= new Administrador(37, "paul","paul", "paul");
         
         try {         
             
@@ -46,7 +46,7 @@ public class TAdministrador {
             System.out.println(e.getMessage());
         }
         
-        admin = new Administrador(33, "pancho");
+        admin = new Administrador(37, "pancho");
         
         try {            
             if(dao.modificarClave(admin)>0){
