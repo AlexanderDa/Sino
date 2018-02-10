@@ -68,12 +68,12 @@ public class MDocente implements IDocente {
     public int modificar(Docente docente) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "update docente set  nombre = ?, apellido = ? where cedula = ?;";
+        String sql = "update docente set  usuario = ?, nombre = ?, apellido = ? where cedula = ?;";
         List<DBObject> prts = new ArrayList<>();
-
-        prts.add(new DBObject(1, docente.getNombre()));
-        prts.add(new DBObject(2, docente.getApellido()));
-        prts.add(new DBObject(3, docente.getCedula()));
+        prts.add(new DBObject(1, docente.getUsuario()));
+        prts.add(new DBObject(2, docente.getNombre()));
+        prts.add(new DBObject(3, docente.getApellido()));
+        prts.add(new DBObject(4, docente.getCedula()));
         try {
             modificados = connection.executeCommand(sql, prts);
         } catch (Exception e) {
@@ -116,11 +116,11 @@ public class MDocente implements IDocente {
     }
 
     @Override
-    public Docente obtener(String cedula) throws Exception {
+    public Docente obtenerCedula(String cedula) throws Exception {
         Docente docente = null;
-        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula = ?;";
+        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ?;";
         List<DBObject> prts = new ArrayList<>();
-        prts.add(new DBObject(1, cedula));
+        prts.add(new DBObject(1, cedula.concat("%")));
         DBConnection con = new DBConnection(usuario, this.clave);
         try {
             ResultSet rst = con.executeQuery(sql, prts);
@@ -138,16 +138,40 @@ public class MDocente implements IDocente {
         }
         return docente;
     }
-    
-    
-      @Override
-    public Docente obtener(String cedula, String clave) throws Exception {
+
+    @Override
+    public Docente obtenerNombre(String nombre) throws Exception {
         Docente docente = null;
-        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula = ? and clave = md5(?);";
+        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where nombre like ? or apellido like ?;";
         List<DBObject> prts = new ArrayList<>();
-        prts.add(new DBObject(1, cedula));
-        prts.add(new DBObject(2, clave));
+        prts.add(new DBObject(1, nombre.concat("%")));
+        prts.add(new DBObject(2, nombre.concat("%")));
         DBConnection con = new DBConnection(usuario, this.clave);
+        try {
+            ResultSet rst = con.executeQuery(sql, prts);
+            while (rst.next()) {
+                docente = new Docente();
+                docente.setCedula(rst.getString(1));
+                docente.setUsuario(rst.getString(2));
+                docente.setClave(rst.getString(3));
+                docente.setNombre(rst.getString(4));
+                docente.setApellido(rst.getString(5));
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return docente;
+    }
+
+    @Override
+    public Docente obtener(String usuario, String clave) throws Exception {
+        Docente docente = null;
+        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where usuario = ? and clave = md5(?);";
+        List<DBObject> prts = new ArrayList<>();
+        prts.add(new DBObject(1, usuario));
+        prts.add(new DBObject(2, clave));
+        DBConnection con = new DBConnection(this.usuario, this.clave);
         try {
             ResultSet rst = con.executeQuery(sql, prts);
             while (rst.next()) {
