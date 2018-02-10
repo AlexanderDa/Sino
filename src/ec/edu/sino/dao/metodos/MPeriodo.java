@@ -33,7 +33,6 @@ public class MPeriodo implements IPeriodo {
         this.clave = clave;
     }
 
-    
     @Override
     public void loginAdmin() {
         usuario = "admin";
@@ -48,7 +47,7 @@ public class MPeriodo implements IPeriodo {
 
     @Override
     public int insertar(Periodo periodo) throws Exception {
-        int modificados = 0;
+        int insertados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
         String sql = "INSERT INTO public.periodo"
                 + "(fecha_inicio, fecha_fin, director, subdirector, coordinador) "
@@ -59,13 +58,19 @@ public class MPeriodo implements IPeriodo {
         dbos.add(new DBObject(3, periodo.getDirector()));
         dbos.add(new DBObject(4, periodo.getSubdirector()));
         dbos.add(new DBObject(5, periodo.getCoordinador()));
+        if (periodo.getId() != 0) {
+            sql = "INSERT INTO public.periodo"
+                    + "(fecha_inicio, fecha_fin, director, subdirector, coordinador, id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?);";
+            dbos.add(new DBObject(6, periodo.getId()));
+        }
 
         try {
-            modificados = connection.executeCommand(sql, dbos);
+            insertados = connection.executeCommand(sql, dbos);
         } catch (Exception e) {
             throw e;
         }
-        return modificados;
+        return insertados;
     }
 
     @Override
@@ -81,6 +86,7 @@ public class MPeriodo implements IPeriodo {
         dbos.add(new DBObject(3, periodo.getDirector()));
         dbos.add(new DBObject(4, periodo.getSubdirector()));
         dbos.add(new DBObject(5, periodo.getCoordinador()));
+        dbos.add(new DBObject(6, periodo.getId()));
 
         try {
             modificados = connection.executeCommand(sql, dbos);
