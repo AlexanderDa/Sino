@@ -49,10 +49,11 @@ public class MCiclo implements ICiclo {
     public int insertar(Ciclo ciclo) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "INSERT INTO public.ciclo(curso, alumno) VALUES (?, ?);";
+        String sql = "INSERT INTO public.ciclo(curso, alumno, promedio) VALUES (?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, ciclo.getCurso().getId()));
         dbos.add(new DBObject(2, ciclo.getAlumno().getCedula()));
+        dbos.add(new DBObject(3, ciclo.getPromedio()));
         try {
             modificados = connection.executeCommand(sql, dbos);
         } catch (Exception e) {
@@ -65,10 +66,12 @@ public class MCiclo implements ICiclo {
     public int modificar(Ciclo ciclo) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "UPDATE public.ciclo SET curso=?, alumno=?, promedio=? WHERE id=?;";
+        String sql = "UPDATE public.ciclo set curso=?, alumno=?, promedio=? WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, ciclo.getCurso().getId()));
         dbos.add(new DBObject(2, ciclo.getAlumno().getCedula()));
+        dbos.add(new DBObject(3, ciclo.getPromedio()));
+        dbos.add(new DBObject(4, ciclo.getId()));
 
         try {
             modificados = connection.executeCommand(sql, dbos);
@@ -97,7 +100,7 @@ public class MCiclo implements ICiclo {
     @Override
     public Ciclo obtener(int id) throws Exception {
         Ciclo ciclo = null;
-        String sql = "SELECT id, curso, alumno, promedio FROM public.ciclo where id=?;";
+        String sql = "SELECT id, curso, alumno, promedio FROM public.ciclo WHERE id=?";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
         DBConnection con = new DBConnection(usuario, clave);
