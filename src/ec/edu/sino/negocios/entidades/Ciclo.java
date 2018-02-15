@@ -57,7 +57,8 @@ public class Ciclo {
         this.alumno = alumno;
     }
     
-    
-    
-    
+    public String toString()
+    {
+        return curso+" "+ alumno+" "+promedio;
+    }   
 }
