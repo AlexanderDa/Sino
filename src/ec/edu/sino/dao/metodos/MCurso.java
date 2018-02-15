@@ -49,7 +49,7 @@ public class MCurso implements ICurso {
     public int insertar(Curso curso) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "INSERT INTO public.curso(periodo, docente, materia, grado, paralelo) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO curso(periodo, docente, materia, grado, paralelo) VALUES (?, ?, ?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, curso.getPeriodo().getId()));
         dbos.add(new DBObject(2, curso.getDocente().getCedula()));
@@ -88,7 +88,7 @@ public class MCurso implements ICurso {
     @Override
     public int eliminar(Curso curso) throws Exception {
         int eliminados = 0;
-        String sql = "DELETE FROM publiccurso WHERE id=?;";
+        String sql = "DELETE FROM public.curso WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, curso.getId()));
         DBConnection con = new DBConnection(usuario, clave);
@@ -119,7 +119,8 @@ public class MCurso implements ICurso {
                     System.err.println("Periodo" + e.getMessage());
                 }
                 try {
-                    curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente")));
+                    //curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente")));
+                     curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente"),rst.getString("docente")));
                 } catch (Exception e) {
                     System.err.println("Docente " + e.getMessage());
                 }
@@ -142,13 +143,19 @@ public class MCurso implements ICurso {
     @Override
     public ObservableList<Curso> obtener() throws Exception {
         ObservableList<Curso> lista = FXCollections.observableArrayList();
-        String sql = "by apellido asc;";
+        String sql = "SELECT id, periodo, docente, materia, grado, paralelo FROM public.curso order by grado asc;";
         DBConnection con = new DBConnection(usuario, clave);
         try {
             ResultSet rst = con.executeQuery(sql);
             while (rst.next()) {
 
                 Curso curso = new Curso();
+                curso.setId(rst.getInt("id"));
+                curso.setPeriodo(new MPeriodo(usuario, clave).obtener(rst.getInt("periodo")));
+                curso.setMateria(new MMAteria(usuario, clave).obtener(rst.getInt("materia")));
+                curso.setDocente(new MDocente(usuario, clave).obtenerNombre(rst.getString("docente")));
+                curso.setParalelo(rst.getString("paralelo"));
+                curso.setGrado(rst.getString("grado"));
                 lista.add(curso);
             }
 
