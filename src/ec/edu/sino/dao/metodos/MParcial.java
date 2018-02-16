@@ -41,23 +41,27 @@ public class MParcial implements IParcial {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
         String sql = "INSERT INTO public.parcial("
-                + "quimestre, descripcion, tarea, individual, grupal, "
-                + "promedio_evaluacion, nota_parcial, promedio) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                + "quimestre, descripcion, tarea, individual, grupal, nota_parcial) "
+                + "VALUES (?, ?, ?, ?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, parcial.getQuimestre()));
+        dbos.add(new DBObject(1, parcial.getQuimestre().getId()));
         dbos.add(new DBObject(2, parcial.getDescripcion()));
         dbos.add(new DBObject(3, parcial.getTarea()));
         dbos.add(new DBObject(4, parcial.getIndividual()));
         dbos.add(new DBObject(5, parcial.getGrupal()));
-        dbos.add(new DBObject(6, parcial.getPromedioEvaluacion()));
-        dbos.add(new DBObject(7, parcial.getNotaParcial()));
-        dbos.add(new DBObject(8, parcial.getPromedio()));
+        dbos.add(new DBObject(6, parcial.getNotaParcial()));
+        if (parcial.getId() != 0) {
+            sql = "INSERT INTO public.parcial("
+                    + "quimestre, descripcion, tarea, individual, grupal, nota_parcial, id) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+            dbos.add(new DBObject(7, parcial.getId()));
+        }
 
         try {
             modificados = connection.executeCommand(sql, dbos);
         } catch (Exception e) {
-            throw e;
+            // throw e;
+            System.err.println(e.getMessage());
         }
         return modificados;
     }
