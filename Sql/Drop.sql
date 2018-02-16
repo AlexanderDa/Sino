@@ -1,4 +1,6 @@
 
+drop view if exists nomina_curso;
+
 drop table if exists parcial;
 drop table if exists quimestre;
 drop table if exists ciclo;

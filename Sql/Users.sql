@@ -24,6 +24,8 @@ GRANT all ON table alumno 		to admin;
 GRANT all ON table periodo 		to admin;
 GRANT all ON table administrador to admin;
 
+GRANT select ON nomina_curso to admin;
+
 
 
 
@@ -47,12 +49,14 @@ grant all on sequence quimestre_id_seq     to profesor;
 
 GRANT all ON table parcial 		to profesor;
 GRANT all ON table quimestre 	to profesor;
+GRANT all ON table ciclo 		to profesor;
 GRANT select ON table alumno 	to profesor;
-GRANT select ON table ciclo 	to profesor;
 GRANT select ON table curso 	to profesor;
 GRANT select ON table materia 	to profesor;
 GRANT select ON table docente 	to profesor;
 GRANT select ON table alumno 	to profesor;
+
+GRANT select ON nomina_curso to profesor;
 
 
 

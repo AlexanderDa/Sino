@@ -40,8 +40,8 @@ insert into alumno(apellido,nombre,cedula) values
 ------------------------------------------------------------------------	
 insert into curso(periodo, docente, materia, grado, paralelo) values
 	(1,'060405974-1',1,'Septimo','A'),
-	(1,'060405974-1',1,'Septimo','A'),
-	(1,'060405974-1',1,'Septimo','A');
+	(2,'140096640-2',1,'Primedo','A');
+
 
 
 --NOTAS DE LENLUAJE DE CAGUANO ERICK
@@ -63,7 +63,7 @@ insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parc
 
 			
 --NOTAS DE LENLUAJE DE CAMACHO MATEO 
-insert into ciclo(curso,alumno) values(2,'056437659-4');
+insert into ciclo(curso,alumno) values(1,'056437659-4');
 
 insert into quimestre(ciclo,descripcion,quimestral) values (2,'PRIMER QUIMESTRE',10);
 insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
@@ -81,7 +81,7 @@ insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parc
 
 
 --NOTAS DE LENLUAJE DE CARPINTERO LUIS 
-insert into ciclo(curso,alumno) values(3,'041296490-8');
+insert into ciclo(curso,alumno) values(1,'041296490-8');
 insert into quimestre(ciclo,descripcion,quimestral) values (3,'PRIMER QUIMESTRE',8);
 
 insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
@@ -97,20 +97,9 @@ insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parc
 			
 ------------------------------------------------------------------------
 
+--MATRICULA DE CHIRAU DEIFILIO
 
-/*
---NOTAS DE LENLUAJE DE CAGUANO ERICK
-insert into ciclo(curso) values(1);
-insert into quimestre(ciclo,quimestral) values (1,9);
-
-insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
-	values(1,'PRIMER PARCIAL'),
-			(1,'SEGUNDO PARCIAL'),
-			(1,'TERCER PARCIAL');
-			
-insert into quimestre(ciclo,quimestral) values (1,9);
-insert into parcial(quimestre, descripcion, tarea, individual, grupal, nota_parcial) 
-	values	(2,'PRIMER PARCIAL'),
-			(2,'SEGUNDO PARCIAL'),
-			(2,'TERCER PARCIAL');			
-*/
+insert into ciclo(curso,alumno) values(2,'048973209-5');
+insert into quimestre(ciclo,descripcion,quimestral) VALUES(4,'PRIMER QUIMESTRE',9);
+insert into parcial(quimestre,descripcion,tarea,individual,grupal,nota_parcial)
+	values(7,'PRIMER PARCIAL',9,9,9,9);
