@@ -6,6 +6,8 @@
 package ec.edu.sino.dao.contrato;
 
 import ec.edu.sino.negocios.entidades.Alumno;
+import ec.edu.sino.negocios.entidades.Docente;
+import ec.edu.sino.negocios.entidades.Periodo;
 import javafx.collections.ObservableList;
 
 /**
@@ -26,5 +28,7 @@ public interface IAlumno {
 
     Alumno obtener(String cedula) throws Exception;
 
-    ObservableList<Alumno> obtener() throws Exception;
+    ObservableList<Alumno> obtenerTodos() throws Exception;
+
+    ObservableList<Alumno> obtenerNomina(Docente docente, Periodo periodo) throws Exception;
 }

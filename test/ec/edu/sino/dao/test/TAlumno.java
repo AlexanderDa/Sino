@@ -66,8 +66,8 @@ public class TAlumno {
         //LISTAR
         List<Alumno> lista = new ArrayList<>();
         try {
-            lista = ma.obtener();
-            System.out.println("LISTA DE ADMINISTRADORES");
+            lista = ma.obtenerTodos();
+            System.out.println("LISTA DE TODOS LOS ALUMNOS REGISTRADOS");
             for (Alumno tmp : lista) {
                 System.out.println("\t" + tmp.toString());
             }

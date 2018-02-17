@@ -9,8 +9,11 @@ import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.IAlumno;
 import ec.edu.sino.negocios.entidades.Alumno;
+import ec.edu.sino.negocios.entidades.Docente;
+import ec.edu.sino.negocios.entidades.Periodo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
@@ -122,12 +125,37 @@ public class MAlumno implements IAlumno {
     }
 
     @Override
-    public ObservableList<Alumno> obtener() throws Exception {
+    public ObservableList<Alumno> obtenerTodos() throws Exception {
         ObservableList<Alumno> lista = FXCollections.observableArrayList();
         String sql = "SELECT cedula, apellido, nombre	FROM public.alumno order by apellido asc;";
         DBConnection con = new DBConnection(usuario, clave);
         try {
             ResultSet rst = con.executeQuery(sql);
+            while (rst.next()) {
+
+                Alumno alumno = new Alumno();
+                alumno.setCedula(rst.getString(1));
+                alumno.setApellido(rst.getString(2));
+                alumno.setNombre(rst.getString(3));
+                lista.add(alumno);
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return lista;
+    }
+    
+    @Override
+    public ObservableList<Alumno> obtenerNomina(Docente docente, Periodo periodo) throws Exception {
+        ObservableList<Alumno> lista = FXCollections.observableArrayList();
+        String sql = "select cedula, apellido, nombre from nomina_curso where docente=? and periodo = ? order by apellido asc;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, docente.getCedula()));
+        dbos.add(new DBObject(2, periodo.getId()));
+        DBConnection con = new DBConnection(usuario, clave);
+        try {
+            ResultSet rst = con.executeQuery(sql, dbos);
             while (rst.next()) {
 
                 Alumno alumno = new Alumno();
