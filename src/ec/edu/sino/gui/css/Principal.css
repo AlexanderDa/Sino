@@ -1,0 +1,63 @@
+/*******************************************************************************
+*                   ESTILO DEL HEADER Y SUS COMPONENTES                        *
+*******************************************************************************/
+.header{
+    -fx-background-color: rgb(25,185,155);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 10,0,0,1 );
+}
+.title{
+    -fx-text-fill:#ffffff;
+}
+.title-active{
+    -fx-background-color:rgb(40,50,60);
+    -fx-text-fill:#ffffff;
+}
+
+.user{
+    -fx-text-fill:#ffffff;
+    -fx-effect: dropshadow( gaussian , rgba(230,230,230,0.7) , 1,0,0,1 );
+}
+
+/*******************************************************************************
+*                 ESTILO DEL CONTENEDOR Y SUS COMPONENTES                      *
+*******************************************************************************/
+
+.login-container{
+    -fx-background-color: #ffffff;
+}
+
+.session-panel, .user-type{
+    -fx-background-color: #fdfdfd;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.5) , 20,0,0,1 );
+}
+
+.session-panel .label{
+    -fx-text-fill:rgb(25,185,155);
+    -fx-font-size: 10pt;
+    -fx-font-family: "Segoe UI Semibold";
+}
+.session-panel .text-field{
+    -fx-text-fill:rgb(130,130,130);
+    -fx-border-color: rgb(25,185,155);
+    -fx-border-width: 0 0 2 0; 
+    -fx-background-color: transparent;
+}
+.session-panel .text-field:focused {
+    -fx-border-width: 0 0 3 0; 
+}
+
+
+.session-panel .button{
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-background-color: #1abc9c;
+    -fx-min-height:35px;
+    -fx-background-radius: 5px;
+    -fx-text-fill: white;
+    -fx-effect: innershadow( three-pass-box , rgba(50,50,50,0.5) , 5, 0 , 0 , 0 );
+}
+
+.session-panel .button:pressed, .button:default:hover:pressed{
+    -fx-effect: innershadow( three-pass-box , rgba(25,25,25,0.6) , 15, 0 , 0 , 0 );
+}

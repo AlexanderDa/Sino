@@ -1,0 +1,45 @@
+/*******************************************************************
+*                        ESTILO DE NOTIFICACIONES                  *
+*******************************************************************/
+.failed{ -fx-background-color: #f2dede;
+         -fx-text-fill:#a94442;
+         -fx-border-style:solid;
+         -fx-boder-width:1px;
+         -fx-border-color: #ebccd1;
+         -fx-border-radius:5px;
+         -fx-padding:10px;
+         -fx-background-radius:5px;
+}
+
+
+.successful{
+
+    -fx-background-color: #def2de;
+    -fx-text-fill:#44a942;
+    -fx-border-style:solid;
+    -fx-boder-width:1px;
+    -fx-border-color: #ccebd1;
+    -fx-border-radius:5px;
+    -fx-padding:10px;
+    -fx-background-radius:5px;
+}
+
+/*******************************************************************
+*                            ESTILO DE ALERTAS                     *
+*******************************************************************/
+
+.alert-pane{
+    -fx-background-color:rgba(40,50,60,0.5);
+}
+.alert-pane .pane{
+    -fx-background-color:rgb(255,255,255);
+    -fx-background-radius: 15px;
+    -fx-effect: dropshadow( gaussian , rgba(25,185,155,0.5) , 20,0,0,1 );
+}
+
+.alert-pane .pane .lbl-sure{
+    -fx-font-size: 20;  
+    -fx-font-weigh:bold;
+}
+
+
