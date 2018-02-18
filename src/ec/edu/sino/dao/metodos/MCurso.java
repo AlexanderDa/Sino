@@ -153,7 +153,7 @@ public class MCurso implements ICurso {
                 curso.setId(rst.getInt("id"));
                 curso.setPeriodo(new MPeriodo(usuario, clave).obtener(rst.getInt("periodo")));
                 curso.setMateria(new MMAteria(usuario, clave).obtener(rst.getInt("materia")));
-                curso.setDocente(new MDocente(usuario, clave).obtenerNombre(rst.getString("docente")));
+                curso.setDocente(new MDocente(usuario, clave).obtenerCedula(rst.getString("docente")));
                 curso.setParalelo(rst.getString("paralelo"));
                 curso.setGrado(rst.getString("grado"));
                 lista.add(curso);

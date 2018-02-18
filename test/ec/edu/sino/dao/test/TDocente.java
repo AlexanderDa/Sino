@@ -75,16 +75,7 @@ public class TDocente {
         }
         assertTrue(doce != null);
         
-        //BUSCAR POR NOMBRE
-        Docente doce1 = null;
-        try {
-            doce1 = md.obtenerNombre("Garcia");
-            System.out.println("Buscado por nombre: " + doce1.toString());
-        } catch (Exception e) {
-            System.err.println("ERROR! al buscar por nombre " + e.getMessage());
-        }
-        assertTrue(doce1 != null);
-        
+
          //BUSCAR USUARIO
         Docente doce2 = null;
         try {

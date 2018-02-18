@@ -26,11 +26,13 @@ public interface IDocente {
 
     int eliminar(Docente docente) throws Exception;
 
-    public Docente obtenerCedula(String cedula) throws Exception;
-
-    public Docente obtenerNombre(String nombre) throws Exception;
+    Docente obtenerCedula(String cedula) throws Exception;
 
     Docente obtener(String usuario, String clave) throws Exception;
+
+    ObservableList<Docente> obtenerCedulas(String cedula) throws Exception;
+
+    ObservableList<Docente> obtenerNombres(String nombre) throws Exception;
 
     ObservableList<Docente> obtener() throws Exception;
 }
