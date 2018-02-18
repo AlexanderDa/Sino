@@ -129,7 +129,7 @@ public class MPeriodo implements IPeriodo {
                 periodo.setFechaFin(rst.getDate("fecha_fin"));
                 periodo.setDirector(rst.getString("director"));
                 periodo.setSubdirector(rst.getString("subdirector"));
-                periodo.setCoordinador("coordinador");
+                periodo.setCoordinador(rst.getString("coordinador"));
 
             }
 
@@ -155,7 +155,7 @@ public class MPeriodo implements IPeriodo {
                 periodo.setFechaFin(rst.getDate("fecha_fin"));
                 periodo.setDirector(rst.getString("director"));
                 periodo.setSubdirector(rst.getString("subdirector"));
-                periodo.setCoordinador("coordinador");
+                periodo.setCoordinador(rst.getString("coordinador"));
                 lista.add(periodo);
             }
 
