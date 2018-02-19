@@ -72,17 +72,15 @@ public class MParcial implements IParcial {
         DBConnection connection = new DBConnection(usuario, clave);
         String sql = "UPDATE public.parcial set "
                 + "quimestre=?, descripcion=?, tarea=?, individual=?, grupal=?, "
-                + "promedio_evaluacion=?, nota_parcial=?, promedio=? WHERE id=?;";
+                + "nota_parcial=? WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, parcial.getQuimestre()));
+        dbos.add(new DBObject(1, parcial.getQuimestre().getId()));
         dbos.add(new DBObject(2, parcial.getDescripcion()));
         dbos.add(new DBObject(3, parcial.getTarea()));
         dbos.add(new DBObject(4, parcial.getIndividual()));
         dbos.add(new DBObject(5, parcial.getGrupal()));
-        dbos.add(new DBObject(6, parcial.getPromedioEvaluacion()));
-        dbos.add(new DBObject(7, parcial.getNotaParcial()));
-        dbos.add(new DBObject(8, parcial.getPromedio()));
-        dbos.add(new DBObject(9, parcial.getId()));
+        dbos.add(new DBObject(6, parcial.getNotaParcial()));
+        dbos.add(new DBObject(7, parcial.getId()));
 
         try {
             modificados = connection.executeCommand(sql, dbos);
