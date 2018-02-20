@@ -5,7 +5,9 @@
  */
 package ec.edu.sino.gui;
 
+import ec.edu.sino.gui.componentes.GodPane;
 import ec.edu.sino.negocios.entidades.Administrador;
+import javafx.event.EventHandler;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -40,9 +42,16 @@ public class FMainAdmin extends HBox {
         taskBar = new VBox(10);
         taskBar.setPrefSize(200, USE_PREF_SIZE);
         taskBar.getStyleClass().add("task-bar");
-        FDocente docente = new FDocente();
-        getChildren().addAll(taskBar,docente.tablePanel());
+        FPeriodo pane = new FPeriodo();
+        
+     
+        getChildren().addAll(taskBar,pane.start());
     }
 
+    private EventHandler handler(){
+    return (t) -> {
+        System.err.println("Hola");
+        };
+    }
 
 }

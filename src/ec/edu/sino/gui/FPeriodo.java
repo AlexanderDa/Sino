@@ -5,20 +5,21 @@
  */
 package ec.edu.sino.gui;
 
-import ec.edu.sino.dao.metodos.MDocente;
+import ec.edu.sino.dao.metodos.MPeriodo;
 import ec.edu.sino.gui.componentes.CellButtons;
-import ec.edu.sino.gui.componentes.NotificationPanel;
-import ec.edu.sino.negocios.entidades.Docente;
+import ec.edu.sino.gui.componentes.GodPane;
+import ec.edu.sino.negocios.entidades.Periodo;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
@@ -30,108 +31,195 @@ import javafx.util.Callback;
  *
  * @author alexander
  */
-public class FDocente {
+public final class FPeriodo {
 
-    private final MDocente md = new MDocente();
-    private TableView<Docente> tabla;
-    private TableColumn<Docente, String> colCedula;
-    private TableColumn<Docente, String> colApellido;
-    private TableColumn<Docente, String> colNombre;
+    private GodPane godPane;
+
+    private final MPeriodo mp = new MPeriodo();
+    private TableView<Periodo> tabla;
+    private TableColumn<Periodo, String> colFechaInicio;
+    private TableColumn<Periodo, String> colFechaFin;
+    private TableColumn<Periodo, String> colDirector;
+    private TableColumn<Periodo, String> colSubdirector;
+    private TableColumn<Periodo, String> colCoordinador;
     private TableColumn colAcciones;
 
-    private TextField tfInsertId;
-    private TextField tfInsertName;
-    private TextField tfInsertLastName;
-    private NotificationPanel InsertPanel;
-    private NotificationPanel tablePanel;
+    private DatePicker dpFechaInicio;
+    private DatePicker dpFechaFin;
+    private TextField tfDirector;
+    private TextField tfSubdirector;
+    private TextField tfCoordinador;
 
-    public FDocente() {
-        md.loginAdmin();
+    private DatePicker dpUpdateFechaInicio;
+    private DatePicker dpUpdateFechaFin;
+    private TextField tfUpdateDirector;
+    private TextField tfUpdateSubdirector;
+    private TextField tfUpdateCoordinador;
+
+    public FPeriodo() {
+
     }
 
-    public NotificationPanel insertPanel() {
-        InsertPanel = new NotificationPanel();
-        InsertPanel.setTitle("Insertar Docente");
+    public GodPane start() {
+        mp.loginAdmin();
+        godPane = new GodPane();
+        godPane.init();
+        insertPanel();
+        showTable();
+        return godPane;
+    }
 
+    private void insertPanel() {
+        int width = 300;
         VBox boxInsert = new VBox(15);
-        boxInsert.setMaxSize(500, 300);
+        boxInsert.setMaxSize(width, 300);
+        boxInsert.setPadding(new Insets(25));
 
-        Label lblCedula = new Label("Cédula");
-        tfInsertId = new TextField();
-        Label lblNombre = new Label("Nombres");
-        tfInsertName = new TextField();
-        Label lblApellido = new Label("Apellidos");
-        tfInsertLastName = new TextField();
+        Label lblFechaInicio = new Label("Fecha de inicio");
+        dpFechaInicio = new DatePicker();
+        dpFechaInicio.setMinWidth(width);
 
-        Button btnSave = new Button("Guardar");
-        btnSave.setOnAction(btnSaveActionEvent());
+        Label lblFechaFin = new Label("Fecha de finalización");
+        dpFechaFin = new DatePicker();
+        dpFechaFin.setMinWidth(width);
 
-        boxInsert.getChildren().addAll(lblCedula, tfInsertId, lblNombre, tfInsertName, lblApellido, tfInsertLastName, btnSave);
-        InsertPanel.add(boxInsert);
+        Label lblDirector = new Label("Director");
+        tfDirector = new TextField();
 
-        return InsertPanel;
+        Label lblSubdirector = new Label("Subdirector");
+        tfSubdirector = new TextField();
+
+        Label lblCoordinador = new Label("Coordinador");
+        tfCoordinador = new TextField();
+
+        HBox buttonsPane = new HBox(25);
+        buttonsPane.setAlignment(Pos.CENTER);
+        Button btnInsertPeriodo = new Button("Aceptar");
+        btnInsertPeriodo.getStyleClass().add("btn-green");
+        btnInsertPeriodo.setDefaultButton(true);
+        btnInsertPeriodo.setMinSize(125, 30);
+        btnInsertPeriodo.setOnAction(OkInsertActionEvent());
+
+        Button btnCancel = new Button("Cancelar");
+        btnCancel.setMinSize(125, 30);
+        btnCancel.getStyleClass().add("btn-silver");
+        btnCancel.setOnAction(NoInsertActionEvent());
+
+        buttonsPane.getChildren().addAll(btnCancel, btnInsertPeriodo);
+
+        boxInsert.getChildren().addAll(lblFechaInicio, dpFechaInicio, lblFechaFin, dpFechaFin,
+                lblDirector, tfDirector, lblSubdirector, tfSubdirector, lblCoordinador, tfCoordinador, buttonsPane);
+        godPane.addInsertPane(boxInsert);
+
     }
 
-    public NotificationPanel tablePanel() {
-        tablePanel = new NotificationPanel();
-        tablePanel.setTitle("Nomina de docentes");
-        tablePanel.padding(50);
+    private void updatePanel(Periodo periodo) {
+        int width = 300;
+        VBox boxUpdate = new VBox(15);
+        boxUpdate.setMaxSize(width, 300);
+        boxUpdate.setPadding(new Insets(25));
 
+        Label lblFechaInicio = new Label("Fecha de inicio");
+        dpUpdateFechaInicio = new DatePicker();
+        dpUpdateFechaInicio.setMinWidth(width);
+        dpUpdateFechaInicio.getEditor().setText(periodo.getFechaInicio().toString());
+
+        Label lblFechaFin = new Label("Fecha de finalización");
+        dpUpdateFechaFin = new DatePicker();
+        dpUpdateFechaFin.setMinWidth(width);
+        dpUpdateFechaFin.getEditor().setText(periodo.getFechaFin().toString());
+
+        Label lblDirector = new Label("Director");
+        tfUpdateDirector = new TextField(periodo.getDirector());
+
+        Label lblSubdirector = new Label("Subdirector");
+        tfUpdateSubdirector = new TextField(periodo.getSubdirector());
+
+        Label lblCoordinador = new Label("Coordinador");
+        tfUpdateCoordinador = new TextField(periodo.getCoordinador());
+
+        HBox buttonsPane = new HBox(25);
+        buttonsPane.setAlignment(Pos.CENTER);
+        Button btnInsertPeriodo = new Button("Aceptar");
+        btnInsertPeriodo.getStyleClass().add("btn-green");
+        btnInsertPeriodo.setDefaultButton(true);
+        btnInsertPeriodo.setMinSize(125, 30);
+        btnInsertPeriodo.setOnAction(OkUpdateActionEvent());
+
+        Button btnCancel = new Button("Cancelar");
+        btnCancel.setMinSize(125, 30);
+        btnCancel.getStyleClass().add("btn-silver");
+        btnCancel.setOnAction(NoUpdateActionEvent());
+
+        buttonsPane.getChildren().addAll(btnCancel, btnInsertPeriodo);
+
+        boxUpdate.getChildren().addAll(lblFechaInicio, dpUpdateFechaInicio, lblFechaFin, dpUpdateFechaFin,
+                lblDirector, tfUpdateDirector, lblSubdirector, tfUpdateSubdirector, lblCoordinador, tfUpdateCoordinador, buttonsPane);
+        godPane.addUpdatePane(boxUpdate);
+
+    }
+
+    private void showTable() {
+        godPane.setTitle("Periodo Academico");
         VBox boxTable = new VBox(15);
-
-        HBox optionSPanel = new HBox(10);
-        RadioButton forName = new RadioButton("Nombre");
-        ToggleGroup group = new ToggleGroup();
-        forName.setToggleGroup(group);
-        RadioButton forID = new RadioButton("Cédula");
-        forID.setSelected(true);
-        forID.setToggleGroup(group);
-        optionSPanel.getChildren().addAll(forID, forName);
-
-        TextField input = new TextField();
-        input.setPromptText("Búscar por cédula");
 
         tabla = new TableView<>();
         VBox.setVgrow(tabla, Priority.ALWAYS);
         tabla.setEditable(true);
 
-        colCedula = new TableColumn<>("Cedula");
-        colApellido = new TableColumn<>("Apellido");
-        colNombre = new TableColumn<>("Nombre");
+        colFechaInicio = new TableColumn<>("Fecha de Apertura");
+        colFechaFin = new TableColumn<>("Fecha de Cierre");
+        colDirector = new TableColumn<>("Director");
+        colSubdirector = new TableColumn<>("Subdirector");
+        colCoordinador = new TableColumn<>("Coordinador");
         colAcciones = new TableColumn("Acciones");
 
-        colCedula.setCellValueFactory(new PropertyValueFactory<>("cedula"));
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colApellido.setCellValueFactory(new PropertyValueFactory<>("apellido"));
+        colFechaInicio.setCellValueFactory(new PropertyValueFactory<>("fechaInicio"));
+        colFechaFin.setCellValueFactory(new PropertyValueFactory<>("fechaFin"));
+        colDirector.setCellValueFactory(new PropertyValueFactory<>("director"));
+        colSubdirector.setCellValueFactory(new PropertyValueFactory<>("subdirector"));
+        colCoordinador.setCellValueFactory(new PropertyValueFactory<>("coordinador"));
 
         colAcciones.setMinWidth(100);
 
-        colNombre.setCellFactory(TextFieldTableCell.forTableColumn());
-        colApellido.setCellFactory(TextFieldTableCell.forTableColumn());
-        colNombre.setOnEditCommit(((t) -> {
-            TablePosition<Docente, String> actual = t.getTablePosition();
-            String nombre = t.getNewValue();
+        colDirector.setCellFactory(TextFieldTableCell.forTableColumn());
+        colSubdirector.setCellFactory(TextFieldTableCell.forTableColumn());
+        colCoordinador.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        colDirector.setOnEditCommit(((t) -> {
+            TablePosition<Periodo, String> actual = t.getTablePosition();
+            String director = t.getNewValue();
 
             int row = actual.getRow();
-            Docente docente = t.getTableView().getItems().get(row);
+            Periodo periodo = t.getTableView().getItems().get(row);
 
-            docente.setNombre(nombre);
+            periodo.setDirector(director);
+
+        }));
+        colSubdirector.setOnEditCommit(((t) -> {
+            TablePosition<Periodo, String> actual = t.getTablePosition();
+            String subdirector = t.getNewValue();
+
+            int row = actual.getRow();
+            Periodo periodo = t.getTableView().getItems().get(row);
+
+            periodo.setSubdirector(subdirector);
+
+        }));
+        colCoordinador.setOnEditCommit(((t) -> {
+            TablePosition<Periodo, String> actual = t.getTablePosition();
+            String coordinador = t.getNewValue();
+
+            int row = actual.getRow();
+            Periodo periodo = t.getTableView().getItems().get(row);
+
+            periodo.setCoordinador(coordinador);
 
         }));
 
-        colApellido.setOnEditCommit(((t) -> {
-            TablePosition<Docente, String> actual = t.getTablePosition();
-            String apellido = t.getNewValue();
-
-            int row = actual.getRow();
-            Docente docente = t.getTableView().getItems().get(row);
-
-            docente.setNombre(apellido);
-
-        }));
-
-        Callback<TableColumn<Docente, String>, TableCell<Docente, String>> cellFactory = (final TableColumn<Docente, String> param) -> {
-            final TableCell<Docente, String> cell = new TableCell<Docente, String>() {
+        Callback<TableColumn<Periodo, String>, TableCell<Periodo, String>> cellFactory
+                = (final TableColumn<Periodo, String> param) -> {
+                    final TableCell<Periodo, String> cell = new TableCell<Periodo, String>() {
 
                 final CellButtons buttons = new CellButtons();
 
@@ -143,126 +231,138 @@ public class FDocente {
                         setGraphic(null);
                         setText(null);
                     } else {
-                        Docente docente = getTableView().getItems().get(getIndex());
-                        buttons.deleteAction(btnDeleteActionEvent(docente));
-                        buttons.saveAction(btnUpdateActionEvent(docente));
+                        Periodo periodo = getTableView().getItems().get(getIndex());
+                        buttons.deleteAction(DeleteAtcionEvent(periodo));
+                        buttons.saveAction(updateActionEvent(periodo));
                         setGraphic(buttons);
                         setText(null);
                     }
                 }
             };
-            return cell;
-        };
+                    return cell;
+                };
         colAcciones.setCellFactory(cellFactory);
+
         try {
-            tabla.setItems(md.obtener());
+            tabla.setItems(mp.obtener());
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
 
-        forID.setOnAction((t) -> {
-            input.setPromptText("Búscar por cédula.");
-        });
-        forName.setOnAction((t) -> {
-            input.setPromptText("Búscar por nombre.");
-        });
-
-        input.setOnKeyReleased((t) -> {
-
-            try {
-                if (forID.isSelected()) {
-
-                    tabla.setItems(md.obtenerCedulas(input.getText()));
-                } else {
-                    tabla.setItems(md.obtenerNombres(input.getText()));
-                }
-
-            } catch (Exception e) {
-                System.err.println(e.getMessage());
-            }
-        });
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tabla.autosize();
 
-        tabla.getColumns().addAll(colCedula, colApellido, colNombre, colAcciones);
-        boxTable.getChildren().addAll(optionSPanel, input, tabla);
-        tablePanel.add(boxTable);
-        return tablePanel;
+        tabla.getColumns().addAll(colFechaInicio, colFechaFin, colDirector, colSubdirector, colCoordinador, colAcciones);
+        boxTable.getChildren().addAll(tabla);
+        godPane.addCenter(boxTable);
 
     }
 
 //******************************************************************************
-//*                            CREACION DE EVENTOS                             *
-//****************************************************************************** 
-    private EventHandler btnSaveActionEvent() {
-        EventHandler handler = (t) -> {
-            Docente docente = null;
-            if (!"".equals(tfInsertId.getText()) && !"".equals(tfInsertLastName.getText()) && !"".equals(tfInsertName.getText())) {
-                docente = new Docente();
-                docente.setCedula(tfInsertId.getText());
-                docente.setNombre(tfInsertName.getText());
-                docente.setApellido(tfInsertLastName.getText());
-                docente.setClave(tfInsertId.getText());
-                docente.setUsuario(tfInsertId.getText());
+//*                                 EVENTOS                                    *
+//******************************************************************************
+    private EventHandler OkInsertActionEvent() {
+        return (t) -> {
+            System.out.println(dpFechaInicio.getValue());
+            Periodo periodo = null;
+            if (!"".equals(dpFechaInicio.getEditor().getText())
+                    && !"".equals(dpFechaFin.getEditor().getText())
+                    && !"".equals(tfDirector.getText())
+                    && !"".equals(tfSubdirector.getText())
+                    && !"".equals(tfCoordinador.getText())) {
+                periodo = new Periodo();
+                periodo.setFechaInicio(dpFechaInicio.getValue().toString());
+                periodo.setFechaFin(dpFechaFin.getValue().toString());
+                periodo.setDirector(tfDirector.getText());
+                periodo.setSubdirector(tfSubdirector.getText());
+                periodo.setCoordinador(tfCoordinador.getText());
             } else {
-                InsertPanel.failed("Campos sin llenar");
+                godPane.failed("Campos sin llenar");
             }
-            if (docente != null) {
+            if (periodo != null) {
                 try {
-                    if (md.insertar(docente) > 0) {
-                        InsertPanel.successful("Insertado Correctamente");
-                        tfInsertId.setText("");
-                        tfInsertLastName.setText("");
-                        tfInsertName.setText("");
+                    if (mp.insertar(periodo) > 0) {
+                        godPane.successful("Insertado Correctamente");
+                        godPane.hideInsertPane();
                     }
                 } catch (Exception e) {
-                    String noCedula = "ERROR: value for domain identification violates check constraint \"identification_check\"";
-                    String duplucada = "ERROR: duplicate key value violates unique constraint \"pk_docente\"\n  "
-                            + "Detail: Key (cedula)=(" + docente.getCedula() + ") already exists.";
-                    if (noCedula.equals(e.getMessage())) {
-                        InsertPanel.failed("El campo cédula no está correcta");
-                    } else if (duplucada.equals(e.getMessage())) {
-                        InsertPanel.failed("Cédula duplicada");
+                    godPane.failed("Periodo no se ha guardado");
+                }
+            }
+        };
+
+    }
+
+    private EventHandler NoInsertActionEvent() {
+        return (t) -> {
+            godPane.hideInsertPane();
+        };
+    }
+
+    private EventHandler OkUpdateActionEvent() {
+        return (t) -> {
+            System.out.println(dpUpdateFechaInicio.getValue());
+            Periodo periodo = null;
+            if (!"".equals(dpUpdateFechaInicio.getEditor().getText())
+                    && !"".equals(dpUpdateFechaFin.getEditor().getText())
+                    && !"".equals(tfUpdateDirector.getText())
+                    && !"".equals(tfUpdateSubdirector.getText())
+                    && !"".equals(tfUpdateCoordinador.getText())) {
+                periodo = new Periodo();
+                periodo.setFechaInicio(dpUpdateFechaInicio.getValue().toString());
+                periodo.setFechaFin(dpUpdateFechaFin.getValue().toString());
+                periodo.setDirector(tfUpdateDirector.getText());
+                periodo.setSubdirector(tfUpdateSubdirector.getText());
+                periodo.setCoordinador(tfUpdateCoordinador.getText());
+            } else {
+                godPane.failed("Campos sin llenar");
+            }
+            if (periodo != null) {
+                try {
+                    if (mp.insertar(periodo) > 0) {
+                        godPane.successful("Modificado Correctamente");
+                        godPane.hideUpdatePane();
                     }
+                } catch (Exception e) {
+                    godPane.failed("Periodo no se ha guardado");
                 }
             }
-
         };
-        return handler;
+
     }
 
-    private EventHandler btnUpdateActionEvent(Docente docente) {
+    private EventHandler NoUpdateActionEvent() {
+        return (t) -> {
+            godPane.hideUpdatePane();
+        };
+    }
+
+    private EventHandler updateActionEvent(Periodo periodo) {
+        return (t) -> {
+            updatePanel(periodo);
+            godPane.showUpdatePane();
+        };
+    }
+
+    private EventHandler DeleteAtcionEvent(Periodo periodo) {
+        return (t) -> {
+            godPane.showAlert(OkDeleteAtcionEvent(periodo));
+
+        };
+    }
+
+    private EventHandler OkDeleteAtcionEvent(Periodo periodo) {
         return (t) -> {
             try {
-                if (md.modificar(docente) > 0) {
-                    tablePanel.successful("Cambios guardados.");
+                if (mp.eliminar(periodo) > 0) {
+                    tabla.getItems().remove(periodo);
+                    godPane.successful("Periodo eliminado.");
                 }
             } catch (Exception e) {
-                tablePanel.failed("No se guardaron los cambios");
+                godPane.failed("No se puede eliminar");
             }
-
+            godPane.hideAlert();
         };
     }
 
-    private EventHandler btnDeleteActionEvent(Docente docente) {
-        return (t) -> {
-            tablePanel.showAlert(btnAgreeActionEvent(docente));
-
-        };
-    }
-
-    private EventHandler btnAgreeActionEvent(Docente docente) {
-        return (t) -> {
-            try {
-                if (md.eliminar(docente) > 0) {
-                    tabla.getItems().remove(docente);
-                    tablePanel.successful("Docente eliminado.");
-                }
-            } catch (Exception e) {
-                tablePanel.failed("No se puede\n eliminar");
-            }
-            tablePanel.hideAlert();
-
-        };
-    }
 }

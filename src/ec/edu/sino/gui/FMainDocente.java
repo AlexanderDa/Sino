@@ -49,7 +49,7 @@ public class FMainDocente extends HBox {
     }
 
     private void initContainer() {
-        container = new StackPane(new FDocente().insertPanel());
+        container = new StackPane();
         container.setPrefSize(USE_PREF_SIZE, USE_PREF_SIZE);
         HBox.setHgrow(container, Priority.ALWAYS);
         
