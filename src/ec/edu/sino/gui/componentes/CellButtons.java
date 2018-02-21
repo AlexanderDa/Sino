@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
 /**
@@ -17,31 +19,34 @@ import javafx.scene.layout.HBox;
  */
 public class CellButtons extends HBox {
 
-    public final Button Delete;
-    private final Button Save;
+    private final ImageView ivPencil = new ImageView(new Image(getClass().getResourceAsStream("imagenes/pencil.png")));
+    private final ImageView ivTrash = new ImageView(new Image(getClass().getResourceAsStream("imagenes/trash.png")));
+    public final Button btnDelete;
+    private final Button btnEdit;
 
     public CellButtons() {
         setSpacing(10);
         setAlignment(Pos.CENTER);
         setPadding(new Insets(0, 10, 0, 10));
         //Image imageOk = new Image( this.getClass().getResourceAsStream("../imagenes/save.png"));
-        Delete = new Button("Delete");
-        Save = new Button("Save");
-        Delete.setMinWidth(75);
-        Save.setMinWidth(75);
+        btnDelete = new Button();
+        btnDelete.setGraphic(ivTrash);
+        btnEdit = new Button();
+        btnEdit.setGraphic(ivPencil);
 
-        getChildren().addAll(Save, Delete);
-        Save.getStyleClass().add("btn-green");
-        Delete.getStyleClass().add("btn-red");
+
+        getChildren().addAll(btnEdit, btnDelete);
+        btnEdit.getStyleClass().add("btn-green");
+        btnDelete.getStyleClass().add("btn-red");
 
     }
 
     public void deleteAction(EventHandler handler) {
-        Delete.setOnAction(handler);
+        btnDelete.setOnAction(handler);
     }
 
     public void saveAction(EventHandler handler) {
-        Save.setOnAction(handler);
+        btnEdit.setOnAction(handler);
     }
 
 }
