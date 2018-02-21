@@ -17,11 +17,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -33,9 +31,10 @@ import javafx.util.Callback;
  */
 public final class FPeriodo {
 
+    private int id;
     private GodPane godPane;
-
     private final MPeriodo mp = new MPeriodo();
+
     private TableView<Periodo> tabla;
     private TableColumn<Periodo, String> colFechaInicio;
     private TableColumn<Periodo, String> colFechaFin;
@@ -61,6 +60,7 @@ public final class FPeriodo {
     }
 
     public GodPane start() {
+
         mp.loginAdmin();
         godPane = new GodPane();
         godPane.init();
@@ -122,12 +122,12 @@ public final class FPeriodo {
         Label lblFechaInicio = new Label("Fecha de inicio");
         dpUpdateFechaInicio = new DatePicker();
         dpUpdateFechaInicio.setMinWidth(width);
-        dpUpdateFechaInicio.getEditor().setText(periodo.getFechaInicio().toString());
+        // dpUpdateFechaInicio.getEditor().setText(periodo.getFechaInicio().toString());
 
         Label lblFechaFin = new Label("Fecha de finalización");
         dpUpdateFechaFin = new DatePicker();
         dpUpdateFechaFin.setMinWidth(width);
-        dpUpdateFechaFin.getEditor().setText(periodo.getFechaFin().toString());
+        //dpUpdateFechaFin.getEditor().setText(periodo.getFechaFin().toString());
 
         Label lblDirector = new Label("Director");
         tfUpdateDirector = new TextField(periodo.getDirector());
@@ -144,7 +144,7 @@ public final class FPeriodo {
         btnInsertPeriodo.getStyleClass().add("btn-green");
         btnInsertPeriodo.setDefaultButton(true);
         btnInsertPeriodo.setMinSize(125, 30);
-        btnInsertPeriodo.setOnAction(OkUpdateActionEvent());
+        btnInsertPeriodo.setOnAction(OkUpdateActionEvent(periodo));
 
         Button btnCancel = new Button("Cancelar");
         btnCancel.setMinSize(125, 30);
@@ -161,8 +161,14 @@ public final class FPeriodo {
 
     private void showTable() {
         godPane.setTitle("Periodo Academico");
-        VBox boxTable = new VBox(15);
 
+        VBox boxTable = new VBox(15);
+        boxTable.setPadding(new Insets(35));
+        boxTable.setAlignment(Pos.CENTER_RIGHT);
+
+        Button btnInsert = new Button("Insertar");
+        btnInsert.getStyleClass().add("btn-green");
+        btnInsert.setOnAction(insertActionEvent());
         tabla = new TableView<>();
         VBox.setVgrow(tabla, Priority.ALWAYS);
         tabla.setEditable(true);
@@ -182,41 +188,6 @@ public final class FPeriodo {
 
         colAcciones.setMinWidth(100);
 
-        colDirector.setCellFactory(TextFieldTableCell.forTableColumn());
-        colSubdirector.setCellFactory(TextFieldTableCell.forTableColumn());
-        colCoordinador.setCellFactory(TextFieldTableCell.forTableColumn());
-
-        colDirector.setOnEditCommit(((t) -> {
-            TablePosition<Periodo, String> actual = t.getTablePosition();
-            String director = t.getNewValue();
-
-            int row = actual.getRow();
-            Periodo periodo = t.getTableView().getItems().get(row);
-
-            periodo.setDirector(director);
-
-        }));
-        colSubdirector.setOnEditCommit(((t) -> {
-            TablePosition<Periodo, String> actual = t.getTablePosition();
-            String subdirector = t.getNewValue();
-
-            int row = actual.getRow();
-            Periodo periodo = t.getTableView().getItems().get(row);
-
-            periodo.setSubdirector(subdirector);
-
-        }));
-        colCoordinador.setOnEditCommit(((t) -> {
-            TablePosition<Periodo, String> actual = t.getTablePosition();
-            String coordinador = t.getNewValue();
-
-            int row = actual.getRow();
-            Periodo periodo = t.getTableView().getItems().get(row);
-
-            periodo.setCoordinador(coordinador);
-
-        }));
-
         Callback<TableColumn<Periodo, String>, TableCell<Periodo, String>> cellFactory
                 = (final TableColumn<Periodo, String> param) -> {
                     final TableCell<Periodo, String> cell = new TableCell<Periodo, String>() {
@@ -232,6 +203,8 @@ public final class FPeriodo {
                         setText(null);
                     } else {
                         Periodo periodo = getTableView().getItems().get(getIndex());
+                        id = periodo.getId();
+
                         buttons.deleteAction(DeleteAtcionEvent(periodo));
                         buttons.saveAction(updateActionEvent(periodo));
                         setGraphic(buttons);
@@ -243,17 +216,12 @@ public final class FPeriodo {
                 };
         colAcciones.setCellFactory(cellFactory);
 
-        try {
-            tabla.setItems(mp.obtener());
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
-
+        refreshTable();
         tabla.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tabla.autosize();
 
         tabla.getColumns().addAll(colFechaInicio, colFechaFin, colDirector, colSubdirector, colCoordinador, colAcciones);
-        boxTable.getChildren().addAll(tabla);
+        boxTable.getChildren().addAll(btnInsert, tabla);
         godPane.addCenter(boxTable);
 
     }
@@ -261,9 +229,15 @@ public final class FPeriodo {
 //******************************************************************************
 //*                                 EVENTOS                                    *
 //******************************************************************************
+    private EventHandler insertActionEvent() {
+        return (t) -> {
+            insertPanel();
+            godPane.showInsertPane();
+        };
+    }
+
     private EventHandler OkInsertActionEvent() {
         return (t) -> {
-            System.out.println(dpFechaInicio.getValue());
             Periodo periodo = null;
             if (!"".equals(dpFechaInicio.getEditor().getText())
                     && !"".equals(dpFechaFin.getEditor().getText())
@@ -283,6 +257,7 @@ public final class FPeriodo {
                 try {
                     if (mp.insertar(periodo) > 0) {
                         godPane.successful("Insertado Correctamente");
+                        refreshTable();
                         godPane.hideInsertPane();
                     }
                 } catch (Exception e) {
@@ -299,16 +274,13 @@ public final class FPeriodo {
         };
     }
 
-    private EventHandler OkUpdateActionEvent() {
+    private EventHandler OkUpdateActionEvent(Periodo periodo) {
         return (t) -> {
-            System.out.println(dpUpdateFechaInicio.getValue());
-            Periodo periodo = null;
             if (!"".equals(dpUpdateFechaInicio.getEditor().getText())
                     && !"".equals(dpUpdateFechaFin.getEditor().getText())
                     && !"".equals(tfUpdateDirector.getText())
                     && !"".equals(tfUpdateSubdirector.getText())
                     && !"".equals(tfUpdateCoordinador.getText())) {
-                periodo = new Periodo();
                 periodo.setFechaInicio(dpUpdateFechaInicio.getValue().toString());
                 periodo.setFechaFin(dpUpdateFechaFin.getValue().toString());
                 periodo.setDirector(tfUpdateDirector.getText());
@@ -317,10 +289,12 @@ public final class FPeriodo {
             } else {
                 godPane.failed("Campos sin llenar");
             }
+
             if (periodo != null) {
                 try {
-                    if (mp.insertar(periodo) > 0) {
-                        godPane.successful("Modificado Correctamente");
+                    if (mp.modificar(periodo) > 0) {
+                        godPane.successful("Insertado Correctamente");
+                        refreshTable();
                         godPane.hideUpdatePane();
                     }
                 } catch (Exception e) {
@@ -355,7 +329,7 @@ public final class FPeriodo {
         return (t) -> {
             try {
                 if (mp.eliminar(periodo) > 0) {
-                    tabla.getItems().remove(periodo);
+                    refreshTable();
                     godPane.successful("Periodo eliminado.");
                 }
             } catch (Exception e) {
@@ -365,4 +339,14 @@ public final class FPeriodo {
         };
     }
 
+//******************************************************************************
+//*                                                                   *
+//******************************************************************************    
+    private void refreshTable() {
+        try {
+            tabla.setItems(mp.obtener());
+        } catch (Exception e) {
+            godPane.failed("No se ha podido refrescar la tabla");
+        }
+    }
 }
