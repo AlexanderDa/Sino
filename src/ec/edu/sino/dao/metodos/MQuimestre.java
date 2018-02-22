@@ -50,17 +50,19 @@ public class MQuimestre implements IQuimestre {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
         String sql = "INSERT INTO public.quimestre("
-                + "ciclo, descripcion, quimestral, "
-                + "laborados, justificados, injustificados, atrasos) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?);";
+                + "id, ciclo, descripcion, promedio_parcial,"
+                + "quimestral, laborados, justificados, injustificados, atrasos) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
-        dbos.add(new DBObject(1, quimestre.getCiclo().getId()));
-        dbos.add(new DBObject(2, quimestre.getDescripcion()));
-        dbos.add(new DBObject(3, quimestre.getQuimestral()));
-        dbos.add(new DBObject(4, quimestre.getLaborado()));
-        dbos.add(new DBObject(5, quimestre.getJustificados()));
-        dbos.add(new DBObject(6, quimestre.getInjustificados()));
-        dbos.add(new DBObject(7, quimestre.getAtrasos()));
+        dbos.add(new DBObject(1, quimestre.getId()));
+        dbos.add(new DBObject(2, quimestre.getCiclo().getId()));
+        dbos.add(new DBObject(3, quimestre.getDescripcion()));
+        dbos.add(new DBObject(4, quimestre.getPromedioParcial()));
+        dbos.add(new DBObject(5, quimestre.getQuimestral()));
+        dbos.add(new DBObject(6, quimestre.getLaborado()));
+        dbos.add(new DBObject(7, quimestre.getJustificados()));
+        dbos.add(new DBObject(8, quimestre.getInjustificados()));
+        dbos.add(new DBObject(9, quimestre.getAtrasos()));
 
         try {
             modificados = connection.executeCommand(sql, dbos);

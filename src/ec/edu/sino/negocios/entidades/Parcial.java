@@ -108,6 +108,10 @@ public class Parcial {
         this.notaParcial = notaParcial;
     }
     
+    @Override
+    public String toString(){
+        return descripcion+" "+promedio;
+    }
     
     
 }

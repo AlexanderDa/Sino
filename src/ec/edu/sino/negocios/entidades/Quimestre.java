@@ -150,5 +150,9 @@ public class Quimestre {
         this.atrasos = atrasos;
     }
     
+    @Override
+    public String toString(){
+        return descripcion+" "+promedio;
+    }
     
 }
