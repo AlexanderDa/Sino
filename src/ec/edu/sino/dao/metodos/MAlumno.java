@@ -5,7 +5,6 @@
  */
 package ec.edu.sino.dao.metodos;
 
-import com.sun.org.apache.bcel.internal.generic.AALOAD;
 import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.IAlumno;
