@@ -15,6 +15,9 @@ import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.Docente;
 import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Periodo;
+import java.util.AbstractList;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -44,6 +47,8 @@ import javafx.util.Callback;
  * @author alexander
  */
 public final class FCurso {
+
+    List<Materia> materias;
 
     private GodPane godPane;
     //Metodo
@@ -77,13 +82,12 @@ public final class FCurso {
     private ComboBox<Materia> cbUpdateMateria;
     private TextField tfUpdateGrado;
 
-//DECLARACION DE LOS COMPONENTES PARA LA INSERCION Y MODIFICACION
     public FCurso() {
 
     }
 
     public GodPane start() {
-
+        materias = new ArrayList<>();
         mc.loginAdmin();
         mp.loginAdmin();
         md.loginAdmin();
@@ -106,7 +110,6 @@ public final class FCurso {
         lblTitle.setAlignment(Pos.CENTER);
         lblTitle.setMinSize(width, 35);
 
-        //AQUI TODOS LOS ELEMENTOS DE PARA LA INSERCION
         GridPane grid = new GridPane();
         grid.setHgap(40);
         grid.setVgap(15);
@@ -152,7 +155,7 @@ public final class FCurso {
         content.add(tfInsertParalelo);
 
         fullCombobox();
-        
+
         tvInsertMateria = new TableView<>();
         tvInsertMateria.setEditable(true);
 
@@ -160,12 +163,10 @@ public final class FCurso {
         TableColumn<Materia, String> colDominio = new TableColumn<>("Dominio");
         TableColumn<Materia, Boolean> colSelected = new TableColumn<>("Single?");
 
-        
-
         colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         colDominio.setCellValueFactory(new PropertyValueFactory<>("dominio"));
-        
-         colSelected.setCellValueFactory((TableColumn.CellDataFeatures<Materia, Boolean> param) -> {
+
+        colSelected.setCellValueFactory((TableColumn.CellDataFeatures<Materia, Boolean> param) -> {
             Materia materia = param.getValue();
 
             SimpleBooleanProperty booleanProp = new SimpleBooleanProperty();
@@ -178,6 +179,12 @@ public final class FCurso {
                 @Override
                 public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
                         Boolean newValue) {
+                    if (newValue) {
+                        materias.add(materia);
+                    }
+                    if (oldValue) {
+                        materias.remove(materia);
+                    }
                     //person.setSingle(newValue);
                 }
             });
@@ -193,9 +200,6 @@ public final class FCurso {
             }
         });
 
-
-       
-
         try {
             tvInsertMateria.setItems(mma.obtener());
         } catch (Exception e) {
@@ -203,8 +207,7 @@ public final class FCurso {
         tvInsertMateria.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tvInsertMateria.autosize();
 
-        tvInsertMateria.getColumns().addAll(colNombre, colDominio,colSelected);
-        
+        tvInsertMateria.getColumns().addAll(colNombre, colDominio, colSelected);
 
         HBox buttonsPane = new HBox(25);
         buttonsPane.setAlignment(Pos.CENTER);
@@ -347,16 +350,32 @@ public final class FCurso {
     private EventHandler OkInsertActionEvent() {
         return (t) -> {
             Curso curso = null;
-            if (true/*Comprobar si los componentes estan llenos*/) {
+
+            if (cbInsertPeriodo.getSelectionModel().getSelectedItem() != null
+                    && cbInsertDocente.getSelectionModel().getSelectedItem() != null
+                    && !"".equals(tfInsertGrado.getText())
+                    && !"".equals(tfInsertParalelo.getText())
+                    && materias.size() > 0) {
+                curso = new Curso();
+                curso.setPeriodo(cbInsertPeriodo.getSelectionModel().getSelectedItem());
+                curso.setDocente(cbInsertDocente.getSelectionModel().getSelectedItem());
+                curso.setGrado(tfInsertGrado.getText());
+                curso.setParalelo(tfInsertParalelo.getText());
+
             } else {
                 godPane.failed("Campos sin llenar");
             }
             if (curso != null) {
                 try {
-                    if (mc.insertar(curso) > 0) {
-                        godPane.successful("Insertado Correctamente");
-                        refreshTable();
-                        godPane.hideInsertPane();
+                    int insertados = 0;
+                    for (Materia tmp : materias) {
+                        curso.setMateria(tmp);
+                        insertados += mc.insertar(curso);
+                        if (insertados == materias.size()) {
+                            godPane.successful("Insertado Correctamente");
+                            refreshTable();
+                            godPane.hideInsertPane();
+                        }
                     }
                 } catch (Exception e) {
                     godPane.failed("Curso no se ha guardado");
