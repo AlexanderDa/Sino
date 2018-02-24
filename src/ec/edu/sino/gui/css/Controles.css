@@ -27,3 +27,22 @@
     -fx-border-color:rgb(150,150,150);
     -fx-text-fill:white
 }
+
+
+
+
+.table-view{
+    -fx-background-color:rgb(25,185,155);
+}
+
+.table-view .show-hide-columns-button {
+    -fx-background-color: white;
+    -fx-border-color: -fx-box-border;
+    -fx-border-insets: 0;
+}
+
+.table-view:row-selection .table-row-cell:filled:selected { 
+    -fx-background-color: transparent;
+}
+
+

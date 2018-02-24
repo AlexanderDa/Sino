@@ -5,3 +5,17 @@
 	-fx-background-color: rgb(40,50,60);
         -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.5) , 5, 0 , 0 , 0 );
 }
+.toggle-button {
+    -fx-text-fill: white;
+    /*-fx-base: transparent;*/
+    -fx-background-color: rgb(40,50,60);
+    -fx-focus-color: rgba(25,185,155,0.7);
+    -fx-border-color: transparent;
+}
+
+.toggle-button:hover{    
+    -fx-background-color: rgb(50,60,70);
+}
+.toggle-button:selected {
+    -fx-background-color: rgb(25,185,155);
+}
