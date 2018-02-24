@@ -1,4 +1,4 @@
-
+drop view if exists materias_curso;
 drop view if exists nomina_curso;
 
 drop table if exists parcial;

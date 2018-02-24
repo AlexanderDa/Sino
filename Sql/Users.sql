@@ -25,6 +25,7 @@ GRANT all ON table periodo 		to admin;
 GRANT all ON table administrador to admin;
 
 GRANT select ON nomina_curso to admin;
+GRANT select ON materias_curso to admin;
 
 
 
@@ -56,7 +57,8 @@ GRANT select ON table materia 	to profesor;
 GRANT select ON table docente 	to profesor;
 GRANT select ON table alumno 	to profesor;
 
-GRANT select ON nomina_curso to profesor;
+GRANT select ON nomina_curso   	to profesor;
+GRANT select ON materias_curso 	to profesor;
 
 
 
