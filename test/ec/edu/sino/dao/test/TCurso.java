@@ -7,11 +7,9 @@ package ec.edu.sino.dao.test;
 
 import ec.edu.sino.dao.metodos.MCurso;
 import ec.edu.sino.dao.metodos.MDocente;
-import ec.edu.sino.dao.metodos.MMAteria;
 import ec.edu.sino.dao.metodos.MPeriodo;
 import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.Docente;
-import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Periodo;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,15 +106,15 @@ public class TCurso {
         assertTrue(lista.size() > 0);
 
         //ELIMINAR
-        int eliminados = 0;
-        try {
-            eliminados = mc.eliminar(curso);
-            if (eliminados > 0) {
-                System.out.println("Eliminado: " + curso.toString());
-            }
-        } catch (Exception e) {
-        }
-        assertTrue(eliminados > 0);
+//        int eliminados = 0;
+//        try {
+//            eliminados = mc.eliminar(curso);
+//            if (eliminados > 0) {
+//                System.out.println("Eliminado: " + curso.toString());
+//            }
+//        } catch (Exception e) {
+//        }
+//        assertTrue(eliminados > 0);
 
     }
 
