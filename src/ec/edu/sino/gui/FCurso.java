@@ -15,7 +15,6 @@ import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.Docente;
 import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Periodo;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -48,8 +47,6 @@ import javafx.util.Callback;
  */
 public final class FCurso {
 
-    List<Materia> materias;
-
     private GodPane godPane;
     //Metodo
     private final MCurso mc = new MCurso();
@@ -60,7 +57,6 @@ public final class FCurso {
     private TableView<Curso> table;
     private TableColumn<Curso, String> colPeriodo;
     private TableColumn<Curso, String> colDocente;
-    private TableColumn<Curso, String> colMateria;
     private TableColumn<Curso, String> colGrado;
     private TableColumn<Curso, String> colParalelo;
     private TableColumn colAcciones;
@@ -71,143 +67,47 @@ public final class FCurso {
     private final Label lblGrado = new Label("Grado");
     private final Label lblParalelo = new Label("Paralelo");
 
-    private ComboBox<Periodo> cbInsertPeriodo;
-    private ComboBox<Docente> cbInsertDocente;
-    private TextField tfInsertGrado;
-    private TextField tfInsertParalelo;
-    private TableView<Materia> tvInsertMateria;
+    private ComboBox<Periodo> cbInsertCursoPeriodo;
+    private ComboBox<Docente> cbInsertCursoDocente;
+    private TextField tfInsertCursoGrado;
+    private TextField tfInsertCursoParalelo;
 
-    private ComboBox<Periodo> cbUpdatePeriodo;
-    private ComboBox<Docente> cbUpdateDocente;
-    private ComboBox<Materia> cbUpdateMateria;
-    private TextField tfUpdateGrado;
+    private ComboBox<Periodo> cbUpdateCursoPeriodo;
+    private ComboBox<Docente> cbUpdateCursoDocente;
+    private TextField tfUpdateCursoParalelo;
+    private TextField tfUpdateCursoGrado;
 
     public FCurso() {
-
-    }
-
-    public GodPane start() {
-        materias = new ArrayList<>();
         mc.loginAdmin();
         mp.loginAdmin();
         md.loginAdmin();
         mma.loginAdmin();
-
-        godPane = new GodPane();
-        godPane.init();
-        insertPanel();
-        showTable();
-        return godPane;
     }
 
-    private void insertPanel() {
-        int width = 500;
+    /**
+     * CREACION DE GODPANEL PARA INSERTAR MODIFICAR Y ELIMINAR UN CURSO
+     */
+    private void insertCursoPanel() {
+        int width = 300;
         VBox boxInsert = new VBox(15);
-        boxInsert.setMaxSize(width, width);
+        boxInsert.setMaxSize(width, 200);
         boxInsert.setPadding(new Insets(25));
 
         Label lblTitle = new Label("Insertar Nuevo");
         lblTitle.setAlignment(Pos.CENTER);
         lblTitle.setMinSize(width, 35);
 
-        GridPane grid = new GridPane();
-        grid.setHgap(40);
-        grid.setVgap(15);
-        grid.setPadding(new Insets(8, 8, 8, 8));
-        ObservableList<Node> content = grid.getChildren();
+        cbInsertCursoPeriodo = new ComboBox<>();
+        cbInsertCursoPeriodo.setMinWidth(width);
 
-        GridPane.setConstraints(lblPeriodo, 0, 0);
-        GridPane.setHalignment(lblPeriodo, HPos.LEFT);
-        content.add(lblPeriodo);
+        cbInsertCursoDocente = new ComboBox<>();
+        cbInsertCursoDocente.setMinWidth(width);
 
-        cbInsertPeriodo = new ComboBox<>();
-        cbInsertPeriodo.setMinWidth(250);
-        GridPane.setConstraints(cbInsertPeriodo, 0, 1);
-        GridPane.setHalignment(cbInsertPeriodo, HPos.LEFT);
-        content.add(cbInsertPeriodo);
+        tfInsertCursoGrado = new TextField();
 
-        GridPane.setConstraints(lblDocente, 1, 0);
-        GridPane.setHalignment(lblDocente, HPos.LEFT);
-        content.add(lblDocente);
-
-        cbInsertDocente = new ComboBox<>();
-        cbInsertDocente.setMinWidth(250);
-        GridPane.setConstraints(cbInsertDocente, 1, 1);
-        GridPane.setHalignment(cbInsertDocente, HPos.LEFT);
-        content.add(cbInsertDocente);
-
-        GridPane.setConstraints(lblGrado, 0, 2);
-        GridPane.setHalignment(lblGrado, HPos.LEFT);
-        content.add(lblGrado);
-
-        tfInsertGrado = new TextField();
-        GridPane.setConstraints(tfInsertGrado, 0, 3);
-        GridPane.setHalignment(tfInsertGrado, HPos.LEFT);
-        content.add(tfInsertGrado);
-
-        GridPane.setConstraints(lblParalelo, 1, 2);
-        GridPane.setHalignment(lblParalelo, HPos.LEFT);
-        content.add(lblParalelo);
-
-        tfInsertParalelo = new TextField();
-        GridPane.setConstraints(tfInsertParalelo, 1, 3);
-        GridPane.setHalignment(tfInsertParalelo, HPos.LEFT);
-        content.add(tfInsertParalelo);
+        tfInsertCursoParalelo = new TextField();
 
         fullCombobox();
-
-        tvInsertMateria = new TableView<>();
-        tvInsertMateria.setEditable(true);
-
-        TableColumn<Materia, String> colNombre = new TableColumn<>("Nombre");
-        TableColumn<Materia, String> colDominio = new TableColumn<>("Dominio");
-        TableColumn<Materia, Boolean> colSelected = new TableColumn<>("Single?");
-
-        colNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-        colDominio.setCellValueFactory(new PropertyValueFactory<>("dominio"));
-
-        colSelected.setCellValueFactory((TableColumn.CellDataFeatures<Materia, Boolean> param) -> {
-            Materia materia = param.getValue();
-
-            SimpleBooleanProperty booleanProp = new SimpleBooleanProperty();
-
-            // Note: singleCol.setOnEditCommit(): Not work for
-            // CheckBoxTableCell.
-            // When "Single?" column change.
-            booleanProp.addListener(new ChangeListener<Boolean>() {
-
-                @Override
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
-                        Boolean newValue) {
-                    if (newValue) {
-                        materias.add(materia);
-                    }
-                    if (oldValue) {
-                        materias.remove(materia);
-                    }
-                    //person.setSingle(newValue);
-                }
-            });
-            return booleanProp;
-        });
-
-        colSelected.setCellFactory(new Callback<TableColumn<Materia, Boolean>, TableCell<Materia, Boolean>>() {
-            @Override
-            public TableCell<Materia, Boolean> call(TableColumn<Materia, Boolean> p) {
-                CheckBoxTableCell<Materia, Boolean> cell = new CheckBoxTableCell<>();
-                cell.setAlignment(Pos.CENTER);
-                return cell;
-            }
-        });
-
-        try {
-            tvInsertMateria.setItems(mma.obtener());
-        } catch (Exception e) {
-        }
-        tvInsertMateria.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        tvInsertMateria.autosize();
-
-        tvInsertMateria.getColumns().addAll(colNombre, colDominio, colSelected);
 
         HBox buttonsPane = new HBox(25);
         buttonsPane.setAlignment(Pos.CENTER);
@@ -215,29 +115,26 @@ public final class FCurso {
         btnInsertCurso.getStyleClass().add("btn-green");
         btnInsertCurso.setDefaultButton(true);
         btnInsertCurso.setMinSize(125, 30);
-        btnInsertCurso.setOnAction(OkInsertActionEvent());
+        btnInsertCurso.setOnAction(OkInsertCursoActionEvent());
 
         Button btnCancel = new Button("Cancelar");
         btnCancel.setMinSize(125, 30);
         btnCancel.getStyleClass().add("btn-silver");
-        btnCancel.setOnAction(NoInsertActionEvent());
+        btnCancel.setOnAction(NoInsertCursoActionEvent());
 
         buttonsPane.getChildren().addAll(btnCancel, btnInsertCurso);
 
         boxInsert.getChildren().addAll(lblTitle,
-                //                lblPeriodo, cbInsertPeriodo,
-                //                lblDocente, cbInsertDocente,
-                //                lblMateria, cbInsertMateria,
-                //                lblGrado, tfInsertGrado,
-                //                lblParalelo, tfInsertParalelo,
-                grid,
-                tvInsertMateria,
+                lblPeriodo, cbInsertCursoPeriodo,
+                lblDocente, cbInsertCursoDocente,
+                lblGrado, tfInsertCursoGrado,
+                lblParalelo, tfInsertCursoParalelo,
                 buttonsPane);
         godPane.addInsertPane(boxInsert);
 
     }
 
-    private void updatePanel(Curso curso) {
+    private void updateCursoPanel(Curso curso) {
         int width = 300;
         VBox boxUpdate = new VBox(15);
         boxUpdate.setMaxSize(width, 300);
@@ -248,8 +145,8 @@ public final class FCurso {
         lblTitle.setMinSize(width, 35);
 
 //AQUI TODOS LOS ELEMENTOS DE PARA LA MODIFICACION
-        cbUpdateDocente = new ComboBox<>();
-        cbUpdateDocente.setMinWidth(width);
+        cbUpdateCursoDocente = new ComboBox<>();
+        cbUpdateCursoDocente.setMinWidth(width);
 
         HBox buttonsPane = new HBox(25);
         buttonsPane.setAlignment(Pos.CENTER);
@@ -257,22 +154,25 @@ public final class FCurso {
         btnInsertCurso.getStyleClass().add("btn-green");
         btnInsertCurso.setDefaultButton(true);
         btnInsertCurso.setMinSize(125, 30);
-        btnInsertCurso.setOnAction(OkUpdateActionEvent(curso));
+        btnInsertCurso.setOnAction(OkUpdateCursoActionEvent(curso));
 
         Button btnCancel = new Button("Cancelar");
         btnCancel.setMinSize(125, 30);
         btnCancel.getStyleClass().add("btn-silver");
-        btnCancel.setOnAction(NoUpdateActionEvent());
+        btnCancel.setOnAction(NoUpdateCursoActionEvent());
 
         buttonsPane.getChildren().addAll(btnCancel, btnInsertCurso);
 
-        boxUpdate.getChildren().addAll(lblTitle, lblDocente, cbUpdateDocente,/*Todos los componentes aqui*/ buttonsPane);
+        boxUpdate.getChildren().addAll(lblTitle, lblDocente, cbUpdateCursoDocente,/*Todos los componentes aqui*/ buttonsPane);
         godPane.addUpdatePane(boxUpdate);
 
     }
 
-    private void showTable() {
-        godPane.setTitle("");
+    public GodPane create() {
+        godPane = new GodPane();
+        godPane.init();
+        insertCursoPanel();
+        godPane.setTitle("Cursos");
 
         VBox boxTable = new VBox(15);
         boxTable.setPadding(new Insets(35));
@@ -287,14 +187,12 @@ public final class FCurso {
 
         colPeriodo = new TableColumn<>("Periodo");
         colDocente = new TableColumn<>("Docente");
-        colMateria = new TableColumn<>("Materia");
         colGrado = new TableColumn<>("Grado");
         colParalelo = new TableColumn<>("Paralelo");
         colAcciones = new TableColumn("Acciones");
 
         colPeriodo.setCellValueFactory(new PropertyValueFactory<>("periodo"));
         colDocente.setCellValueFactory(new PropertyValueFactory<>("docente"));
-        colMateria.setCellValueFactory(new PropertyValueFactory<>("materia"));
         colGrado.setCellValueFactory(new PropertyValueFactory<>("grado"));
         colParalelo.setCellValueFactory(new PropertyValueFactory<>("paralelo"));
 
@@ -316,8 +214,8 @@ public final class FCurso {
                     } else {
                         Curso curso = getTableView().getItems().get(getIndex());
 
-                        buttons.deleteAction(DeleteAtcionEvent(curso));
-                        buttons.saveAction(updateActionEvent(curso));
+                        buttons.deleteAction(DeleteCursoAtcionEvent(curso));
+                        buttons.saveAction(updateCursoActionEvent(curso));
                         setGraphic(buttons);
                         setText(null);
                     }
@@ -331,36 +229,35 @@ public final class FCurso {
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.autosize();
 
-        table.getColumns().addAll(colPeriodo, colDocente, colMateria, colGrado, colParalelo, colAcciones);
+        table.getColumns().addAll(colPeriodo, colDocente, colGrado, colParalelo, colAcciones);
         boxTable.getChildren().addAll(btnInsert, table);
         godPane.addCenter(boxTable);
-
+        return godPane;
     }
 
-//******************************************************************************
-//*                                 EVENTOS                                    *
-//******************************************************************************
+    /**
+     * EVENTOS PARA INSERTAR MODIFICAR Y ELIMINAR UN CURSO
+     */
     private EventHandler insertActionEvent() {
         return (t) -> {
-            insertPanel();
+            insertCursoPanel();
             godPane.showInsertPane();
         };
     }
 
-    private EventHandler OkInsertActionEvent() {
+    private EventHandler OkInsertCursoActionEvent() {
         return (t) -> {
             Curso curso = null;
 
-            if (cbInsertPeriodo.getSelectionModel().getSelectedItem() != null
-                    && cbInsertDocente.getSelectionModel().getSelectedItem() != null
-                    && !"".equals(tfInsertGrado.getText())
-                    && !"".equals(tfInsertParalelo.getText())
-                    && materias.size() > 0) {
+            if (cbInsertCursoPeriodo.getSelectionModel().getSelectedItem() != null
+                    && cbInsertCursoDocente.getSelectionModel().getSelectedItem() != null
+                    && !"".equals(tfInsertCursoGrado.getText())
+                    && !"".equals(tfInsertCursoParalelo.getText())) {
                 curso = new Curso();
-                curso.setPeriodo(cbInsertPeriodo.getSelectionModel().getSelectedItem());
-                curso.setDocente(cbInsertDocente.getSelectionModel().getSelectedItem());
-                curso.setGrado(tfInsertGrado.getText());
-                curso.setParalelo(tfInsertParalelo.getText());
+                curso.setPeriodo(cbInsertCursoPeriodo.getSelectionModel().getSelectedItem());
+                curso.setDocente(cbInsertCursoDocente.getSelectionModel().getSelectedItem());
+                curso.setGrado(tfInsertCursoGrado.getText());
+                curso.setParalelo(tfInsertCursoParalelo.getText());
 
             } else {
                 godPane.failed("Campos sin llenar");
@@ -368,30 +265,29 @@ public final class FCurso {
             if (curso != null) {
                 try {
                     int insertados = 0;
-                    for (Materia tmp : materias) {
-                        curso.setMateria(tmp);
-                        insertados += mc.insertar(curso);
-                        if (insertados == materias.size()) {
-                            godPane.successful("Insertado Correctamente");
-                            refreshTable();
-                            godPane.hideInsertPane();
-                        }
+
+                    if (mc.insertar(curso) > 0) {
+                        godPane.successful("Insertado Correctamente");
+                        refreshTable();
+                        godPane.hideInsertPane();
                     }
+
                 } catch (Exception e) {
                     godPane.failed("Curso no se ha guardado");
+                    System.err.println(e.getMessage());
                 }
             }
         };
 
     }
 
-    private EventHandler NoInsertActionEvent() {
+    private EventHandler NoInsertCursoActionEvent() {
         return (t) -> {
             godPane.hideInsertPane();
         };
     }
 
-    private EventHandler OkUpdateActionEvent(Curso curso) {
+    private EventHandler OkUpdateCursoActionEvent(Curso curso) {
         return (t) -> {
             if (true/*Verificar que los componentes esten vacios*/) {
             } else {
@@ -413,27 +309,27 @@ public final class FCurso {
 
     }
 
-    private EventHandler NoUpdateActionEvent() {
+    private EventHandler NoUpdateCursoActionEvent() {
         return (t) -> {
             godPane.hideUpdatePane();
         };
     }
 
-    private EventHandler updateActionEvent(Curso curso) {
+    private EventHandler updateCursoActionEvent(Curso curso) {
         return (t) -> {
-            updatePanel(curso);
+            updateCursoPanel(curso);
             godPane.showUpdatePane();
         };
     }
 
-    private EventHandler DeleteAtcionEvent(Curso curso) {
+    private EventHandler DeleteCursoAtcionEvent(Curso curso) {
         return (t) -> {
-            godPane.showAlert(OkDeleteAtcionEvent(curso));
+            godPane.showAlert(OkDeleteCursoAtcionEvent(curso));
 
         };
     }
 
-    private EventHandler OkDeleteAtcionEvent(Curso curso) {
+    private EventHandler OkDeleteCursoAtcionEvent(Curso curso) {
         return (t) -> {
             try {
                 if (mc.eliminar(curso) > 0) {
@@ -460,15 +356,15 @@ public final class FCurso {
 
     private void fullCombobox() {
         try {
-            cbInsertPeriodo.setItems(mp.obtener());
-            //cbUpdatePeriodo.setItems(mp.obtener());
+            cbInsertCursoPeriodo.setItems(mp.obtener());
+            //cbUpdateCursoPeriodo.setItems(mp.obtener());
 
         } catch (Exception e) {
             System.err.println("obtener periodo: " + e.getMessage());
         }
         try {
-            cbInsertDocente.setItems(md.obtener());
-            //cbUpdateDocente.setItems(md.obtener());
+            cbInsertCursoDocente.setItems(md.obtener());
+            //cbUpdateCursoDocente.setItems(md.obtener());
 
         } catch (Exception e) {
             System.err.println("obtener docente: " + e.getMessage());

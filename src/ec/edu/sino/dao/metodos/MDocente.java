@@ -116,11 +116,13 @@ public class MDocente implements IDocente {
     }
 
     @Override
-    public Docente  obtenerCedula(String cedula) throws Exception {
+    public Docente  obtener(String dato) throws Exception {
         Docente docente = null;
-        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ?;";
+        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ? or nombre like ? or apellido like ?;";
         List<DBObject> prts = new ArrayList<>();
-        prts.add(new DBObject(1, cedula.concat("%")));
+        prts.add(new DBObject(1, dato.concat("%")));
+        prts.add(new DBObject(2, dato.concat("%")));
+        prts.add(new DBObject(3, dato.concat("%")));
         DBConnection con = new DBConnection(usuario, this.clave);
         try {
             ResultSet rst = con.executeQuery(sql, prts);

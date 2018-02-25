@@ -1,4 +1,14 @@
 -----------------------------------------------------------------
+create table administrador(
+	id serial not null,
+	usuario character varying(30) unique not null,
+	clave character varying(32) not null,
+	nombre text not null,
+	apellido text not null,
+	constraint pk_administrador primary key(id)
+);
+-----------------------------------------------------------------
+
 
 create table periodo(
 	id serial not null,
@@ -8,24 +18,6 @@ create table periodo(
 	subdirector text not null,
 	coordinador text not null,
 	constraint pk_periodo primary key(id)
-);
-
-create table administrador(
-	id serial not null,
-	usuario character varying(30) unique not null,
-	clave character varying(32) not null,
-	nombre text not null,
-	apellido text not null,
-	constraint pk_administrador primary key(id)
-);
-
------------------------------------------------------------------
-
-create table alumno(
-	cedula identification unique,
-	apellido text not null,
-	nombre text not null,
-	constraint pk_alumno primary key(cedula)
 );
 
 
@@ -38,44 +30,47 @@ create table docente(
 	constraint pk_docente primary key(cedula)
 );
 
+create table curso(
+	id serial not null,
+	periodo integer not null,
+	docente identification,	
+	grado character varying(15),
+	paralelo character,
+	constraint pk_curso primary key(id),
+	constraint fk_curso_docente foreign key(docente) references docente(cedula),
+	constraint fk_curso_periodo foreign key(periodo) references periodo(id)
+);
+
+-----------------------------------------------------------------
+create table alumno(
+	cedula identification unique,
+	apellido text not null,
+	nombre text not null,
+	constraint pk_alumno primary key(cedula)
+);
+
 
 create table materia(
 	id serial not null,
-	nombre text,
-	dominio character varying(25),
+	nombre character varying(30) not null,
+	dominio character varying(50) not null,
 	constraint pk_materia primary key(id)
 );
 
 
 
-
-create table curso(
-	id serial not null,
-	periodo integer not null,
-	docente identification,	
-	materia integer not null,
-	grado character varying(15),
-	paralelo character,
-	constraint pk_curso primary key(id),
-	constraint fk_curso_docente foreign key(docente) references docente(cedula),
-	constraint fk_curso_materia foreign key(materia) references materia(id),
-	constraint fk_curso_periodo foreign key(periodo) references periodo(id)
-);
-
-
-
-	
 create table ciclo(
 	id serial not null,
 	curso integer not null,	
+	materia integer not null,
 	alumno identification,
 	promedio note,
 	constraint pk_ciclo primary key(id),
 	constraint fk_ciclo_curso foreign key(curso) references curso(id),
-		constraint fk_ciclo_alumno foreign key(alumno) references alumno(cedula)
+	constraint fk_ciclo_materia foreign key(materia) references materia(id),
+	constraint fk_ciclo_alumno foreign key(alumno) references alumno(cedula)
 );
-
-
+-----------------------------------------------------------------
 
 
 create table quimestre(

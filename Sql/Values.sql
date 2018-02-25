@@ -14,7 +14,11 @@ insert into docente(cedula,usuario,clave,nombre,apellido) values
 
 insert into materia(nombre,dominio) values 
 	('Estudios Sociales','Dominio Recreativo'),
-	('Lengua y Literatura','Dominio Comunicación');
+	('Lengua y Literatura','Dominio Comunicación'),
+	('Matemática','Dominio Vocacional'),
+	('Ciencias Naturales','Dominio vida en el hogar salud y seguridad');
+
+	
 	
 	
 	
@@ -36,7 +40,7 @@ insert into alumno(apellido,nombre,cedula) values
 	('PAGUAY','ISRAEL','056781193-7');
 
 
-
+/*
 ------------------------------------------------------------------------	
 insert into curso(periodo, docente, materia, grado, paralelo) values
 	(1,'060405974-1',1,'Septimo','A'),
@@ -103,3 +107,4 @@ insert into ciclo(curso,alumno) values(2,'048973209-5');
 insert into quimestre(ciclo,descripcion,quimestral) VALUES(4,'PRIMER QUIMESTRE',9);
 insert into parcial(quimestre,descripcion,tarea,individual,grupal,nota_parcial)
 	values(7,'PRIMER PARCIAL',9,9,9,9);
+*/

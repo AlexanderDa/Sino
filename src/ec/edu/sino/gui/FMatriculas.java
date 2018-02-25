@@ -27,7 +27,7 @@ import javafx.util.Callback;
  *
  * @author alexander
  */
-public final class Template {
+public final class FMatriculas {
 
     private int id;
     private GodPane godPane;
@@ -40,7 +40,7 @@ public final class Template {
     private TableColumn colAcciones;
 
 //DECLARACION DE LOS COMPONENTES PARA LA INSERCION Y MODIFICACION
-    public Template() {
+    public FMatriculas() {
 
     }
 
@@ -117,7 +117,7 @@ public final class Template {
     }
 
     private void showTable() {
-        godPane.setTitle("");
+        godPane.setTitle("Matricular Alumnos");
 
         VBox boxTable = new VBox(15);
         boxTable.setPadding(new Insets(35));

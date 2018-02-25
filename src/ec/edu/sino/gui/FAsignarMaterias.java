@@ -8,16 +8,21 @@ package ec.edu.sino.gui;
 import ec.edu.sino.dao.metodos.MPeriodo;
 import ec.edu.sino.gui.componentes.CellButtons;
 import ec.edu.sino.gui.componentes.GodPane;
+import ec.edu.sino.gui.componentes.SearchPane;
 import ec.edu.sino.negocios.entidades.Periodo;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -27,7 +32,7 @@ import javafx.util.Callback;
  *
  * @author alexander
  */
-public final class Template {
+public final class FAsignarMaterias {
 
     private int id;
     private GodPane godPane;
@@ -38,9 +43,13 @@ public final class Template {
     private TableColumn<Periodo, String> colName;
 
     private TableColumn colAcciones;
+    private RadioButton forID;
+    private RadioButton forName;
+    private TextField tfSearchDocente;
+    private SearchPane spBuscar;
 
 //DECLARACION DE LOS COMPONENTES PARA LA INSERCION Y MODIFICACION
-    public Template() {
+    public FAsignarMaterias() {
 
     }
 
@@ -117,15 +126,18 @@ public final class Template {
     }
 
     private void showTable() {
-        godPane.setTitle("");
+        godPane.setTitle("Materias por curso");
 
         VBox boxTable = new VBox(15);
         boxTable.setPadding(new Insets(35));
         boxTable.setAlignment(Pos.CENTER_RIGHT);
+        spBuscar = new SearchPane();
 
+        // tfSearchDocente.setOnKeyReleased(SearchActionEvent());
         Button btnInsert = new Button("Insertar");
         btnInsert.getStyleClass().add("btn-green");
         btnInsert.setOnAction(insertActionEvent());
+
         table = new TableView<>();
         VBox.setVgrow(table, Priority.ALWAYS);
         table.setEditable(true);
@@ -171,7 +183,7 @@ public final class Template {
         table.autosize();
 
         table.getColumns().addAll(/*Todas las columnas*/colAcciones);
-        boxTable.getChildren().addAll(btnInsert, table);
+        boxTable.getChildren().addAll(spBuscar, btnInsert, table);
         godPane.addCenter(boxTable);
 
     }

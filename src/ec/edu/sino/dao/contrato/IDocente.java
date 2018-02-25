@@ -26,7 +26,7 @@ public interface IDocente {
 
     int eliminar(Docente docente) throws Exception;
 
-    Docente obtenerCedula(String cedula) throws Exception;
+    Docente obtener(String dato) throws Exception;
 
     Docente obtener(String usuario, String clave) throws Exception;
 
