@@ -13,15 +13,17 @@ public class Ciclo {
     private int id;
     private Curso curso;
     private Alumno alumno;
+    private Materia materia;
     private float promedio;
 
     public Ciclo() {
     }
 
-    public Ciclo(int id, Curso curso, Alumno alumno, float promedio) {
+    public Ciclo(int id, Curso curso, Alumno alumno, Materia materia,float promedio) {
         this.id = id;
         this.curso = curso;
         this.alumno = alumno;
+        this.materia = materia;
         this.promedio = promedio;
     }
 
@@ -61,4 +63,12 @@ public class Ciclo {
     {
         return curso+" "+ alumno+" "+promedio;
     }   
+
+    public Materia getMateria() {
+        return materia;
+    }
+
+    public void setMateria(Materia materia) {
+        this.materia = materia;
+    }
 }
