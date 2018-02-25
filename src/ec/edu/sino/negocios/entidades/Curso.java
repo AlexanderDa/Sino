@@ -14,18 +14,16 @@ public class Curso {
     private int id;
     private Periodo periodo;
     private Docente docente;
-    private Materia materia;
     private String grado;
     private String paralelo;
 
     public Curso() {
     }
 
-    public Curso(int id, Periodo periodo, Docente docente, Materia materia, String grado, String paralelo) {
+    public Curso(int id, Periodo periodo, Docente docente, String grado, String paralelo) {
         this.id = id;
         this.periodo = periodo;
         this.docente = docente;
-        this.materia = materia;
         this.grado = grado;
         this.paralelo = paralelo;
     }
@@ -60,14 +58,6 @@ public class Curso {
 
     public void setDocente(Docente docente) {
         this.docente = docente;
-    }
-
-    public Materia getMateria() {
-        return materia;
-    }
-
-    public void setMateria(Materia materia) {
-        this.materia = materia;
     }
 
     public String getGrado() {

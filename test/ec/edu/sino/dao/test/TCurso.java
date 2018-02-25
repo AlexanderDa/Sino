@@ -23,38 +23,46 @@ import org.junit.Test;
  * @author paul
  */
 public class TCurso {
-    
+
     @Test
-    public void test(){
-        
+    public void test() {
+
         MCurso mc = new MCurso();
-        
+
         mc.loginAdmin();
-        
+
         Curso curso = new Curso();
-        Docente docente= new Docente();
-        Materia materia = new Materia();
-        Periodo periodo = new Periodo();
-        
-        
-        docente.setCedula("060440535-7");
-        
-        materia.setId(1);
- 
-        periodo.setId(1);
-        
-        curso.setId(6);
+        Docente docente = null;
+        Periodo periodo = null;
+
+        try {
+            MDocente md = new MDocente();
+            md.loginAdmin();
+            docente = md.obtenerCedula("060405974-1");
+            System.out.println("Docente " + docente.toString());
+        } catch (Exception e) {
+            System.err.println("Docente no encontrado");
+        }
+
+        try {
+            MPeriodo mp = new MPeriodo();
+            mp.loginAdmin();
+            periodo = mp.obtener(1);
+            System.out.println("Periodo: " + periodo.toString());
+        } catch (Exception e) {
+            System.err.println("Periodo no encontrado");
+        }
+
+        curso.setId(1000);
         curso.setDocente(docente);
         curso.setGrado("Primero");
-        curso.setMateria(materia);
         curso.setParalelo("C");
         curso.setPeriodo(periodo);
-        
+
         //INSERTAR
-        
-        int insertados=0;
+        int insertados = 0;
         try {
-            insertados=mc.insertar(curso);
+            insertados = mc.insertar(curso);
             if (insertados != 0) {
                 System.out.println("Insertado: " + curso.toString());
             }
@@ -62,7 +70,7 @@ public class TCurso {
             System.err.println("Error al insertar: " + e.getMessage());
         }
         assertTrue(insertados > 0);
-        
+
         //MODIFICAR
         int modificados = 0;
         try {
@@ -79,7 +87,7 @@ public class TCurso {
         //BUSCAR
         Curso cu = null;
         try {
-            cu = mc.obtener(6);
+            cu = mc.obtener(1000);
             System.out.println("Buscado: " + cu.toString());
         } catch (Exception e) {
             System.err.println("ERROR! al buscar " + e.getMessage());
@@ -98,7 +106,7 @@ public class TCurso {
             System.err.println("ERROR! al listar los cursos " + e.getMessage());
         }
         assertTrue(lista.size() > 0);
-        
+
         //ELIMINAR
         int eliminados = 0;
         try {
@@ -109,7 +117,7 @@ public class TCurso {
         } catch (Exception e) {
         }
         assertTrue(eliminados > 0);
-        
+
     }
-    
+
 }

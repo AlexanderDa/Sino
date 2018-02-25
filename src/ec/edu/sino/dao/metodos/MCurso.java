@@ -49,13 +49,17 @@ public class MCurso implements ICurso {
     public int insertar(Curso curso) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "INSERT INTO curso(periodo, docente, materia, grado, paralelo) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO curso(periodo, docente, grado, paralelo) VALUES (?, ?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, curso.getPeriodo().getId()));
         dbos.add(new DBObject(2, curso.getDocente().getCedula()));
-        dbos.add(new DBObject(3, curso.getMateria().getId()));
-        dbos.add(new DBObject(4, curso.getGrado()));
-        dbos.add(new DBObject(5, curso.getParalelo()));
+        dbos.add(new DBObject(3, curso.getGrado()));
+        dbos.add(new DBObject(4, curso.getParalelo()));
+        if (curso.getId() != 0) {
+            sql = "INSERT INTO curso(periodo, docente, grado, paralelo, id) VALUES (?, ?, ?, ?, ?);";
+            dbos.add(new DBObject(5, curso.getId()));
+        }
+
         try {
             modificados = connection.executeCommand(sql, dbos);
         } catch (Exception e) {
@@ -68,14 +72,13 @@ public class MCurso implements ICurso {
     public int modificar(Curso curso) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "UPDATE public.curso SET  periodo=?, docente=?, materia=?, grado=?, paralelo=? WHERE id=?;";
+        String sql = "UPDATE public.curso SET  periodo=?, docente=?, grado=?, paralelo=? WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, curso.getPeriodo().getId()));
         dbos.add(new DBObject(2, curso.getDocente().getCedula()));
-        dbos.add(new DBObject(3, curso.getMateria().getId()));
-        dbos.add(new DBObject(4, curso.getGrado()));
-        dbos.add(new DBObject(5, curso.getParalelo()));
-        dbos.add(new DBObject(6, curso.getId()));
+        dbos.add(new DBObject(3, curso.getGrado()));
+        dbos.add(new DBObject(4, curso.getParalelo()));
+        dbos.add(new DBObject(5, curso.getId()));
 
         try {
             modificados = connection.executeCommand(sql, dbos);
@@ -104,7 +107,7 @@ public class MCurso implements ICurso {
     @Override
     public Curso obtener(int id) throws Exception {
         Curso curso = null;
-        String sql = "SELECT id, periodo, docente, materia, grado, paralelo FROM public.curso WHERE id=?;";
+        String sql = "SELECT id, periodo, docente, grado, paralelo FROM public.curso WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
         DBConnection con = new DBConnection(usuario, clave);
@@ -120,14 +123,9 @@ public class MCurso implements ICurso {
                 }
                 try {
                     //curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente")));
-                     curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente"),rst.getString("docente")));
+                    curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente"), rst.getString("docente")));
                 } catch (Exception e) {
                     System.err.println("Docente " + e.getMessage());
-                }
-                try {
-                    curso.setMateria(new MMAteria(usuario, clave).obtener(rst.getInt("materia")));
-                } catch (Exception e) {
-                    System.err.println("Materia " + e.getMessage());
                 }
 
                 curso.setGrado(rst.getString("grado"));
@@ -143,7 +141,7 @@ public class MCurso implements ICurso {
     @Override
     public ObservableList<Curso> obtener() throws Exception {
         ObservableList<Curso> lista = FXCollections.observableArrayList();
-        String sql = "SELECT id, periodo, docente, materia, grado, paralelo FROM public.curso order by grado asc;";
+        String sql = "SELECT id, periodo, docente, grado, paralelo FROM public.curso order by grado asc;";
         DBConnection con = new DBConnection(usuario, clave);
         try {
             ResultSet rst = con.executeQuery(sql);
@@ -152,7 +150,6 @@ public class MCurso implements ICurso {
                 Curso curso = new Curso();
                 curso.setId(rst.getInt("id"));
                 curso.setPeriodo(new MPeriodo(usuario, clave).obtener(rst.getInt("periodo")));
-                curso.setMateria(new MMAteria(usuario, clave).obtener(rst.getInt("materia")));
                 curso.setDocente(new MDocente(usuario, clave).obtenerCedula(rst.getString("docente")));
                 curso.setParalelo(rst.getString("paralelo"));
                 curso.setGrado(rst.getString("grado"));
