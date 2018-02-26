@@ -121,7 +121,7 @@ public class FMainAdmin extends HBox {
 
         taskBar.getChildren().addAll(user, btnAlumno, btnCurso, btnDocente, btnMateria, btnPeriodo);
 
-        getChildren().addAll(taskBar, fAsignarMaterias.start());
+        getChildren().addAll(taskBar, fMatriculas.start());
     }
 
     /**

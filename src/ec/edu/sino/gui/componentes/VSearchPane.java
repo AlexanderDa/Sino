@@ -7,10 +7,14 @@ package ec.edu.sino.gui.componentes;
 
 import ec.edu.sino.dao.metodos.MCurso;
 import ec.edu.sino.dao.metodos.MDocente;
+import ec.edu.sino.dao.metodos.MMateriaAsignada;
 import ec.edu.sino.dao.metodos.MPeriodo;
 import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.Docente;
+import ec.edu.sino.negocios.entidades.MateriaAsignada;
 import ec.edu.sino.negocios.entidades.Periodo;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -47,7 +51,7 @@ public class VSearchPane extends VBox {
 
     public VSearchPane() {
         setAlignment(Pos.CENTER);
-        setSpacing(50);
+        setSpacing(20);
         md.loginAdmin();
         mp.loginAdmin();
         periodoPanel();
@@ -154,6 +158,21 @@ public class VSearchPane extends VBox {
 
     public Curso getCurso() {
         return curso;
+    }
+
+    public List<MateriaAsignada> getListaDeMaterias() {
+        List<MateriaAsignada> lista = new ArrayList<>();
+        MMateriaAsignada mAsignada = new MMateriaAsignada();
+        mAsignada.loginAdmin();
+        try {
+            lista = mAsignada.obtenerPorCurso(curso);
+        } catch (Exception e) {
+        }
+        for(MateriaAsignada tmp: lista){
+            System.out.println(tmp.getMateria());
+        }
+        
+        return lista;
     }
 
     public boolean exists() {

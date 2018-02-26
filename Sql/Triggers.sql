@@ -145,3 +145,42 @@ $BODY$ language plpgsql;
 create trigger promedio_quimestres after insert or update
 on quimestre for each row execute procedure fun_promedio_quimestres();
 
+
+
+
+/********************************************************************
+*        	CREAR TRIGGER PARA CREAR QUIMESTRES AL MATRICULAR  		*
+********************************************************************/
+
+
+CREATE OR REPLACE FUNCTION public.fun_crear_quimestre()  RETURNS trigger AS $BODY$
+
+begin
+	insert into quimestre (ciclo,descripcion) values (new.id,'Primer Quimestre');
+	insert into quimestre (ciclo,descripcion) values (new.id,'Segundo Quimestre');
+	return null;
+end;
+$BODY$ language plpgsql;
+
+create trigger crear_quimestres after insert
+on ciclo for each row execute procedure fun_crear_quimestre();
+
+
+/********************************************************************
+*        	CREAR TRIGGER PARA CREAR PARCIAL AL CREAR QUIMESTRE		*
+********************************************************************/
+
+
+CREATE OR REPLACE FUNCTION public.fun_crear_parcial()  RETURNS trigger AS $BODY$
+
+begin
+	insert into parcial (quimestre, descripcion) values (new.id,'Primer Parcial');
+	insert into parcial (quimestre, descripcion) values (new.id,'Segundo Parcial');
+	insert into parcial (quimestre, descripcion) values (new.id,'Tercer Parcial');
+	return null;
+end;
+$BODY$ language plpgsql;
+
+create trigger crear_quimestres after insert
+on quimestre for each row execute procedure fun_crear_parcial();
+

@@ -12,7 +12,6 @@ package ec.edu.sino.negocios.entidades;
 public class Ciclo {
 
     private int id;
-    private Curso curso;
     private MateriaAsignada asignada;
     private Alumno alumno;
     private float promedio;
@@ -20,19 +19,10 @@ public class Ciclo {
     public Ciclo() {
     }
 
-    public Ciclo(int id, Curso curso, MateriaAsignada asignada, Alumno alumno, float promedio) {
+    public Ciclo(int id, MateriaAsignada asignada, Alumno alumno, float promedio) {
         this.id = id;
-        this.curso = curso;
         this.asignada = asignada;
         this.alumno = alumno;
-        this.promedio = promedio;
-    }
-
-    public float getPromedio() {
-        return promedio;
-    }
-
-    public void setPromedio(float promedio) {
         this.promedio = promedio;
     }
 
@@ -44,12 +34,12 @@ public class Ciclo {
         this.id = id;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public MateriaAsignada getAsignada() {
+        return asignada;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setAsignada(MateriaAsignada asignada) {
+        this.asignada = asignada;
     }
 
     public Alumno getAlumno() {
@@ -60,16 +50,16 @@ public class Ciclo {
         this.alumno = alumno;
     }
 
-    public MateriaAsignada getAsignada() {
-        return asignada;
+    public float getPromedio() {
+        return promedio;
     }
 
-    public void setAsignada(MateriaAsignada asignada) {
-        this.asignada = asignada;
+    public void setPromedio(float promedio) {
+        this.promedio = promedio;
     }
 
     @Override
     public String toString() {
-        return curso + " " + alumno + " " + promedio;
+        return asignada.toString() + " " + alumno + " " + promedio;
     }
 }
