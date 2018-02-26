@@ -9,6 +9,7 @@ import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.ICiclo;
 import ec.edu.sino.negocios.entidades.Ciclo;
+import ec.edu.sino.negocios.entidades.MateriaAsignada;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -49,13 +50,13 @@ public class MCiclo implements ICiclo {
     public int insertar(Ciclo ciclo) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "INSERT INTO public.ciclo(curso,materia, alumno) VALUES ( ?, ?, ?);";
+        String sql = "INSERT INTO public.ciclo(curso,asignatura_curso, alumno) VALUES ( ?, ?, ?);";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, ciclo.getCurso().getId()));
-        dbos.add(new DBObject(2, ciclo.getMateria().getId()));
+        dbos.add(new DBObject(2, ciclo.getAsignada().getId()));
         dbos.add(new DBObject(3, ciclo.getAlumno().getCedula()));
          if (ciclo.getId() != 0) {
-            sql = "INSERT INTO public.ciclo(curso, materia, alumno, id) VALUES (?, ?, ?, ?);";
+            sql = "INSERT INTO public.ciclo(curso, masignatura_curso, alumno, id) VALUES (?, ?, ?, ?);";
             dbos.add(new DBObject(4, ciclo.getId()));
         }
 
@@ -71,10 +72,10 @@ public class MCiclo implements ICiclo {
     public int modificar(Ciclo ciclo) throws Exception {
         int modificados = 0;
         DBConnection connection = new DBConnection(usuario, clave);
-        String sql = "UPDATE public.ciclo set curso=?, materia=?, alumno=? WHERE id=?;";
+        String sql = "UPDATE public.ciclo set curso=?, asignatura_curso=?, alumno=? WHERE id=?;";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, ciclo.getCurso().getId()));
-        dbos.add(new DBObject(2, ciclo.getMateria().getId()));
+        dbos.add(new DBObject(2, ciclo.getAsignada().getId()));
         dbos.add(new DBObject(3, ciclo.getAlumno().getCedula()));
         dbos.add(new DBObject(4, ciclo.getId()));
 
@@ -105,7 +106,7 @@ public class MCiclo implements ICiclo {
     @Override
     public Ciclo obtener(int id) throws Exception {
         Ciclo ciclo = null;
-        String sql = "SELECT id, curso, materia, alumno, promedio FROM public.ciclo WHERE id=?";
+        String sql = "SELECT id, curso, asignatura_curso, alumno, promedio FROM public.ciclo WHERE id=?";
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, id));
         DBConnection con = new DBConnection(usuario, clave);
@@ -116,7 +117,7 @@ public class MCiclo implements ICiclo {
                 ciclo.setId(rst.getInt("id"));
                 ciclo.setCurso(new MCurso(usuario, clave).obtener(rst.getInt("curso")));
                 ciclo.setAlumno(new MAlumno(usuario, clave).obtener(rst.getString("alumno")));
-                ciclo.setMateria(new MMAteria(usuario,clave).obtener(rst.getInt("materia")));
+                ciclo.setAsignada(new MMateriaAsignada(usuario,clave).obtener(rst.getInt("asignatura_curso")));
                 ciclo.setPromedio(rst.getFloat("promedio"));
 
             }
@@ -142,7 +143,7 @@ public class MCiclo implements ICiclo {
                 ciclo.setId(rst.getInt("id"));
                 ciclo.setCurso(new MCurso(usuario, clave).obtener(rst.getInt("curso")));
                 ciclo.setAlumno(new MAlumno(usuario, clave).obtener(rst.getString("alumno")));
-                ciclo.setMateria(new MMAteria(usuario,clave).obtener(rst.getInt("materia")));
+                ciclo.setAsignada(new MMateriaAsignada(usuario,clave).obtener(rst.getInt("asignatura_curso")));
                 ciclo.setPromedio(rst.getFloat("promedio"));
                 lista.add(ciclo);
             }

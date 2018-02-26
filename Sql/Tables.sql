@@ -57,17 +57,22 @@ create table materia(
 	constraint pk_materia primary key(id)
 );
 
-
-
-create table ciclo(
+create table asignatura_curso(
 	id serial not null,
 	curso integer not null,	
 	materia integer not null,
+	constraint pk_asignatura_curso primary key(id),
+	constraint fk_asignaturas_curso_curso foreign key(curso) references curso(id),
+	constraint fk_asignaturas_curso_materia foreign key(materia) references materia(id)
+);
+
+create table ciclo(
+	id serial not null,
+	asignatura_curso integer not null,
 	alumno identification,
 	promedio note,
 	constraint pk_ciclo primary key(id),
-	constraint fk_ciclo_curso foreign key(curso) references curso(id),
-	constraint fk_ciclo_materia foreign key(materia) references materia(id),
+	constraint fk_ciclo_asignatura_asignada foreign key(asignatura_curso) references asignatura_curso(id),
 	constraint fk_ciclo_alumno foreign key(alumno) references alumno(cedula)
 );
 -----------------------------------------------------------------

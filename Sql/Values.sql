@@ -7,8 +7,11 @@ insert into periodo(fecha_inicio,fecha_fin,director,subdirector,coordinador) val
 	('2017-9-1','2018-7-30','Juan Palacios','Catalina Itriago','María José quintanilla');	
 
 insert into docente(cedula,usuario,clave,nombre,apellido) values
-	('060405974-1','alexanderda',md5('alip4$'),'Alexander David','Bonilla Adriano'),
-	('140096640-2','mirejack',md5('mirep4$'),'Mireya jackeline','Ortega Pazato');
+	('060405974-1', 'alexanderda', md5('alip4$'), 'Alexander David', 'Bonilla Adriano'),
+	('140096640-2', 'mirejack', md5('mirep4$'), 'Mireya jackeline', 'Ortega Pazato'),
+        ('843456676-5', 'Juanca', md5('12345'), 'Juan Carlos', 'Perez Palacios'),
+        ('243867428-2', 'Pedin', md5('12345'), 'Pedro Pablo', 'Martinez quintana'),
+        ('108447747-3', 'Marye', md5('12345'), 'Mária Eva', 'Lara Romero');
 
 
 

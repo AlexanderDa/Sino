@@ -4,6 +4,7 @@
 drop table if exists parcial;
 drop table if exists quimestre;
 drop table if exists ciclo;
+drop table if exists asignatura_curso;
 drop table if exists materia;
 drop table if exists alumno;
 drop table if exists curso;

@@ -26,5 +26,7 @@ public interface ICurso {
 
     Curso obtener(int id) throws Exception;
 
+    Curso obtenerPorDocenteAndPeriodo(String docente, int periodo) throws Exception;
+
     ObservableList<Curso> obtener() throws Exception;
 }

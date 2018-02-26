@@ -139,6 +139,41 @@ public class MCurso implements ICurso {
     }
 
     @Override
+    public Curso obtenerPorDocenteAndPeriodo(String docente, int periodo) throws Exception {
+             Curso curso = null;
+        String sql = "SELECT id, periodo, docente, grado, paralelo FROM public.curso WHERE docente=? and periodo = ?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, docente));
+        dbos.add(new DBObject(2, periodo));
+        DBConnection con = new DBConnection(usuario, clave);
+        try {
+            ResultSet rst = con.executeQuery(sql, dbos);
+            while (rst.next()) {
+                curso = new Curso();
+                curso.setId(rst.getInt("id"));
+                try {
+                    curso.setPeriodo(new MPeriodo(usuario, clave).obtener(rst.getInt("periodo")));
+                } catch (Exception e) {
+                    System.err.println("Periodo" + e.getMessage());
+                }
+                try {
+                    //curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente")));
+                    curso.setDocente(new MDocente(usuario, clave).obtener(rst.getString("docente"), rst.getString("docente")));
+                } catch (Exception e) {
+                    System.err.println("Docente " + e.getMessage());
+                }
+
+                curso.setGrado(rst.getString("grado"));
+                curso.setParalelo(rst.getString("paralelo"));
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return curso;
+    }
+
+    @Override
     public ObservableList<Curso> obtener() throws Exception {
         ObservableList<Curso> lista = FXCollections.observableArrayList();
         String sql = "SELECT id, periodo, docente, grado, paralelo FROM public.curso order by grado asc;";
@@ -161,4 +196,5 @@ public class MCurso implements ICurso {
         }
         return lista;
     }
+
 }

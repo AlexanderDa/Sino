@@ -49,4 +49,7 @@ public class CellButtons extends HBox {
         btnEdit.setOnAction(handler);
     }
 
+    public void hideEditButton(){
+        getChildren().remove(btnEdit);
+    }
 }

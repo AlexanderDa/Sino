@@ -10,20 +10,21 @@ package ec.edu.sino.negocios.entidades;
  * @author alexander
  */
 public class Ciclo {
+
     private int id;
     private Curso curso;
+    private MateriaAsignada asignada;
     private Alumno alumno;
-    private Materia materia;
     private float promedio;
 
     public Ciclo() {
     }
 
-    public Ciclo(int id, Curso curso, Alumno alumno, Materia materia,float promedio) {
+    public Ciclo(int id, Curso curso, MateriaAsignada asignada, Alumno alumno, float promedio) {
         this.id = id;
         this.curso = curso;
+        this.asignada = asignada;
         this.alumno = alumno;
-        this.materia = materia;
         this.promedio = promedio;
     }
 
@@ -58,17 +59,17 @@ public class Ciclo {
     public void setAlumno(Alumno alumno) {
         this.alumno = alumno;
     }
-    
-    public String toString()
-    {
-        return curso+" "+ alumno+" "+promedio;
-    }   
 
-    public Materia getMateria() {
-        return materia;
+    public MateriaAsignada getAsignada() {
+        return asignada;
     }
 
-    public void setMateria(Materia materia) {
-        this.materia = materia;
+    public void setAsignada(MateriaAsignada asignada) {
+        this.asignada = asignada;
+    }
+
+    @Override
+    public String toString() {
+        return curso + " " + alumno + " " + promedio;
     }
 }
