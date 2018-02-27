@@ -9,7 +9,7 @@ import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.ICiclo;
 import ec.edu.sino.negocios.entidades.Ciclo;
-import ec.edu.sino.negocios.entidades.MateriaAsignada;
+import ec.edu.sino.negocios.entidades.Curso;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class MCiclo implements ICiclo {
         List<DBObject> dbos = new ArrayList<>();
         dbos.add(new DBObject(1, ciclo.getAsignada().getId()));
         dbos.add(new DBObject(2, ciclo.getAlumno().getCedula()));
-         if (ciclo.getId() != 0) {
+        if (ciclo.getId() != 0) {
             sql = "INSERT INTO public.ciclo(masignatura_curso, alumno, id) VALUES (?, ?, ?);";
             dbos.add(new DBObject(3, ciclo.getId()));
         }
@@ -114,7 +114,7 @@ public class MCiclo implements ICiclo {
                 ciclo = new Ciclo();
                 ciclo.setId(rst.getInt("id"));
                 ciclo.setAlumno(new MAlumno(usuario, clave).obtener(rst.getString("alumno")));
-                ciclo.setAsignada(new MMateriaAsignada(usuario,clave).obtener(rst.getInt("asignatura_curso")));
+                ciclo.setAsignada(new MMateriaAsignada(usuario, clave).obtener(rst.getInt("asignatura_curso")));
                 ciclo.setPromedio(rst.getFloat("promedio"));
 
             }
@@ -124,11 +124,12 @@ public class MCiclo implements ICiclo {
         }
         return ciclo;
     }
+    //select distinct on(ci.alumno) ci.alumno,ci.id, ci.asignatura_curso, ci.promedio  from ciclo ci inner join asignatura_curso ac on  ac.id= ci.asignatura_curso where ac.curso=1;
 
     @Override
-    public ObservableList<Ciclo> obtener() throws Exception {
+    public ObservableList<Ciclo> obtenerDistinctAlumno() throws Exception {
         ObservableList<Ciclo> lista = FXCollections.observableArrayList();
-        String sql = "SELECT id, asignatura_curso, alumno, promedio FROM public.ciclo;";
+        String sql = "SELECT distinct on(alumno) alumno, id, asignatura_curso, promedio FROM public.ciclo;";
         DBConnection con = new DBConnection(usuario, clave);
         try {
             ResultSet rst = con.executeQuery(sql);
@@ -139,7 +140,36 @@ public class MCiclo implements ICiclo {
                 MAlumno ma = new MAlumno();
                 ciclo.setId(rst.getInt("id"));
                 ciclo.setAlumno(new MAlumno(usuario, clave).obtener(rst.getString("alumno")));
-                ciclo.setAsignada(new MMateriaAsignada(usuario,clave).obtener(rst.getInt("asignatura_curso")));
+                ciclo.setAsignada(new MMateriaAsignada(usuario, clave).obtener(rst.getInt("asignatura_curso")));
+                ciclo.setPromedio(rst.getFloat("promedio"));
+                lista.add(ciclo);
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return lista;
+    }
+
+    @Override
+    public ObservableList<Ciclo> obtenerAlumnosPorCurso(Curso curso) throws Exception {
+        ObservableList<Ciclo> lista = FXCollections.observableArrayList();
+        String sql = "select distinct on(ci.alumno) ci.alumno,ci.id, ci.asignatura_curso, ci.promedio  from ciclo ci "
+                + "inner join asignatura_curso ac on  ac.id=ci.asignatura_curso "
+                + "where ac.curso=?;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, curso.getId()));
+        DBConnection con = new DBConnection(usuario, clave);
+        try {
+            ResultSet rst = con.executeQuery(sql,dbos);
+            while (rst.next()) {
+
+                Ciclo ciclo = new Ciclo();
+                MCurso mc = new MCurso();
+                MAlumno ma = new MAlumno();
+                ciclo.setId(rst.getInt("id"));
+                ciclo.setAlumno(new MAlumno(usuario, clave).obtener(rst.getString("alumno")));
+                ciclo.setAsignada(new MMateriaAsignada(usuario, clave).obtener(rst.getInt("asignatura_curso")));
                 ciclo.setPromedio(rst.getFloat("promedio"));
                 lista.add(ciclo);
             }

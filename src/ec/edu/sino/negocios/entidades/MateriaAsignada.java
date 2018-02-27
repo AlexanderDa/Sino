@@ -50,7 +50,7 @@ public class MateriaAsignada {
 
     @Override
     public String toString() {
-        return curso.getGrado() + " " + curso.getParalelo() + " " + materia.getNombre();
+        return curso.getGrado() + " " + curso.getParalelo();
     }
 
 }

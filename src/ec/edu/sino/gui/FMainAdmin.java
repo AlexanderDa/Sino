@@ -41,7 +41,7 @@ public class FMainAdmin extends HBox {
     private final FCurso fCurso = new FCurso();
     private final FAsignarMaterias fAsignarMaterias = new FAsignarMaterias();
     private final FMatriculas fMatriculas = new FMatriculas();
-    //private final FDocente fDocente  = new FDocente();
+    private final FDocente fDocente  = new FDocente();
     private final FMateria fMateria = new FMateria();
     private final FPeriodo fPeriodo = new FPeriodo();
     private VBox cursoChildrems;
@@ -115,13 +115,13 @@ public class FMainAdmin extends HBox {
         btnCrearCurso.setOnAction(btnCrearCursoActionEvent());
         btnAsignarMaterias.setOnAction(btnAsignarMateriasActionEvent());
         btnMatricular.setOnAction(btnMatriculasActionEvent());
-//        btnDocente.setOnAction(btnDocenteActionEvent());
+        btnDocente.setOnAction(btnDocenteActionEvent());
         btnMateria.setOnAction(btnMateriaActionEvent());
         btnPeriodo.setOnAction(btnPeriodoActionEvent());
 
         taskBar.getChildren().addAll(user, btnAlumno, btnCurso, btnDocente, btnMateria, btnPeriodo);
 
-        getChildren().addAll(taskBar, fMatriculas.start());
+        getChildren().addAll(taskBar, fDocente.start());
     }
 
     /**
@@ -164,12 +164,12 @@ public class FMainAdmin extends HBox {
         };
     }
 
-//    private EventHandler btnDocenteActionEvent() {
-//        return (t) -> {
-//            getChildren().remove(1);
-//            getChildren().add(fAlumno.start());
-//        };
-//    }
+    private EventHandler btnDocenteActionEvent() {
+        return (t) -> {
+            getChildren().remove(1);
+            getChildren().add(fDocente.start());
+        };
+    }
     private EventHandler btnMateriaActionEvent() {
         return (t) -> {
             cursoChildremsShow();

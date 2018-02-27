@@ -7,12 +7,11 @@ package ec.edu.sino.gui;
 
 import ec.edu.sino.dao.metodos.MAlumno;
 import ec.edu.sino.dao.metodos.MCiclo;
-import ec.edu.sino.gui.componentes.CellButtons;
+import ec.edu.sino.gui.componentes.FSearchPane;
 import ec.edu.sino.gui.componentes.GodPane;
 import ec.edu.sino.gui.componentes.VSearchPane;
 import ec.edu.sino.negocios.entidades.Alumno;
 import ec.edu.sino.negocios.entidades.Ciclo;
-import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.MateriaAsignada;
 import java.util.List;
 import javafx.event.EventHandler;
@@ -20,17 +19,13 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.util.Callback;
 
 /**
  *
@@ -45,11 +40,10 @@ public final class FMatriculas {
     private final MCiclo mCiclo = new MCiclo();
     private final MAlumno mAlumno = new MAlumno();
 
+    private FSearchPane fspSearch;
     private TableView<Ciclo> table;
     private TableColumn<Ciclo, MateriaAsignada> colAsignada;
     private TableColumn<Ciclo, Alumno> colAlumno;
-
-    private TableColumn colAcciones;
 
     private VSearchPane vsInsert;
     private TextField tfAlumno;
@@ -111,47 +105,25 @@ public final class FMatriculas {
 
     }
 
-    private void updatePanel(Ciclo ciclo) {
-        int width = 300;
-        VBox boxUpdate = new VBox(15);
-        boxUpdate.setMaxSize(width, 300);
-        boxUpdate.setPadding(new Insets(25));
-
-        Label lblTitle = new Label("Modificar");
-        lblTitle.setAlignment(Pos.CENTER);
-        lblTitle.setMinSize(width, 35);
-
-//AQUI TODOS LOS ELEMENTOS DE PARA LA MODIFICACION
-        HBox buttonsPane = new HBox(25);
-        buttonsPane.setAlignment(Pos.CENTER);
-        Button btnInsertCiclo = new Button("Aceptar");
-        btnInsertCiclo.getStyleClass().add("btn-green");
-        btnInsertCiclo.setDefaultButton(true);
-        btnInsertCiclo.setMinSize(125, 30);
-        btnInsertCiclo.setOnAction(OkUpdateActionEvent(ciclo));
-
-        Button btnCancel = new Button("Cancelar");
-        btnCancel.setMinSize(125, 30);
-        btnCancel.getStyleClass().add("btn-silver");
-        btnCancel.setOnAction(NoUpdateActionEvent());
-
-        buttonsPane.getChildren().addAll(btnCancel, btnInsertCiclo);
-
-        boxUpdate.getChildren().addAll(lblTitle,/*Todos los componentes aqui*/ buttonsPane);
-        godPane.addUpdatePane(boxUpdate);
-
-    }
-
     private void showTable() {
         godPane.setTitle("Matricular Alumnos");
+        fspSearch = new FSearchPane();
 
         VBox boxTable = new VBox(15);
         boxTable.setPadding(new Insets(35));
         boxTable.setAlignment(Pos.CENTER_RIGHT);
 
+        HBox hbButtons = new HBox();
+        hbButtons.setAlignment(Pos.CENTER_RIGHT);
+        Button btnSearch = new Button("Buscar");
+        btnSearch.getStyleClass().add("btn-green");
+        btnSearch.setOnAction(btnSearchActionEvent());
+
         Button btnInsert = new Button("Insertar");
         btnInsert.getStyleClass().add("btn-green");
         btnInsert.setOnAction(insertActionEvent());
+        hbButtons.getChildren().addAll(btnSearch, btnInsert);
+
         table = new TableView<>();
         VBox.setVgrow(table, Priority.ALWAYS);
         table.setEditable(true);
@@ -159,46 +131,15 @@ public final class FMatriculas {
         colAsignada = new TableColumn<>("Curso");
         colAlumno = new TableColumn<>("Alumno");
 
-        colAcciones = new TableColumn("Acciones");
-
         colAsignada.setCellValueFactory(new PropertyValueFactory<>("asignada"));
         colAlumno.setCellValueFactory(new PropertyValueFactory<>("alumno"));
-
-        colAcciones.setMinWidth(100);
-
-        Callback<TableColumn<Ciclo, String>, TableCell<Ciclo, String>> cellFactory
-                = (final TableColumn<Ciclo, String> param) -> {
-                    final TableCell<Ciclo, String> cell = new TableCell<Ciclo, String>() {
-
-                final CellButtons buttons = new CellButtons();
-
-                @Override
-                public void updateItem(String item, boolean empty) {
-
-                    super.updateItem(item, empty);
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        Ciclo ciclo = getTableView().getItems().get(getIndex());
-
-                        buttons.deleteAction(DeleteAtcionEvent(ciclo));
-                        buttons.saveAction(updateActionEvent(ciclo));
-                        setGraphic(buttons);
-                        setText(null);
-                    }
-                }
-            };
-                    return cell;
-                };
-        colAcciones.setCellFactory(cellFactory);
 
         refreshTable();
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         table.autosize();
 
-        table.getColumns().addAll(colAsignada, colAlumno, colAcciones);
-        boxTable.getChildren().addAll(btnInsert, table);
+        table.getColumns().addAll(colAsignada, colAlumno);
+        boxTable.getChildren().addAll(fspSearch, hbButtons, table);
         godPane.addCenter(boxTable);
 
     }
@@ -216,7 +157,7 @@ public final class FMatriculas {
     private EventHandler OkInsertActionEvent() {
         return (t) -> {
 
-            Ciclo ciclo = null;
+            Ciclo ciclo;
 
             if (vsInsert.exists() && alumno != null) {
                 for (MateriaAsignada tmp : vsInsert.getListaDeMaterias()) {
@@ -251,62 +192,6 @@ public final class FMatriculas {
         };
     }
 
-    private EventHandler OkUpdateActionEvent(Ciclo ciclo) {
-        return (t) -> {
-            if (true/*Verificar que los componentes esten vacios*/) {
-            } else {
-                godPane.failed("Campos sin llenar");
-            }
-
-            if (ciclo != null) {
-                try {
-                    if (mCiclo.modificar(ciclo) > 0) {
-                        godPane.successful("Insertado Correctamente");
-                        refreshTable();
-                        godPane.hideUpdatePane();
-                    }
-                } catch (Exception e) {
-                    godPane.failed("Ciclo no se ha guardado");
-                }
-            }
-        };
-
-    }
-
-    private EventHandler NoUpdateActionEvent() {
-        return (t) -> {
-            godPane.hideUpdatePane();
-        };
-    }
-
-    private EventHandler updateActionEvent(Ciclo ciclo) {
-        return (t) -> {
-            updatePanel(ciclo);
-            godPane.showUpdatePane();
-        };
-    }
-
-    private EventHandler DeleteAtcionEvent(Ciclo ciclo) {
-        return (t) -> {
-            godPane.showAlert(OkDeleteAtcionEvent(ciclo));
-
-        };
-    }
-
-    private EventHandler OkDeleteAtcionEvent(Ciclo ciclo) {
-        return (t) -> {
-            try {
-                if (mCiclo.eliminar(ciclo) > 0) {
-                    refreshTable();
-                    godPane.successful("Ciclo eliminado.");
-                }
-            } catch (Exception e) {
-                godPane.failed("No se puede eliminar");
-            }
-            godPane.hideAlert();
-        };
-    }
-
     private EventHandler tfAlumnoActionEvent() {
         return (t) -> {
             try {
@@ -321,13 +206,29 @@ public final class FMatriculas {
             }
         };
     }
+
+    private EventHandler btnSearchActionEvent() {
+        return (t) -> {
+
+            try {
+                if (fspSearch.exists()) {
+                    table.setItems(mCiclo.obtenerAlumnosPorCurso(fspSearch.getCurso()));
+                } else {
+                    godPane.failed("Docente o periodo no seleccionados");
+                }
+            } catch (Exception ex) {
+                godPane.failed("Error al encontrar");
+            }
+        };
+    }
 //******************************************************************************
 //*                                                                   *
 //******************************************************************************    
 
     private void refreshTable() {
         try {
-            table.setItems(mCiclo.obtener());
+            table.setItems(mCiclo.obtenerDistinctAlumno());
+            System.out.println("Refrescar");
         } catch (Exception e) {
             godPane.failed("No se ha podido refrescar la table");
             System.err.println(e.getMessage());
