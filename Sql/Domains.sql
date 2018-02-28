@@ -1,5 +1,5 @@
-CREATE DOMAIN identification AS character varying(11)
-CHECK (value similar to '%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]-%[0-9]') NOT NULL;
+CREATE DOMAIN identification AS character varying(10)
+CHECK (value similar to '%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]%[0-9]') NOT NULL;
 
 
 CREATE DOMAIN note as REAL default 0

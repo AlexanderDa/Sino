@@ -7,11 +7,11 @@ insert into periodo(fecha_inicio,fecha_fin,director,subdirector,coordinador) val
 	('2017-9-1','2018-7-30','Juan Palacios','Catalina Itriago','María José quintanilla');	
 
 insert into docente(cedula,usuario,clave,nombre,apellido) values
-	('060405974-1', 'alexanderda', md5('alip4$'), 'Alexander David', 'Bonilla Adriano'),
-	('140096640-2', 'mirejack', md5('mirep4$'), 'Mireya jackeline', 'Ortega Pazato'),
-        ('843456676-5', 'Juanca', md5('12345'), 'Juan Carlos', 'Perez Palacios'),
-        ('243867428-2', 'Pedin', md5('12345'), 'Pedro Pablo', 'Martinez quintana'),
-        ('108447747-3', 'Marye', md5('12345'), 'Mária Eva', 'Lara Romero');
+	('0604059741', 'alexanderda', md5('alip4$'), 'Alexander David', 'Bonilla Adriano'),
+	('1400966402', 'mirejack', md5('mirep4$'), 'Mireya jackeline', 'Ortega Pazato'),
+    ('8434566765', 'Juanca', md5('12345'), 'Juan Carlos', 'Perez Palacios'),
+    ('2438674282', 'Pedin', md5('12345'), 'Pedro Pablo', 'Martinez quintana'),
+    ('1084477473', 'Marye', md5('12345'), 'Mária Eva', 'Lara Romero');
 
 
 
@@ -26,21 +26,21 @@ insert into materia(nombre,dominio) values
 	
 	
 insert into alumno(apellido,nombre,cedula) values
-	('CAGUANO','ERICK','065838557-6'),
-	('CAMACHO','MATEO','056437659-4'),
-	('CARPINTERO', 'LUIS','041296490-8'),
-	('CHIRAU','DEIFILIO','048973209-5'),	
-	('COLCHA','KATHERINE','017652978-4'),
-	('SANCHEZ','SAID','049018532-6'),
-	('SOCOY','BRYAN','040951247-4'),
+	('CAGUANO','ERICK','0658385576'),
+	('CAMACHO','MATEO','0564376594'),
+	('CARPINTERO', 'LUIS','0412964908'),
+	('CHIRAU','DEIFILIO','0489732095'),	
+	('COLCHA','KATHERINE','0176529784'),
+	('SANCHEZ','SAID','0490185326'),
+	('SOCOY','BRYAN','0409512474'),
 
-	('INCA','ADRIAN','456897345-7'),
-	('PALACIOS','SEBASTIAN','124765498-9'),
-	('OCAÑA','ALBERTO','012876549-7'),
-	('AGUAGALLO','ANDRES','148645678-7'),
-	('AMAGUAYA','MISHELL','035764579-8'),
-	('SUAREZ','JOSUE','309845671-1'),
-	('PAGUAY','ISRAEL','056781193-7');
+	('INCA','ADRIAN','4568973457'),
+	('PALACIOS','SEBASTIAN','1247654989'),
+	('OCAÑA','ALBERTO','0128765497'),
+	('AGUAGALLO','ANDRES','1486456787'),
+	('AMAGUAYA','MISHELL','0357645798'),
+	('SUAREZ','JOSUE','3098456711'),
+	('PAGUAY','ISRAEL','0567811937');
 
 
 /*
