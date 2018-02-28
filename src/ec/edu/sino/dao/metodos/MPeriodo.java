@@ -140,6 +140,31 @@ public class MPeriodo implements IPeriodo {
     }
 
     @Override
+    public Periodo obtenerActual() throws Exception {
+         Periodo periodo = null;
+        String sql = "SELECT id, fecha_inicio, fecha_fin, director, subdirector, coordinador "
+                + "FROM public.periodo where current_date between fecha_inicio and fecha_fin;";
+        DBConnection con = new DBConnection(usuario, clave);
+        try {
+            ResultSet rst = con.executeQuery(sql);
+            while (rst.next()) {
+                periodo = new Periodo();
+                periodo.setId(rst.getInt("id"));
+                periodo.setFechaInicio(rst.getDate("fecha_inicio"));
+                periodo.setFechaFin(rst.getDate("fecha_fin"));
+                periodo.setDirector(rst.getString("director"));
+                periodo.setSubdirector(rst.getString("subdirector"));
+                periodo.setCoordinador(rst.getString("coordinador"));
+
+            }
+
+        } catch (SQLException e) {
+            throw e;
+        }
+        return periodo;
+    }
+
+    @Override
     public ObservableList<Periodo> obtener() throws Exception {
         ObservableList<Periodo> lista = FXCollections.observableArrayList();
         String sql = "SELECT id, fecha_inicio, fecha_fin, director, subdirector, coordinador "

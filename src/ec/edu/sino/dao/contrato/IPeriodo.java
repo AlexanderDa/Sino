@@ -26,5 +26,7 @@ public interface IPeriodo {
 
     Periodo obtener(int id) throws Exception;
 
+    Periodo obtenerActual() throws Exception;
+
     ObservableList<Periodo> obtener() throws Exception;
 }
