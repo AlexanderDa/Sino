@@ -101,15 +101,14 @@ public class FMainAdmin extends HBox {
         btnCurso.setPadding(new Insets(5, 25, 5, 25));
         btnCrearCurso.setPadding(new Insets(5, 25, 5, 50));
         btnAsignarMaterias.setPadding(new Insets(5, 25, 5, 50));
-        btnMatricular.setPadding(new Insets(5, 25, 5, 50));
+        btnMatricular.setPadding(new Insets(5, 25, 5, 25));
         btnDocente.setPadding(new Insets(5, 25, 5, 25));
         btnMateria.setPadding(new Insets(5, 25, 5, 25));
         btnPeriodo.setPadding(new Insets(5, 25, 5, 25));
 
         cursoChildrems = new VBox(10);
         VBox.setVgrow(btnCrearCurso, Priority.ALWAYS);
-        cursoChildrems.getChildren().addAll(btnCrearCurso, btnAsignarMaterias, btnMatricular);
-
+        cursoChildrems.getChildren().addAll(btnCrearCurso, btnAsignarMaterias);
         btnAlumno.setOnAction(btnAlumnoActionEvent());
         btnCurso.setOnAction(btnCursoActionEvent());
         btnCrearCurso.setOnAction(btnCrearCursoActionEvent());
@@ -119,7 +118,7 @@ public class FMainAdmin extends HBox {
         btnMateria.setOnAction(btnMateriaActionEvent());
         btnPeriodo.setOnAction(btnPeriodoActionEvent());
 
-        taskBar.getChildren().addAll(user, btnAlumno, btnCurso, btnDocente, btnMateria, btnPeriodo);
+        taskBar.getChildren().addAll(user, btnAlumno, btnCurso, btnDocente, btnMateria, btnMatricular, btnPeriodo);
 
         getChildren().addAll(taskBar, fDocente.start());
     }
