@@ -26,21 +26,21 @@ insert into materia(nombre,dominio) values
 	
 	
 insert into alumno(apellido,nombre,cedula) values
-	('CAGUANO','ERICK','0658385576'),
-	('CAMACHO','MATEO','0564376594'),
-	('CARPINTERO', 'LUIS','0412964908'),
-	('CHIRAU','DEIFILIO','0489732095'),	
-	('COLCHA','KATHERINE','0176529784'),
-	('SANCHEZ','SAID','0490185326'),
-	('SOCOY','BRYAN','0409512474'),
+	('Caguano','erick','0658385576'),
+	('Camacho','Mateo','0564376594'),
+	('Carpintero', 'Luis','0412964908'),
+	('Chirau','Deifilio','0489732095'),	
+	('Colcha','Katherine','0176529784'),
+	('Sanchez','Said','0490185326'),
+	('Socoy','Bryan','0409512474'),
 
-	('INCA','ADRIAN','4568973457'),
-	('PALACIOS','SEBASTIAN','1247654989'),
-	('OCAÑA','ALBERTO','0128765497'),
-	('AGUAGALLO','ANDRES','1486456787'),
-	('AMAGUAYA','MISHELL','0357645798'),
-	('SUAREZ','JOSUE','3098456711'),
-	('PAGUAY','ISRAEL','0567811937');
+	('Inca','adrian','4568973457'),
+	('Palacios','Sebastian','1247654989'),
+	('Ocaña','Alberto','0128765497'),
+	('Aguagallo','Andres','1486456787'),
+	('Amaguaya','Mishell','0357645798'),
+	('Suarez','Josue','3098456711'),
+	('Paguay','Israel','0567811937');
 
 
 /*
