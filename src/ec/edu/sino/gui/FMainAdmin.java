@@ -5,6 +5,7 @@
  */
 package ec.edu.sino.gui;
 
+import ec.edu.sino.gui.componentes.VSearchPane;
 import ec.edu.sino.negocios.entidades.Administrador;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -22,10 +23,11 @@ import javafx.scene.layout.VBox;
  *
  * @author alexander
  */
-public class FMainAdmin extends HBox {
+public class FMainAdmin extends AnchorPane {
 
     private final Administrador admin;
     private VBox taskBar;
+    private VBox dropDownMenu;
     final ImageView user = new ImageView(new Image(getClass().getResourceAsStream("imagenes/user.png")));
     private ToggleGroup group;
     private final ToggleButton btnAlumno = new ToggleButton("Alumno");
@@ -41,7 +43,7 @@ public class FMainAdmin extends HBox {
     private final FCurso fCurso = new FCurso();
     private final FAsignarMaterias fAsignarMaterias = new FAsignarMaterias();
     private final FMatriculas fMatriculas = new FMatriculas();
-    private final FDocente fDocente  = new FDocente();
+    private final FDocente fDocente = new FDocente();
     private final FMateria fMateria = new FMateria();
     private final FPeriodo fPeriodo = new FPeriodo();
     private VBox cursoChildrems;
@@ -57,10 +59,22 @@ public class FMainAdmin extends HBox {
         AnchorPane.setRightAnchor(this, 0.0);
         AnchorPane.setBottomAnchor(this, 0.0);
         AnchorPane.setLeftAnchor(this, 0.0);
-
+//initDropDownMenu();
         initTaskBar();
         toBack();
 
+    }
+
+    private void initDropDownMenu() {
+        dropDownMenu = new VBox();
+        dropDownMenu.toFront();
+        dropDownMenu.setMinSize(200, 200);
+        dropDownMenu.setStyle("-fx-background-color:blue");
+        AnchorPane.setTopAnchor(dropDownMenu, 10.0);
+        AnchorPane.setRightAnchor(dropDownMenu, 10.0);
+        dropDownMenu.toFront();
+        
+        getChildren().add(dropDownMenu);
     }
 
     private void initTaskBar() {
@@ -68,6 +82,8 @@ public class FMainAdmin extends HBox {
         taskBar.setPrefSize(200, USE_PREF_SIZE);
         taskBar.getStyleClass().add("task-bar");
         taskBar.setAlignment(Pos.TOP_CENTER);
+        AnchorPane.setTopAnchor(taskBar, 0.0);
+        AnchorPane.setBottomAnchor(taskBar, 0.0);
 
         group = new ToggleGroup();
         btnAlumno.setToggleGroup(group);
@@ -169,6 +185,7 @@ public class FMainAdmin extends HBox {
             getChildren().add(fDocente.start());
         };
     }
+
     private EventHandler btnMateriaActionEvent() {
         return (t) -> {
             cursoChildremsShow();

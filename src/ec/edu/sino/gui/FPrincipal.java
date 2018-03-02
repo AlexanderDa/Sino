@@ -41,7 +41,6 @@ public final class FPrincipal extends AnchorPane {
     private Label lblUsuario;
     private Label lblTitle;
     private StackPane container;
-    private VBox dropDownMenu;
     private VBox teacherSessionPanel;
     private VBox adminSessionPanel;
     private Docente docente;

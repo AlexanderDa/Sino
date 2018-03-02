@@ -38,6 +38,10 @@ public class GodPane extends AnchorPane {
     }
 
     public void init() {
+        AnchorPane.setTopAnchor(this, 0.0);
+        AnchorPane.setRightAnchor(this, 0.0);
+        AnchorPane.setBottomAnchor(this, 0.0);
+        AnchorPane.setLeftAnchor(this, 200.0);
 
         HBox.setHgrow(this, Priority.ALWAYS);
         centerPane = new StackPane();
@@ -45,29 +49,28 @@ public class GodPane extends AnchorPane {
         AnchorPane.setRightAnchor(centerPane, 0.0);
         AnchorPane.setBottomAnchor(centerPane, 0.0);
         AnchorPane.setLeftAnchor(centerPane, 0.0);
-
+        
         alertPane = new StackPane();
-        AnchorPane.setTopAnchor(alertPane, -45.0);
+        AnchorPane.setTopAnchor(alertPane, 0.0);
         AnchorPane.setRightAnchor(alertPane, 0.0);
         AnchorPane.setBottomAnchor(alertPane, 0.0);
-        AnchorPane.setLeftAnchor(alertPane, -200.0);
+        AnchorPane.setLeftAnchor(alertPane, 0.0);
         alertPane.getStyleClass().add("alert-pane");
 
         insertPane = new StackPane();
-        AnchorPane.setTopAnchor(insertPane, -45.0);
+        AnchorPane.setTopAnchor(insertPane, 0.0);
         AnchorPane.setRightAnchor(insertPane, 0.0);
         AnchorPane.setBottomAnchor(insertPane, 0.0);
-        AnchorPane.setLeftAnchor(insertPane, -200.0);
+        AnchorPane.setLeftAnchor(insertPane, 0.0);
         insertPane.getStyleClass().add("alert-pane");
 
-
         updatePane = new StackPane();
-        AnchorPane.setTopAnchor(updatePane, -45.0);
+        AnchorPane.setTopAnchor(updatePane, 0.0);
         AnchorPane.setRightAnchor(updatePane, 0.0);
         AnchorPane.setBottomAnchor(updatePane, 0.0);
-        AnchorPane.setLeftAnchor(updatePane, -200.0);
+        AnchorPane.setLeftAnchor(updatePane, 0.0);
         updatePane.getStyleClass().add("alert-pane");
-
+        
         notification = new Notification();
         //mnotification.rightUpperCorner();
         notification.toFront();
@@ -87,10 +90,10 @@ public class GodPane extends AnchorPane {
         lblTitle = new Label();
         lblTitle.setAlignment(Pos.CENTER);
         lblTitle.setText(title);
-        AnchorPane.setTopAnchor(lblTitle, 0.0);
+        AnchorPane.setTopAnchor(lblTitle, 10.0);
         AnchorPane.setRightAnchor(lblTitle, 0.0);
         AnchorPane.setLeftAnchor(lblTitle, 0.0);
-        AnchorPane.setTopAnchor(centerPane, 25.0);
+        AnchorPane.setTopAnchor(centerPane, 0.0);
         getChildren().add(lblTitle);
 
     }
@@ -120,7 +123,7 @@ public class GodPane extends AnchorPane {
         lblSure.getStyleClass().add("lbl-sure");
         Label lblMessage = new Label("Una vez que se elimina, no se puede recuperar.");
         lblMessage.getStyleClass().add("lbl-message");
-        
+
         HBox buttonsPane = new HBox(25);
         buttonsPane.setAlignment(Pos.CENTER);
         Button btnAgree = new Button("Aceptar");
