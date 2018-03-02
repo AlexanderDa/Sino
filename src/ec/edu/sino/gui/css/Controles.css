@@ -9,12 +9,12 @@
 }
 
 .btn-green{
-    -fx-background-color:rgb(50,255,50);
+    -fx-background-color:rgb(25,185,155);
     -fx-background-radius:5px;
     -fx-border-width:1;
     -fx-border-style:solid;
     -fx-border-radius:5px;
-    -fx-border-color:rgb(50,200,50);
+    -fx-border-color:rgb(5,165,135);
     -fx-text-fill:white
 }
 
@@ -45,4 +45,32 @@
     -fx-background-color: transparent;
 }
 
+.table-row-cell:selected .btn-green{
+    -fx-background-color:rgba(0,0,0,0.2);
+}
 
+.right-pill, .left-pill {
+    -fx-base:rgb(25,185,155);
+    -fx-text-fill:white
+}
+
+.text-field{
+    -fx-min-height:30px;
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-effect: innershadow( three-pass-box , rgba(50,50,50,0.5) , 5, 0 , 0 , 0 );
+}
+
+.text-field-disabled, .text-field-disabled:focused:selected{
+    -fx-min-height:30px;
+    -fx-background-color: rgb(245,245,245);
+    -fx-background-radius: 5px;
+    -fx-effect: innershadow( three-pass-box , rgba(50,50,50,0.5) , 5, 0 , 0 , 0 );
+}
+
+
+.text-field:focused{
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-effect: innershadow( three-pass-box , rgb(25,185,155) , 5, 0 , 0 , 0 );
+}

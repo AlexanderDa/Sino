@@ -8,18 +8,17 @@ package ec.edu.sino.gui;
 import ec.edu.sino.dao.metodos.MAlumno;
 import ec.edu.sino.gui.componentes.CellButtons;
 import ec.edu.sino.gui.componentes.GodPane;
+import ec.edu.sino.gui.componentes.TopPane;
 import ec.edu.sino.negocios.entidades.Alumno;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -30,7 +29,7 @@ import javafx.util.Callback;
  *
  * @author alexander
  */
-public final class Falumno {
+public final class FAlumno {
 
     private int id;
     private GodPane godPane;
@@ -56,11 +55,10 @@ public final class Falumno {
     private TextField tfUpdateCedula;
     private TextField tfUpdateNombre;
     private TextField tfUpdateApellido;
-    private RadioButton forName;
-    private RadioButton forID;
     private TextField tfSearch;
+    private TopPane topPane;
 
-    public Falumno() {
+    public FAlumno() {
 
     }
 
@@ -150,30 +148,12 @@ public final class Falumno {
         boxTable.setPadding(new Insets(35));
         boxTable.setAlignment(Pos.CENTER_RIGHT);
 
-        HBox boxSearchOptions = new HBox(10);
-        ToggleGroup group = new ToggleGroup();
-        forName = new RadioButton("Nombre");
-        forName.setToggleGroup(group);
-        forName.setOnAction((t) -> {
-            tfSearch.setPromptText("Búscar por nombre.");
-        });
+        topPane = new TopPane(10);
+        topPane.setPromtText("Cédula o Nombre");
+        topPane.addButtonText("Nuevo Alumno");
+        topPane.setOnActionSearch(SearchActionEvent());
+        topPane.setOnActionInsert(insertActionEvent());
 
-        forID = new RadioButton("Cédula");
-        forID.setSelected(true);
-        forID.setToggleGroup(group);
-        forID.setOnAction((t) -> {
-            tfSearch.setPromptText("Búscar por Cédula.");
-        });
-
-        boxSearchOptions.getChildren().addAll(forID, forName);
-
-        tfSearch = new TextField();
-        tfSearch.setPromptText("Búscar por cédula");
-        tfSearch.setOnKeyReleased(SearchActionEvent());
-
-        Button btnInsert = new Button("Insertar");
-        btnInsert.getStyleClass().add("btn-green");
-        btnInsert.setOnAction(insertActionEvent());
         table = new TableView<>();
         VBox.setVgrow(table, Priority.ALWAYS);
         table.setEditable(true);
@@ -222,7 +202,7 @@ public final class Falumno {
         table.autosize();
 
         table.getColumns().addAll(colCedula, colNombre, colApellido, colAcciones);
-        boxTable.getChildren().addAll(btnInsert, boxSearchOptions, tfSearch, table);
+        boxTable.getChildren().addAll(topPane, table);
         godPane.addCenter(boxTable);
 
     }
@@ -330,21 +310,16 @@ public final class Falumno {
 
     private EventHandler SearchActionEvent() {
         return (t) -> {
-            if (forID.isSelected()) {
 
-                try {
-                    table.setItems(ma.obtenerCedula(tfSearch.getText()));
-                } catch (Exception e) {
+            try {
+                if (!"".equals(topPane.getText())) {
+                    table.setItems(ma.obtenerDato(topPane.getText()));
+                } else {
+                    refreshTable();
                 }
+            } catch (Exception e) {
             }
 
-            if (forName.isSelected()) {
-
-                try {
-                    table.setItems(ma.obtenerNombre(tfSearch.getText()));
-                } catch (Exception e) {
-                }
-            }
         };
     }
 

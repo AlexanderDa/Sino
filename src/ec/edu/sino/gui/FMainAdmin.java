@@ -17,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 /**
@@ -28,6 +29,7 @@ public class FMainAdmin extends AnchorPane {
     private final Administrador admin;
     private VBox taskBar;
     private VBox dropDownMenu;
+    final StackPane wallpaper = new StackPane();
     final ImageView user = new ImageView(new Image(getClass().getResourceAsStream("imagenes/user.png")));
     private ToggleGroup group;
     private final ToggleButton btnAlumno = new ToggleButton("Alumno");
@@ -39,7 +41,7 @@ public class FMainAdmin extends AnchorPane {
     private final ToggleButton btnMateria = new ToggleButton("Matéria");
     private final ToggleButton btnPeriodo = new ToggleButton("Periodo");
 
-    private final Falumno fAlumno = new Falumno();
+    private final FAlumno fAlumno = new FAlumno();
     private final FCurso fCurso = new FCurso();
     private final FAsignarMaterias fAsignarMaterias = new FAsignarMaterias();
     private final FMatriculas fMatriculas = new FMatriculas();
@@ -136,7 +138,12 @@ public class FMainAdmin extends AnchorPane {
 
         taskBar.getChildren().addAll(user, btnAlumno, btnCurso, btnDocente, btnMateria, btnMatricular, btnPeriodo);
 
-        getChildren().addAll(taskBar, fDocente.start());
+        wallpaper.getStyleClass().add("wallpaper");
+        AnchorPane.setTopAnchor(wallpaper, 0.0);
+        AnchorPane.setLeftAnchor(wallpaper, 200.0);
+        AnchorPane.setRightAnchor(wallpaper, 0.0);
+        AnchorPane.setBottomAnchor(wallpaper, 0.0);
+        getChildren().addAll(taskBar, wallpaper);
     }
 
     /**

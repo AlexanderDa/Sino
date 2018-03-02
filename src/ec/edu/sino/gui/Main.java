@@ -7,6 +7,7 @@ package ec.edu.sino.gui;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -29,8 +30,8 @@ public class Main extends Application {
         scene.getStylesheets().add(getClass().getResource("css/Controles.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("Sino");
-        //stage.setMinWidth(1000);
-        // stage.setMinHeight(650);
+        stage.setMaximized(true);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("imagenes/icono.png")));
         stage.show();
     }
 

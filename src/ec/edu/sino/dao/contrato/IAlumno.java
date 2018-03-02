@@ -28,11 +28,8 @@ public interface IAlumno {
 
     Alumno obtener(String cedula) throws Exception;
 
-    ObservableList<Alumno> obtenerCedula(String cedula) throws Exception;
-
-    ObservableList<Alumno> obtenerNombre(String nombre) throws Exception;
+    ObservableList<Alumno> obtenerDato(String dato) throws Exception;
 
     ObservableList<Alumno> obtenerTodos() throws Exception;
 
-    ObservableList<Alumno> obtenerNomina(Docente docente, Periodo periodo) throws Exception;
 }

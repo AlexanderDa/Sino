@@ -20,16 +20,16 @@ public class Alumno {
 
     public Alumno(String cedula, String nombre, String apellido) {
         this.cedula = cedula;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.nombre = nombre.toLowerCase();
+        this.apellido = apellido.toLowerCase();
     }
 
     public String getApellido() {
-        return apellido;
+        return new FirstUpperCase(apellido).parce();
     }
 
     public void setApellido(String apellido) {
-        this.apellido = apellido;
+        this.apellido = apellido.toLowerCase();
     }
 
     public String getCedula() {
@@ -41,11 +41,12 @@ public class Alumno {
     }
 
     public String getNombre() {
-        return nombre;
+
+        return new FirstUpperCase(nombre).parce();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toLowerCase();
     }
 
     @Override

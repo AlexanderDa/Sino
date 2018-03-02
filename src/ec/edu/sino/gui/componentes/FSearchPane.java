@@ -101,6 +101,10 @@ public class FSearchPane extends FlowPane {
 
         tfShowCurso.setEditable(false);
         tfShowDocente.setEditable(false);
+        
+        tfShowCurso.getStyleClass().add("text-field-disabled");
+        tfShowDocente.getStyleClass().add("text-field-disabled");
+
 
         tfShowCurso.setMinWidth(width);
         tfShowDocente.setMinWidth(width);
