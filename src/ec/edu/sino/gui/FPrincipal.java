@@ -204,7 +204,7 @@ public final class FPrincipal extends AnchorPane {
                     notification.failed("Usuario o contraseña incorrectos.");
                 }
             } catch (Exception e) {
-                notification.failed("Se ha producido un error interno.");
+                notification.failed("Se ha producido un error interno." + e.getMessage());
             }
         };
         return handler;
