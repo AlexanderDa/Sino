@@ -51,10 +51,10 @@ public class GodPane extends AnchorPane {
         AnchorPane.setLeftAnchor(centerPane, 0.0);
         
         alertPane = new StackPane();
-        AnchorPane.setTopAnchor(alertPane, 0.0);
+        AnchorPane.setTopAnchor(alertPane, -45.0);
         AnchorPane.setRightAnchor(alertPane, 0.0);
         AnchorPane.setBottomAnchor(alertPane, 0.0);
-        AnchorPane.setLeftAnchor(alertPane, 0.0);
+        AnchorPane.setLeftAnchor(alertPane, -200.0);
         alertPane.getStyleClass().add("alert-pane");
 
         insertPane = new StackPane();

@@ -30,9 +30,7 @@ public interface IDocente {
 
     Docente obtener(String usuario, String clave) throws Exception;
 
-    ObservableList<Docente> obtenerCedulas(String cedula) throws Exception;
-
-    ObservableList<Docente> obtenerNombres(String nombre) throws Exception;
+    ObservableList<Docente> obtenerDato(String dato) throws Exception;
 
     ObservableList<Docente> obtener() throws Exception;
 }

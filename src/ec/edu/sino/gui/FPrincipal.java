@@ -81,7 +81,7 @@ public final class FPrincipal extends AnchorPane {
         lblUsuario = new Label();
         lblUsuario.getStyleClass().add("user");
         Button settings = new Button("Login");
-        rightContainer.getChildren().addAll(lblUsuario, settings);
+        rightContainer.getChildren().addAll(lblUsuario /*settings*/);
 
         header.getChildren().addAll(lblTitle, rightContainer);
         getChildren().add(header);
@@ -156,11 +156,11 @@ public final class FPrincipal extends AnchorPane {
 
         Label lblUser = new Label("Usuario");
         lblUser.setMinWidth(350);
-        tfAdminUser = new TextField("admin");
+        tfAdminUser = new TextField();
         Label lblPass = new Label("Contraseña");
         lblPass.setMinWidth(350);
         pfAdminPassword = new PasswordField();
-        pfAdminPassword.setText("admin");
+//        pfAdminPassword.setText("admin");
         Button btnLogin = new Button("Entrar");
         btnLogin.setDefaultButton(true);
         btnLogin.setCursor(Cursor.HAND);
@@ -217,7 +217,7 @@ public final class FPrincipal extends AnchorPane {
                 admin = ma.obtener(tfAdminUser.getText(), pfAdminPassword.getText());
                 if (admin != null) {
                     notification.successful("Inicio de sesion exitoso.");
-                    lblUsuario.setText(admin.toString());
+                    lblUsuario.setText(admin.getUsuario());
                     lblTitle.getStyleClass().remove(1);
                     lblTitle.getStyleClass().add("title-active");
                     getChildren().remove(container);

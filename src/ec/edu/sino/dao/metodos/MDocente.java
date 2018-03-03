@@ -9,6 +9,7 @@ import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.IDocente;
 import ec.edu.sino.negocios.entidades.Docente;
+import ec.edu.sino.negocios.entidades.FirstUpperCase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -116,7 +117,8 @@ public class MDocente implements IDocente {
     }
 
     @Override
-    public Docente  obtener(String dato) throws Exception {
+    public Docente obtener(String dato) throws Exception {
+        dato = new FirstUpperCase(dato).parce();
         Docente docente = null;
         String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ? or nombre like ? or apellido like ?;";
         List<DBObject> prts = new ArrayList<>();
@@ -127,7 +129,7 @@ public class MDocente implements IDocente {
         try {
             ResultSet rst = con.executeQuery(sql, prts);
             while (rst.next()) {
-                 docente = new Docente();
+                docente = new Docente();
                 docente.setCedula(rst.getString(1));
                 docente.setUsuario(rst.getString(2));
                 docente.setClave(rst.getString(3));
@@ -141,39 +143,16 @@ public class MDocente implements IDocente {
         }
         return docente;
     }
-    
-        @Override
-    public ObservableList<Docente>  obtenerCedulas(String cedula) throws Exception {
-        ObservableList<Docente> lista = FXCollections.observableArrayList();
-        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ?;";
-        List<DBObject> prts = new ArrayList<>();
-        prts.add(new DBObject(1, cedula.concat("%")));
-        DBConnection con = new DBConnection(usuario, this.clave);
-        try {
-            ResultSet rst = con.executeQuery(sql, prts);
-            while (rst.next()) {
-                Docente docente = new Docente();
-                docente.setCedula(rst.getString(1));
-                docente.setUsuario(rst.getString(2));
-                docente.setClave(rst.getString(3));
-                docente.setNombre(rst.getString(4));
-                docente.setApellido(rst.getString(5));
-                lista.add(docente);
-            }
-
-        } catch (SQLException e) {
-            throw e;
-        }
-        return lista;
-    }
 
     @Override
-    public ObservableList<Docente>  obtenerNombres(String nombre) throws Exception {
+    public ObservableList<Docente> obtenerDato(String dato) throws Exception {
+        dato = new FirstUpperCase(dato).parce();
         ObservableList<Docente> lista = FXCollections.observableArrayList();
-        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where nombre like ? or apellido like ?;";
+        String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ? or nombre like ? or apellido like ?;";
         List<DBObject> prts = new ArrayList<>();
-        prts.add(new DBObject(1, nombre.concat("%")));
-        prts.add(new DBObject(2, nombre.concat("%")));
+        prts.add(new DBObject(1, dato.concat("%")));
+        prts.add(new DBObject(2, dato.concat("%")));
+        prts.add(new DBObject(3, dato.concat("%")));
         DBConnection con = new DBConnection(usuario, this.clave);
         try {
             ResultSet rst = con.executeQuery(sql, prts);

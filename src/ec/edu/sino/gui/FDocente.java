@@ -8,6 +8,7 @@ package ec.edu.sino.gui;
 import ec.edu.sino.dao.metodos.MDocente;
 import ec.edu.sino.gui.componentes.CellButtons;
 import ec.edu.sino.gui.componentes.GodPane;
+import ec.edu.sino.gui.componentes.TopPane;
 import ec.edu.sino.negocios.entidades.Docente;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -53,6 +54,7 @@ public final class FDocente {
     private TextField tfUpdateCedula;
     private TextField tfUpdateApellido;
     private TextField tfUpdateNombre;
+    private TopPane topPane;
 
     public FDocente() {
 
@@ -151,9 +153,15 @@ public final class FDocente {
         boxTable.setPadding(new Insets(35));
         boxTable.setAlignment(Pos.CENTER_RIGHT);
 
-        Button btnInsert = new Button("Insertar");
-        btnInsert.getStyleClass().add("btn-green");
-        btnInsert.setOnAction(insertActionEvent());
+
+        
+        topPane = new TopPane(10);
+        topPane.setPromtText("Cédula o Nombre");
+        topPane.addButtonText("Nuevo Docente");
+        topPane.setOnActionSearch(SearchActionEvent());
+        topPane.setOnActionInsert(insertActionEvent());
+        
+        
         table = new TableView<>();
         VBox.setVgrow(table, Priority.ALWAYS);
         table.setEditable(true);
@@ -202,7 +210,7 @@ public final class FDocente {
         table.autosize();
 
         table.getColumns().addAll(colCedula, colApellido, colNombre, colAcciones);
-        boxTable.getChildren().addAll(btnInsert, table);
+        boxTable.getChildren().addAll(topPane, table);
         godPane.addCenter(boxTable);
 
     }
@@ -314,6 +322,20 @@ public final class FDocente {
         };
     }
 
+    private EventHandler SearchActionEvent() {
+        return (t) -> {
+
+            try {
+                if (!"".equals(topPane.getText())) {
+                    table.setItems(mp.obtenerDato(topPane.getText()));
+                } else {
+                    refreshTable();
+                }
+            } catch (Exception e) {
+            }
+
+        };
+    }
 //******************************************************************************
 //*                                                                   *
 //******************************************************************************    

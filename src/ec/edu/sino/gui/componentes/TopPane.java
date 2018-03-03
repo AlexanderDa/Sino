@@ -29,6 +29,7 @@ public class TopPane extends HBox {
     private final TextField field = new TextField();
     private final ToggleButton btnSearch = new ToggleButton();
     private final Button btnInsert = new Button();
+    private HBox hbButtons;
     
     public TopPane() {
         init();
@@ -44,7 +45,7 @@ public class TopPane extends HBox {
         ivInsert.setImage(new Image(getClass().getResourceAsStream("imagenes/add.png")));
         ivSearch.setImage(new Image(getClass().getResourceAsStream("imagenes/search.png")));
         
-        HBox hbButtons = new HBox();
+        hbButtons = new HBox();
         btnInsert.setGraphic(ivInsert);
         btnSearch.setGraphic(ivSearch);
         
@@ -103,6 +104,12 @@ public class TopPane extends HBox {
 
     public void addButtonText(String text) {
         btnInsert.setText(text);
+    }
+    public void hideSearch(){
+    field.setEditable(false);
+    hbButtons.getChildren().remove(btnSearch);
+    btnInsert.setStyle("-fx-background-radius:5px;");
+    field.setPromptText("No esta habilitado la opcion de busqueda");
     }
     
 }

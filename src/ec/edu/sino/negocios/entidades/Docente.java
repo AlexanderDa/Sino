@@ -24,12 +24,12 @@ public class Docente {
         this.cedula = cedula;
         this.usuario = usuario;
         this.clave = clave;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.nombre = nombre.toLowerCase();
+        this.apellido = apellido.toLowerCase();
     }
 
     public String getApellido() {
-        return apellido;
+        return new FirstUpperCase(apellido).parce();
     }
 
     public void setApellido(String apellido) {
@@ -61,11 +61,11 @@ public class Docente {
     }
 
     public String getNombre() {
-        return nombre;
+        return new FirstUpperCase(nombre).parce();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toLowerCase();
     }
 
     @Override

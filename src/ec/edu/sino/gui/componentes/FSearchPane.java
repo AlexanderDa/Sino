@@ -80,6 +80,7 @@ public class FSearchPane extends FlowPane {
         cbPeriodo.setPromptText("Periodo Academico");
         try {
             cbPeriodo.setItems(mp.obtener());
+            cbPeriodo.getSelectionModel().select(mp.obtenerActual());
         } catch (Exception e) {
         }
         vbPeriodo.getChildren().addAll(lblTitle, cbPeriodo);

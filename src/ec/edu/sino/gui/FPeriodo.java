@@ -8,6 +8,7 @@ package ec.edu.sino.gui;
 import ec.edu.sino.dao.metodos.MPeriodo;
 import ec.edu.sino.gui.componentes.CellButtons;
 import ec.edu.sino.gui.componentes.GodPane;
+import ec.edu.sino.gui.componentes.TopPane;
 import ec.edu.sino.negocios.entidades.Periodo;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -54,6 +55,7 @@ public final class FPeriodo {
     private TextField tfUpdateDirector;
     private TextField tfUpdateSubdirector;
     private TextField tfUpdateCoordinador;
+    private TopPane topPane;
 
     public FPeriodo() {
 
@@ -169,6 +171,11 @@ public final class FPeriodo {
         Button btnInsert = new Button("Insertar");
         btnInsert.getStyleClass().add("btn-green");
         btnInsert.setOnAction(insertActionEvent());
+        topPane = new TopPane(10);
+        topPane.hideSearch();
+        topPane.addButtonText("Nuevo Periodo");
+        topPane.setOnActionInsert(insertActionEvent());
+
         tabla = new TableView<>();
         VBox.setVgrow(tabla, Priority.ALWAYS);
         tabla.setEditable(true);
@@ -221,7 +228,7 @@ public final class FPeriodo {
         tabla.autosize();
 
         tabla.getColumns().addAll(colFechaInicio, colFechaFin, colDirector, colSubdirector, colCoordinador, colAcciones);
-        boxTable.getChildren().addAll(btnInsert, tabla);
+        boxTable.getChildren().addAll(topPane, tabla);
         godPane.addCenter(boxTable);
 
     }
