@@ -7,6 +7,7 @@ package ec.edu.sino.dao.contrato;
 
 import ec.edu.sino.negocios.entidades.Ciclo;
 import ec.edu.sino.negocios.entidades.Curso;
+import ec.edu.sino.negocios.entidades.Materia;
 import javafx.collections.ObservableList;
 
 /**
@@ -27,7 +28,11 @@ public interface ICiclo {
 
     Ciclo obtener(int id) throws Exception;
 
-    ObservableList<Ciclo> obtenerDistinctAlumno() throws Exception;
+    ObservableList<Ciclo> obtenerAlumnosMatriculados() throws Exception;
 
-    ObservableList<Ciclo> obtenerAlumnosPorCurso(Curso curso) throws Exception;
+    ObservableList<Ciclo> obtenerAlumnosMatriculados(Curso curso) throws Exception;
+
+    ObservableList<Ciclo> obtenerNotas(Curso curso) throws Exception;
+
+    ObservableList<Ciclo> obtenerNotas(Curso curso, Materia materia) throws Exception;
 }

@@ -118,7 +118,7 @@ public class MDocente implements IDocente {
 
     @Override
     public Docente obtener(String dato) throws Exception {
-        dato = new FirstUpperCase(dato).parce();
+        dato = new FirstUpperCase().parce(dato);
         Docente docente = null;
         String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ? or nombre like ? or apellido like ?;";
         List<DBObject> prts = new ArrayList<>();
@@ -146,7 +146,7 @@ public class MDocente implements IDocente {
 
     @Override
     public ObservableList<Docente> obtenerDato(String dato) throws Exception {
-        dato = new FirstUpperCase(dato).parce();
+        dato = new FirstUpperCase().parce(dato);
         ObservableList<Docente> lista = FXCollections.observableArrayList();
         String sql = "SELECT cedula,usuario,clave,nombre,apellido FROM docente where cedula like ? or nombre like ? or apellido like ?;";
         List<DBObject> prts = new ArrayList<>();

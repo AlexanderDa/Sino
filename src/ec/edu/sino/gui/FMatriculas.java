@@ -212,12 +212,13 @@ public final class FMatriculas {
 
             try {
                 if (fspSearch.exists()) {
-                    table.setItems(mCiclo.obtenerAlumnosPorCurso(fspSearch.getCurso()));
+                    table.setItems(mCiclo.obtenerAlumnosMatriculados(fspSearch.getCurso()));
                 } else {
                     godPane.failed("Docente o periodo no seleccionados");
                 }
             } catch (Exception ex) {
                 godPane.failed("Error al encontrar");
+                System.err.println(ex.getMessage());
             }
         };
     }
@@ -227,7 +228,7 @@ public final class FMatriculas {
 
     private void refreshTable() {
         try {
-            table.setItems(mCiclo.obtenerDistinctAlumno());
+            table.setItems(mCiclo.obtenerAlumnosMatriculados());
             System.out.println("Refrescar");
         } catch (Exception e) {
             godPane.failed("No se ha podido refrescar la table");

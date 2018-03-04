@@ -22,7 +22,7 @@ import javafx.scene.layout.Priority;
  *
  * @author alexander
  */
-public class TopPane extends HBox {
+public class SearchField extends HBox {
     
     private final ImageView ivSearch = new ImageView();
     private final ImageView ivInsert = new ImageView();
@@ -31,11 +31,11 @@ public class TopPane extends HBox {
     private final Button btnInsert = new Button();
     private HBox hbButtons;
     
-    public TopPane() {
+    public SearchField() {
         init();
     }
     
-    public TopPane(double spacing) {
+    public SearchField(double spacing) {
         super(spacing);
         init();
     }

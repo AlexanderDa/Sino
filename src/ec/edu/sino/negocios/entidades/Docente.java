@@ -11,6 +11,8 @@ package ec.edu.sino.negocios.entidades;
  */
 public class Docente {
 
+    private final FirstUpperCase formater = new FirstUpperCase();
+
     private String cedula;
     private String usuario;
     private String clave;
@@ -22,18 +24,10 @@ public class Docente {
 
     public Docente(String cedula, String usuario, String clave, String nombre, String apellido) {
         this.cedula = cedula;
-        this.usuario = usuario;
+        this.usuario = usuario.toLowerCase();
         this.clave = clave;
-        this.nombre = nombre.toLowerCase();
-        this.apellido = apellido.toLowerCase();
-    }
-
-    public String getApellido() {
-        return new FirstUpperCase(apellido).parce();
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+        this.nombre = formater.parce(nombre);
+        this.apellido = formater.parce(apellido);
     }
 
     public String getCedula() {
@@ -49,7 +43,7 @@ public class Docente {
     }
 
     public void setUsuario(String usuario) {
-        this.usuario = usuario;
+        this.usuario = usuario.toLowerCase();
     }
 
     public String getClave() {
@@ -61,16 +55,23 @@ public class Docente {
     }
 
     public String getNombre() {
-        return new FirstUpperCase(nombre).parce();
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre.toLowerCase();
+        this.nombre = formater.parce(nombre);
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = formater.parce(apellido);
     }
 
     @Override
     public String toString() {
         return apellido + " " + nombre;
     }
-
 }

@@ -8,7 +8,7 @@ package ec.edu.sino.gui;
 import ec.edu.sino.dao.metodos.MDocente;
 import ec.edu.sino.gui.componentes.CellButtons;
 import ec.edu.sino.gui.componentes.GodPane;
-import ec.edu.sino.gui.componentes.TopPane;
+import ec.edu.sino.gui.componentes.SearchField;
 import ec.edu.sino.negocios.entidades.Docente;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -54,7 +54,7 @@ public final class FDocente {
     private TextField tfUpdateCedula;
     private TextField tfUpdateApellido;
     private TextField tfUpdateNombre;
-    private TopPane topPane;
+    private SearchField topPane;
 
     public FDocente() {
 
@@ -155,7 +155,7 @@ public final class FDocente {
 
 
         
-        topPane = new TopPane(10);
+        topPane = new SearchField(10);
         topPane.setPromtText("Cédula o Nombre");
         topPane.addButtonText("Nuevo Docente");
         topPane.setOnActionSearch(SearchActionEvent());

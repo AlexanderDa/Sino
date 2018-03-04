@@ -11,6 +11,7 @@ package ec.edu.sino.negocios.entidades;
  */
 public class Alumno {
 
+    private final FirstUpperCase formater = new FirstUpperCase();
     private String cedula;
     private String nombre;
     private String apellido;
@@ -20,16 +21,8 @@ public class Alumno {
 
     public Alumno(String cedula, String nombre, String apellido) {
         this.cedula = cedula;
-        this.nombre = nombre.toLowerCase();
-        this.apellido = apellido.toLowerCase();
-    }
-
-    public String getApellido() {
-        return new FirstUpperCase(apellido).parce();
-    }
-
-    public void setApellido(String apellido) {
-        this.apellido = apellido.toLowerCase();
+        this.nombre = formater.parce(nombre);
+        this.apellido = formater.parce(apellido);
     }
 
     public String getCedula() {
@@ -41,12 +34,19 @@ public class Alumno {
     }
 
     public String getNombre() {
-
-        return new FirstUpperCase(nombre).parce();
+        return nombre;
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre.toLowerCase();
+        this.nombre = formater.parce(nombre);
+    }
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = formater.parce(apellido);
     }
 
     @Override

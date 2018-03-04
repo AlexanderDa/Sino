@@ -8,7 +8,7 @@ package ec.edu.sino.gui;
 import ec.edu.sino.dao.metodos.MAlumno;
 import ec.edu.sino.gui.componentes.CellButtons;
 import ec.edu.sino.gui.componentes.GodPane;
-import ec.edu.sino.gui.componentes.TopPane;
+import ec.edu.sino.gui.componentes.SearchField;
 import ec.edu.sino.negocios.entidades.Alumno;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -56,7 +56,7 @@ public final class FAlumno {
     private TextField tfUpdateNombre;
     private TextField tfUpdateApellido;
     private TextField tfSearch;
-    private TopPane topPane;
+    private SearchField topPane;
 
     public FAlumno() {
 
@@ -148,7 +148,7 @@ public final class FAlumno {
         boxTable.setPadding(new Insets(35));
         boxTable.setAlignment(Pos.CENTER_RIGHT);
 
-        topPane = new TopPane(10);
+        topPane = new SearchField(10);
         topPane.setPromtText("Cédula o Nombre");
         topPane.addButtonText("Nuevo Alumno");
         topPane.setOnActionSearch(SearchActionEvent());

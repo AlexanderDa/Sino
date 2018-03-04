@@ -9,7 +9,6 @@ import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.IAlumno;
 import ec.edu.sino.negocios.entidades.Alumno;
-import ec.edu.sino.negocios.entidades.FirstUpperCase;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -124,7 +123,6 @@ public class MAlumno implements IAlumno {
 
     @Override
     public ObservableList<Alumno> obtenerDato(String dato) throws Exception {
-        dato = new FirstUpperCase(dato).parce();
         ObservableList<Alumno> lista = FXCollections.observableArrayList();
         String sql = "SELECT cedula, apellido, nombre	FROM public.alumno where cedula like ? or nombre like ? or apellido like ?;";
         List<DBObject> dbos = new ArrayList<>();

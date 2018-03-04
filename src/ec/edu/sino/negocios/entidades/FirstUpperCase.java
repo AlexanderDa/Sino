@@ -11,13 +11,14 @@ package ec.edu.sino.negocios.entidades;
  */
 public final class FirstUpperCase {
 
-    private final String cadena;
+    private String cadena;
 
-    public FirstUpperCase(String cadena) {
-        this.cadena = cadena.toLowerCase();
+    public FirstUpperCase() {
+
     }
 
-    public String parce() {
+    public String parce(String cadena) {
+        this.cadena = cadena.toLowerCase();
         char[] caracteres = cadena.toCharArray();
         caracteres[0] = Character.toUpperCase(caracteres[0]);
         for (int i = 0; i < cadena.length() - 2; i++) // Es 'palabra'
