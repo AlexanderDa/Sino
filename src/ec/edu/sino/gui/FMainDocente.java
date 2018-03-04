@@ -18,7 +18,6 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
@@ -34,7 +33,8 @@ public class FMainDocente extends AnchorPane {
     final StackPane wallpaper = new StackPane();
     final ImageView user = new ImageView(new Image(getClass().getResourceAsStream("imagenes/user.png")));
     private ToggleGroup group;
-    private final ToggleButton btnAlumno = new ToggleButton("Alumno");
+    private final ToggleButton btnCiclo = new ToggleButton("Ciclo");
+    private final ToggleButton btnQuimestre = new ToggleButton("Quimestre");
 
     public FMainDocente(Docente docente) {
         MCurso mCurso = new MCurso();
@@ -80,17 +80,22 @@ public class FMainDocente extends AnchorPane {
         AnchorPane.setBottomAnchor(taskBar, 0.0);
 
         group = new ToggleGroup();
-        btnAlumno.setToggleGroup(group);
+        btnCiclo.setToggleGroup(group);
+        btnQuimestre.setToggleGroup(group);
 
-        btnAlumno.setMinSize(200, 35);
+        btnCiclo.setMinSize(200, 35);
+        btnQuimestre.setMinSize(200, 35);
 
-        btnAlumno.setAlignment(Pos.CENTER_LEFT);
+        btnCiclo.setAlignment(Pos.CENTER_LEFT);
+        btnQuimestre.setAlignment(Pos.CENTER_LEFT);
 
-        btnAlumno.setPadding(new Insets(5, 25, 5, 25));
+        btnCiclo.setPadding(new Insets(5, 25, 5, 25));
+        btnQuimestre.setPadding(new Insets(5, 25, 5, 25));
 
-        btnAlumno.setOnAction(btnCicloActionEvent());
+        btnCiclo.setOnAction(btnCicloActionEvent());
+        btnQuimestre.setOnAction(btnQuimestreActionEvent());
 
-        taskBar.getChildren().addAll(user, btnAlumno);
+        taskBar.getChildren().addAll(user, btnCiclo,btnQuimestre);
 
         wallpaper.getStyleClass().add("wallpaper");
         AnchorPane.setTopAnchor(wallpaper, 0.0);
@@ -110,6 +115,11 @@ public class FMainDocente extends AnchorPane {
 
             getChildren().remove(1);
             getChildren().add(new FCiclo(curso).start());
+        };
+    }    private EventHandler btnQuimestreActionEvent() {
+        return (t) -> {
+            getChildren().remove(1);
+            getChildren().add(new FQuimestre(curso).start());
         };
     }
 

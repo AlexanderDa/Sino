@@ -49,7 +49,7 @@
     -fx-background-color:rgba(0,0,0,0.2);
 }
 
-.right-pill, .left-pill {
+.right-pill, .left-pill,  .button {
     -fx-base:rgb(25,185,155);
     -fx-text-fill:white
 }
@@ -74,3 +74,55 @@
     -fx-background-radius: 5px;
     -fx-effect: innershadow( three-pass-box , rgb(25,185,155) , 5, 0 , 0 , 0 );
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.combo-box .list-cell {
+    -fx-text-fill: white;
+}/*
+.combo-box-base:focused .list-cell {
+    -fx-text-fill: black;
+}*/
+
+.combo-box{
+    -fx-base: rgb(25,185,155);
+}
+
+.combo-box-popup .list-view .list-cell {
+    -fx-background-color: white;
+    -fx-text-fill: black;
+}
+.combo-box-popup .list-view .list-cell:hover 
+{
+    -fx-background-color:  rgba(25,185,155,0.4);
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected{
+    -fx-background-color:  rgba(25,185,155,0.7);
+    -fx-text-fill: white;
+}
+
+
+
+
+
+
+
+

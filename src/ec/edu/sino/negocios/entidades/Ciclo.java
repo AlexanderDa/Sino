@@ -60,6 +60,6 @@ public class Ciclo {
 
     @Override
     public String toString() {
-        return asignada.toString() + " " + alumno + " " + promedio;
+        return  alumno.toString();
     }
 }

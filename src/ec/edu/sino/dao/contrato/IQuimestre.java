@@ -5,6 +5,8 @@
  */
 package ec.edu.sino.dao.contrato;
 
+import ec.edu.sino.negocios.entidades.Curso;
+import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Quimestre;
 import javafx.collections.ObservableList;
 
@@ -13,7 +15,7 @@ import javafx.collections.ObservableList;
  * @author alexander
  */
 public interface IQuimestre {
-    
+
     void loginAdmin();
 
     void loginProfesor();
@@ -26,5 +28,5 @@ public interface IQuimestre {
 
     Quimestre obtener(int id) throws Exception;
 
-    ObservableList<Quimestre> obtener() throws Exception;
+    ObservableList<Quimestre> obtener(Curso curso, Materia materia, String descripcion) throws Exception;
 }

@@ -8,6 +8,8 @@ package ec.edu.sino.dao.metodos;
 import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.IQuimestre;
+import ec.edu.sino.negocios.entidades.Curso;
+import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Quimestre;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -148,15 +150,25 @@ public class MQuimestre implements IQuimestre {
         return quimestre;
     }
 
+    
+
     @Override
-    public ObservableList<Quimestre> obtener() throws Exception {
+    public ObservableList<Quimestre> obtener(Curso curso, Materia materia, String descripcion) throws Exception {
         ObservableList<Quimestre> lista = FXCollections.observableArrayList();
-        String sql = "SELECT id, ciclo, descripcion, promedio_parcial, nota_parcial, "
-                + "quimestral, nota_quimestral, promedio, nota_cualitativa, laborados, "
-                + "justificados, injustificados, atrasos FROM public.quimestre;";
+        String sql = "select q.id, q.ciclo, q.descripcion, q.promedio_parcial, q.nota_parcial, q.quimestral,"
+                + "	q.nota_quimestral, q.promedio, q.nota_cualitativa,  q.laborados,"
+                + "	q.justificados, q.injustificados, q.atrasos	from quimestre q"
+                + "	inner join ciclo ci on ci.id= q.ciclo"
+                + "	inner join alumno al on ci.alumno = al.cedula"
+                + "	inner join asignatura_curso ac on  ac.id=ci.asignatura_curso"
+                + "	where ac.curso=? and ac.materia=? and q.descripcion=? order by al.apellido;";
         DBConnection con = new DBConnection(usuario, clave);
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, curso.getId()));
+        dbos.add(new DBObject(2, materia.getId()));
+        dbos.add(new DBObject(3, descripcion));
         try {
-            ResultSet rst = con.executeQuery(sql);
+            ResultSet rst = con.executeQuery(sql, dbos);
             while (rst.next()) {
 
                 Quimestre quimestre = new Quimestre();

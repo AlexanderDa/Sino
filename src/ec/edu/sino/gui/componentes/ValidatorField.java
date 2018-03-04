@@ -1,5 +1,6 @@
 package ec.edu.sino.gui.componentes;
 
+import javafx.beans.InvalidationListener;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
 
@@ -17,20 +18,17 @@ public class ValidatorField extends TextField {
     private float value;
 
     public ValidatorField() {
-        setOnKeyReleased(validatorActionEvent());
-    }
-
-    public ValidatorField(String text) {
-        super(text);
+        getStyleClass().remove(1);
+        setStyle("-fx-background-color: transparent;");
         setOnKeyReleased(validatorActionEvent());
     }
 
     private EventHandler validatorActionEvent() {
         return (t) -> {
             try {
-                if (getText().length() <= 5 && Float.parseFloat(getText()) > 0 && Float.parseFloat(getText()) <= 10) {
+                if (getText().length() <= 5 && Float.parseFloat(getText()) >= 0 && Float.parseFloat(getText()) <= 10) {
                     value = Float.parseFloat(getText());
-                    setStyle("-fx-background-color: white;");
+                    setStyle("-fx-background-color: transparent;");
                 } else {
                     value = Float.parseFloat("");
                 }
@@ -42,6 +40,7 @@ public class ValidatorField extends TextField {
     }
 
     public float getValue() {
+
         return value;
     }
 
