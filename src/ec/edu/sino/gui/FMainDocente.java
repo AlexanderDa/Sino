@@ -35,6 +35,7 @@ public class FMainDocente extends AnchorPane {
     private ToggleGroup group;
     private final ToggleButton btnCiclo = new ToggleButton("Ciclo");
     private final ToggleButton btnQuimestre = new ToggleButton("Quimestre");
+    private final ToggleButton btnParcial = new ToggleButton("Parcial");
 
     public FMainDocente(Docente docente) {
         MCurso mCurso = new MCurso();
@@ -42,7 +43,7 @@ public class FMainDocente extends AnchorPane {
         MPeriodo mPeriodo = new MPeriodo();
         mPeriodo.loginAdmin();
         try {
-            Periodo periodo  = mPeriodo.obtenerActual();
+            Periodo periodo = mPeriodo.obtenerActual();
             curso = mCurso.obtenerPorDocenteAndPeriodo(docente.getCedula(), periodo.getId());
         } catch (Exception e) {
         }
@@ -82,20 +83,25 @@ public class FMainDocente extends AnchorPane {
         group = new ToggleGroup();
         btnCiclo.setToggleGroup(group);
         btnQuimestre.setToggleGroup(group);
+        btnParcial.setToggleGroup(group);
 
         btnCiclo.setMinSize(200, 35);
         btnQuimestre.setMinSize(200, 35);
+        btnParcial.setMinSize(200, 35);
 
         btnCiclo.setAlignment(Pos.CENTER_LEFT);
         btnQuimestre.setAlignment(Pos.CENTER_LEFT);
+        btnParcial.setAlignment(Pos.CENTER_LEFT);
 
         btnCiclo.setPadding(new Insets(5, 25, 5, 25));
         btnQuimestre.setPadding(new Insets(5, 25, 5, 25));
+        btnParcial.setPadding(new Insets(5, 25, 5, 25));
 
         btnCiclo.setOnAction(btnCicloActionEvent());
         btnQuimestre.setOnAction(btnQuimestreActionEvent());
+        btnParcial.setOnAction(btnParcialActionEvent());
 
-        taskBar.getChildren().addAll(user, btnCiclo,btnQuimestre);
+        taskBar.getChildren().addAll(user, btnCiclo, btnQuimestre,btnParcial);
 
         wallpaper.getStyleClass().add("wallpaper");
         AnchorPane.setTopAnchor(wallpaper, 0.0);
@@ -116,10 +122,19 @@ public class FMainDocente extends AnchorPane {
             getChildren().remove(1);
             getChildren().add(new FCiclo(curso).start());
         };
-    }    private EventHandler btnQuimestreActionEvent() {
+    }
+
+    private EventHandler btnQuimestreActionEvent() {
         return (t) -> {
             getChildren().remove(1);
             getChildren().add(new FQuimestre(curso).start());
+        };
+    }
+
+    private EventHandler btnParcialActionEvent() {
+        return (t) -> {
+            getChildren().remove(1);
+            getChildren().add(new FParcial(curso).start());
         };
     }
 

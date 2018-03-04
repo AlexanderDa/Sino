@@ -5,6 +5,8 @@
  */
 package ec.edu.sino.dao.contrato;
 
+import ec.edu.sino.negocios.entidades.Curso;
+import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Parcial;
 import javafx.collections.ObservableList;
 
@@ -13,7 +15,7 @@ import javafx.collections.ObservableList;
  * @author alexander
  */
 public interface IParcial {
-    
+
     void loginAdmin();
 
     void loginProfesor();
@@ -26,5 +28,5 @@ public interface IParcial {
 
     Parcial obtener(int id) throws Exception;
 
-    ObservableList<Parcial> obtener() throws Exception;
+    ObservableList<Parcial> obtener(Curso curso, Materia materia, String quimestre, String descripcion) throws Exception;
 }

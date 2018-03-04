@@ -43,8 +43,6 @@ public class Quimestre {
         this.injustificados = injustificados;
         this.atrasos = atrasos;
     }
-    
-    
 
     public int getId() {
         return id;
@@ -149,10 +147,10 @@ public class Quimestre {
     public void setAtrasos(int atrasos) {
         this.atrasos = atrasos;
     }
-    
+
     @Override
-    public String toString(){
-        return descripcion+" "+promedio;
+    public String toString() {
+        return ciclo.getAlumno().toString();
     }
-    
+
 }

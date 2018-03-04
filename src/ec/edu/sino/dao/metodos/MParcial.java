@@ -8,6 +8,8 @@ package ec.edu.sino.dao.metodos;
 import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.accesodatos.DBObject;
 import ec.edu.sino.dao.contrato.IParcial;
+import ec.edu.sino.negocios.entidades.Curso;
+import ec.edu.sino.negocios.entidades.Materia;
 import ec.edu.sino.negocios.entidades.Parcial;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -139,13 +141,24 @@ public class MParcial implements IParcial {
     }
 
     @Override
-    public ObservableList<Parcial> obtener() throws Exception {
+    public ObservableList<Parcial> obtener(Curso curso, Materia materia, String quimestre, String descripcion) throws Exception {
         ObservableList<Parcial> lista = FXCollections.observableArrayList();
-        String sql = "SELECT id, quimestre, descripcion, tarea, individual, grupal, "
-                + "promedio_evaluacion, nota_parcial, promedio FROM public.parcial;";
+        String sql = " select p.id, p.quimestre,p.descripcion, p.tarea, p.individual,p.grupal,"
+                + " 	p.promedio_evaluacion, p.nota_parcial,p.promedio from parcial p"
+                + "	inner join quimestre q on p.quimestre = q.id"
+                + "   	inner join ciclo ci on ci.id= q.ciclo"
+                + "   	inner join alumno al on ci.alumno = al.cedula"
+                + "	inner join asignatura_curso ac on  ac.id=ci.asignatura_curso"
+                + "	where ac.curso=? and ac.materia=? and q.descripcion=? "
+                + "	and p.descripcion=? order by al.apellido;";
+        List<DBObject> dbos = new ArrayList<>();
+        dbos.add(new DBObject(1, curso.getId()));
+        dbos.add(new DBObject(2, materia.getId()));
+        dbos.add(new DBObject(3, quimestre));
+        dbos.add(new DBObject(4, descripcion));
         DBConnection con = new DBConnection(usuario, clave);
         try {
-            ResultSet rst = con.executeQuery(sql);
+            ResultSet rst = con.executeQuery(sql,dbos);
             while (rst.next()) {
 
                 Parcial parcial = new Parcial();
