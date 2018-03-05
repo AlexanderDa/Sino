@@ -115,7 +115,7 @@ public final class FQuimestre {
         btnBuscar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("componentes/imagenes/search.png"))));
         btnBuscar.setOnAction(byQuimestreActionEvent());
         btnBuscar.setMinHeight(35);
-        
+
         cbContainer.getChildren().addAll(cbMaterias, cbQuimestre, btnBuscar, btnGuardar);
 
         table = new TableView<>();
@@ -211,7 +211,8 @@ public final class FQuimestre {
 //******************************************************************************    
     private void refreshTable() {
         try {
-            table.setItems(mQuimestre.obtener(curso, cbMaterias.getSelectionModel().getSelectedItem(), cbQuimestre.getSelectionModel().getSelectedItem()));
+            table.setItems(mQuimestre.obtener(curso, cbMaterias.getSelectionModel().getSelectedItem(),
+                    cbQuimestre.getSelectionModel().getSelectedItem().toUpperCase()));
 //            System.out.println(mQuimestre.obtener(1).getAsignada());
         } catch (Exception e) {
             godPane.failed("No se ha podido refrescar la table");

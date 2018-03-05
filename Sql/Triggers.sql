@@ -149,6 +149,20 @@ on quimestre for each row execute procedure fun_promedio_quimestres();
 
 
 /********************************************************************
+*        	CREAR TRIGGER PARA REDONDEAR LOS PROMEDIOS DE CICLO		*
+********************************************************************/
+CREATE OR REPLACE FUNCTION public.fun_redondea_ciclo()  RETURNS trigger AS $BODY$
+begin
+	new.promedio=(select redondea(new.promedio));
+    return null;
+end;
+$BODY$ language plpgsql;
+
+create trigger redondea_promedio_ciclo before update
+on ciclo for each row execute procedure fun_redondea_ciclo();
+
+
+********************************************************************
 *        	CREAR TRIGGER PARA CREAR QUIMESTRES AL MATRICULAR  		*
 ********************************************************************/
 
@@ -156,8 +170,8 @@ on quimestre for each row execute procedure fun_promedio_quimestres();
 CREATE OR REPLACE FUNCTION public.fun_crear_quimestre()  RETURNS trigger AS $BODY$
 
 begin
-	insert into quimestre (ciclo,descripcion) values (new.id,'Primer Quimestre');
-	insert into quimestre (ciclo,descripcion) values (new.id,'Segundo Quimestre');
+	insert into quimestre (ciclo,descripcion) values (new.id,'PPRIMER QUIMESTRE');
+	insert into quimestre (ciclo,descripcion) values (new.id,'SEGUNDO QUIMESTRE');
 	return null;
 end;
 $BODY$ language plpgsql;
@@ -174,9 +188,9 @@ on ciclo for each row execute procedure fun_crear_quimestre();
 CREATE OR REPLACE FUNCTION public.fun_crear_parcial()  RETURNS trigger AS $BODY$
 
 begin
-	insert into parcial (quimestre, descripcion) values (new.id,'Primer Parcial');
-	insert into parcial (quimestre, descripcion) values (new.id,'Segundo Parcial');
-	insert into parcial (quimestre, descripcion) values (new.id,'Tercer Parcial');
+	insert into parcial (quimestre, descripcion) values (new.id,'PRIMER PARCIAL');
+	insert into parcial (quimestre, descripcion) values (new.id,'SEGUNDO PARCIAL');
+	insert into parcial (quimestre, descripcion) values (new.id,'TERCER PARCIAL');
 	return null;
 end;
 $BODY$ language plpgsql;

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1151e99e-e723-4c48-9106-28eb2f80f54b">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="curso" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="materia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="quimestre" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="parcial" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select cu.grado,cu.paralelo,d.apellido || ' ' || d.nombre as docente,
+	q.descripcion as quimestre,p.descripcion parcial, ma.nombre
+	as materia,al.apellido || ' ' || al.nombre as alumno,p.tarea, 
+	p.individual,p.grupal,p.promedio_evaluacion, p.nota_parcial,
+	p.promedio from parcial p
+	inner join quimestre q on p.quimestre = q.id
+   	inner join ciclo ci on ci.id= q.ciclo
+   	inner join alumno al on ci.alumno = al.cedula
+	inner join asignatura_curso ac on  ac.id=ci.asignatura_curso
+	inner join materia ma on ac.materia = ma.id
+	inner join curso cu on ac.curso=cu.id
+	inner join docente d on cu.docente = d.cedula
+	where ac.curso=$P{curso} and ac.materia=$P{materia} and 
+	q.descripcion=$P{quimestre} and p.descripcion=$P{parcial}
+	order by al.apellido]]>
+	</queryString>
+	<field name="grado" class="java.lang.String"/>
+	<field name="paralelo" class="java.lang.String"/>
+	<field name="docente" class="java.lang.String"/>
+	<field name="quimestre" class="java.lang.String"/>
+	<field name="parcial" class="java.lang.String"/>
+	<field name="materia" class="java.lang.String"/>
+	<field name="alumno" class="java.lang.String"/>
+	<field name="tarea" class="java.lang.Float"/>
+	<field name="individual" class="java.lang.Float"/>
+	<field name="grupal" class="java.lang.Float"/>
+	<field name="promedio_evaluacion" class="java.lang.Float"/>
+	<field name="nota_parcial" class="java.lang.Float"/>
+	<field name="promedio" class="java.lang.Float"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="90" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="141" height="79" uuid="60990fed-c679-49f7-a583-1e2694cfcf45"/>
+				<imageExpression><![CDATA["/home/alexander/NetBeansProjects/Sino/src/ec/edu/sino/gui/reportes/Ministerio-Logo.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="177" y="23" width="494" height="20" uuid="88fff57f-2cc5-4997-8b37-aa5122f8e3db"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[UNIDAD EDUCATIVA ESPECIALIZADA "CARLOS GARBAY"]]></text>
+			</staticText>
+			<image>
+				<reportElement x="719" y="0" width="83" height="79" uuid="e053c2f0-f3f0-4624-9022-3cc7605bed4f"/>
+				<imageExpression><![CDATA["/home/alexander/NetBeansProjects/Sino/src/ec/edu/sino/gui/imagenes/icono.png"]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="353" y="43" width="187" height="20" uuid="5c2ab109-7b8d-4f71-b38e-2fe040fea826"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{quimestre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="554" y="43" width="163" height="20" uuid="53c6b408-beb7-470c-8d5e-76226ebd3e99"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{parcial}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="141" y="43" width="225" height="20" uuid="0eb23068-703f-4c9d-a353-a45f6913a178"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ACTA DE CALIFICACIONES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="540" y="43" width="14" height="20" uuid="96768b3c-e828-43ac-b246-c5082085b8b7"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[-]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<staticText>
+				<reportElement x="38" y="0" width="39" height="20" uuid="b319a7aa-49a2-4078-ad67-bbd476b8cff3"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Año:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="26" width="75" height="20" uuid="5208f5c3-ca04-4c86-8e0b-7e100ee1b41e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Docente:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="0" width="75" height="20" uuid="f6429da8-1c7e-4df2-b047-a05752e15fc8"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Paralelo:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="77" y="0" width="100" height="20" uuid="d5d9c9c3-7333-4f8c-ad35-14d883b6b4a0"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{grado}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="479" y="0" width="100" height="20" uuid="8791cb1c-bfe3-43d5-b846-5e64bcb458c5"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{paralelo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="26" width="284" height="20" uuid="3f9e41c7-7e30-45f3-ad93-424665ff8e80"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{docente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="417" y="26" width="75" height="20" uuid="d15ac1c6-fbbf-41ba-b84c-3483502366e7"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Materia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="479" y="27" width="240" height="20" uuid="7b27ae1b-17c3-4112-8932-b3218231c46b"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{materia}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="27" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="0" width="214" height="20" uuid="7f2651c1-385d-41a1-9e8d-35e0f719c6d1"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alumno]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="0" width="66" height="20" uuid="fbf76322-d6a7-4676-846a-ae0882205832"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tarea]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="353" y="0" width="66" height="20" uuid="d4fc8747-8110-4a06-b4c1-ded3c844fd13"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Individual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="439" y="0" width="66" height="20" uuid="9be2c222-9fcf-48ef-baa9-dc0415716f0e"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grupal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="524" y="0" width="66" height="20" uuid="e7d8231f-2cd5-493e-82c2-f3770353fe5f"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Evaluación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="612" y="0" width="66" height="20" uuid="6dee2d51-cfa8-4276-8f8f-0fa6d4499c7b"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Parcial]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="700" y="0" width="66" height="20" uuid="0ad1464c-c8bd-4083-b2c1-47b40175d024"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Promedio]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="40" y="0" width="214" height="20" uuid="3fcda031-f4ae-4d0d-adbf-095a17b649a4"/>
+				<textFieldExpression><![CDATA[$F{alumno}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="0" width="66" height="20" uuid="55f69e89-c841-4bdd-ac8a-ba30f0eec2a1"/>
+				<textFieldExpression><![CDATA[$F{tarea}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="353" y="0" width="66" height="20" uuid="290589b1-881c-41a9-a7ed-604100c5787a"/>
+				<textFieldExpression><![CDATA[$F{individual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="439" y="0" width="66" height="20" uuid="cec22281-a1b3-43bf-a398-6a053c0633f0"/>
+				<textFieldExpression><![CDATA[$F{grupal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="524" y="0" width="66" height="20" uuid="a9016698-eca5-4390-9859-2948ff337318"/>
+				<textFieldExpression><![CDATA[$F{promedio_evaluacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="612" y="0" width="66" height="20" uuid="8d246f7b-b204-4be1-904c-d858352d85cb"/>
+				<textFieldExpression><![CDATA[$F{nota_parcial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="700" y="0" width="66" height="20" uuid="a5f68c8e-8bd6-4b9b-ab41-01218a86fb95"/>
+				<textFieldExpression><![CDATA[$F{promedio}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="77" y="0" width="100" height="20" uuid="0c376f0a-2dd3-4875-86da-b94d4f1c4bb0"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<text><![CDATA[Riobamba,]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement x="148" y="0" width="147" height="20" uuid="1e14472c-c45c-4528-b991-2bd55dfd5daa"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

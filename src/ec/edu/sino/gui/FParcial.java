@@ -5,6 +5,7 @@
  */
 package ec.edu.sino.gui;
 
+import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.dao.metodos.MCiclo;
 import ec.edu.sino.dao.metodos.MParcial;
 import ec.edu.sino.gui.componentes.GodPane;
@@ -13,6 +14,10 @@ import ec.edu.sino.negocios.entidades.Alumno;
 import ec.edu.sino.negocios.entidades.Parcial;
 import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.Materia;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -30,6 +35,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javax.swing.WindowConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -121,6 +133,10 @@ public final class FParcial {
         } catch (Exception e) {
         }
 
+        cbMaterias.setOnAction(byParcialActionEvent());
+        cbQuimestre.setOnAction(byParcialActionEvent());
+        cbParcial.setOnAction(byParcialActionEvent());
+
         Button btnGuardar = new Button("Guardar");
         btnGuardar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("imagenes/save.png"))));
         btnGuardar.setOnAction(btnGuardarActionEvent());
@@ -128,7 +144,7 @@ public final class FParcial {
 
         Button btnBuscar = new Button();
         btnBuscar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("componentes/imagenes/search.png"))));
-        btnBuscar.setOnAction(byParcialActionEvent());
+        btnBuscar.setOnAction(reportesActionEvent());
         btnBuscar.setMinHeight(35);
 
         cbContainer.getChildren().addAll(cbMaterias, cbQuimestre, cbParcial, btnBuscar, btnGuardar);
@@ -314,15 +330,52 @@ public final class FParcial {
         };
     }
 
+    private EventHandler reportesActionEvent() {
+        return (t) -> {
+            
+            try {
+                DBConnection con = new DBConnection("admin", "adm!np4$");
+                Connection conn = null;
+                try {
+                    conn = con.connect();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    System.err.println(ex.getMessage());
+                }
+
+                JasperReport reporte = null;
+                String path = "src/ec/edu/sino/gui/reportes/RParciales.jasper";
+
+                Map parametro = new HashMap();
+                parametro.put("curso", curso.getId());
+                parametro.put("materia",cbMaterias.getSelectionModel().getSelectedItem().getId());
+                parametro.put("quimestre",cbQuimestre.getSelectionModel().getSelectedItem().toUpperCase());
+                parametro.put("parcial",cbParcial.getSelectionModel().getSelectedItem().toUpperCase());
+
+                reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+
+                JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, conn);
+
+                JasperViewer view = new JasperViewer(jprint, false);
+
+                view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+                view.setVisible(true);
+
+            } catch (JRException ex) {
+
+            }
+        };
+    }
 //******************************************************************************
 //*                                                                   *
 //******************************************************************************    
+
     private void refreshTable() {
         try {
             // table.setItems(mParcial.obtener(curso, cbMaterias.getSelectionModel().getSelectedItem(), cbQuimestre.getSelectionModel().getSelectedItem()));
             table.setItems(mParcial.obtener(curso, cbMaterias.getSelectionModel().getSelectedItem(),
-                    cbQuimestre.getSelectionModel().getSelectedItem(),
-                    cbParcial.getSelectionModel().getSelectedItem()));
+                    cbQuimestre.getSelectionModel().getSelectedItem().toUpperCase(),
+                    cbParcial.getSelectionModel().getSelectedItem().toUpperCase()));
         } catch (Exception e) {
             godPane.failed("No se ha podido refrescar la table");
             System.err.println(e.getMessage());

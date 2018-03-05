@@ -12,7 +12,7 @@ COMMENT ON VIEW public.materias_curso IS 'Se obtiene las materias de un curso.';
 
 
 --Selecionar el ciclo de un curso
- select ci.id, ci.asignatura_curso, ci.alumno, ci.promedio  from ciclo ci 
+	 select ci.id, ci.asignatura_curso, ci.alumno, ci.promedio  from ciclo ci 
  	inner join asignatura_curso ac on  ac.id= ci.asignatura_curso
  	where ac.curso=1;
  	order by id;
