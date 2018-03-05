@@ -5,6 +5,7 @@
  */
 package ec.edu.sino.gui;
 
+import ec.edu.sino.accesodatos.DBConnection;
 import ec.edu.sino.dao.metodos.MCiclo;
 import ec.edu.sino.dao.metodos.MQuimestre;
 import ec.edu.sino.gui.componentes.GodPane;
@@ -13,6 +14,10 @@ import ec.edu.sino.negocios.entidades.Alumno;
 import ec.edu.sino.negocios.entidades.Quimestre;
 import ec.edu.sino.negocios.entidades.Curso;
 import ec.edu.sino.negocios.entidades.Materia;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -30,6 +35,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import javax.swing.WindowConstants;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.util.JRLoader;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -106,14 +118,16 @@ public final class FQuimestre {
         } catch (Exception e) {
         }
 
+        cbMaterias.setOnAction(byQuimestreActionEvent());
+        cbQuimestre.setOnAction(byQuimestreActionEvent());
         Button btnGuardar = new Button("Guardar");
         btnGuardar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("imagenes/save.png"))));
-        btnGuardar.setOnAction(btnGuardarActionEvent());
+        btnGuardar.setOnAction(reportesActionEvent());
         btnGuardar.setMinHeight(35);
 
-        Button btnBuscar = new Button();
-        btnBuscar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("componentes/imagenes/search.png"))));
-        btnBuscar.setOnAction(byQuimestreActionEvent());
+        Button btnBuscar = new Button("Reportes");
+        btnBuscar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("componentes/imagenes/pdf.png"))));
+        btnBuscar.setOnAction(reportesActionEvent());
         btnBuscar.setMinHeight(35);
 
         cbContainer.getChildren().addAll(cbMaterias, cbQuimestre, btnBuscar, btnGuardar);
@@ -205,7 +219,42 @@ public final class FQuimestre {
             godPane.hideAlert();
         };
     }
+ private EventHandler reportesActionEvent() {
+        return (t) -> {
+            
+            try {
+                DBConnection con = new DBConnection("admin", "adm!np4$");
+                Connection conn = null;
+                try {
+                    conn = con.connect();
+                } catch (SQLException | ClassNotFoundException ex) {
+                    System.err.println(ex.getMessage());
+                }
 
+                JasperReport reporte = null;
+                String path = "src/ec/edu/sino/gui/reportes/RQuimestrales.jasper";
+
+                Map parametro = new HashMap();
+                parametro.put("curso", curso.getId());
+                parametro.put("materia",cbMaterias.getSelectionModel().getSelectedItem().getId());
+                parametro.put("quimestre",cbQuimestre.getSelectionModel().getSelectedItem().toUpperCase());
+                parametro.put("parcial",null);
+
+                reporte = (JasperReport) JRLoader.loadObjectFromFile(path);
+
+                JasperPrint jprint = JasperFillManager.fillReport(reporte, parametro, conn);
+
+                JasperViewer view = new JasperViewer(jprint, false);
+
+                view.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+                view.setVisible(true);
+
+            } catch (JRException ex) {
+                System.err.println(ex.getMessage());
+            }
+        };
+    }
 //******************************************************************************
 //*                                                                   *
 //******************************************************************************    

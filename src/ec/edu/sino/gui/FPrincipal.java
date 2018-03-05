@@ -130,11 +130,10 @@ public final class FPrincipal extends AnchorPane {
 
         Label lblUser = new Label("Usuario");
         lblUser.setMinWidth(350);
-        tfProfesorUser = new TextField("alexanderda");
+        tfProfesorUser = new TextField();
         Label lblPass = new Label("Contraseña");
         lblPass.setMinWidth(350);
         pfProfesorPassword = new PasswordField();
-        pfProfesorPassword.setText("alip4$");
         Button btnLogin = new Button("Entrar");
         btnLogin.setDefaultButton(true);
         btnLogin.setCursor(Cursor.HAND);

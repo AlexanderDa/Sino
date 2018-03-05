@@ -142,8 +142,8 @@ public final class FParcial {
         btnGuardar.setOnAction(btnGuardarActionEvent());
         btnGuardar.setMinHeight(35);
 
-        Button btnBuscar = new Button();
-        btnBuscar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("componentes/imagenes/search.png"))));
+        Button btnBuscar = new Button("Reportes");
+        btnBuscar.setGraphic(new ImageView(new Image(getClass().getResourceAsStream("componentes/imagenes/pdf.png"))));
         btnBuscar.setOnAction(reportesActionEvent());
         btnBuscar.setMinHeight(35);
 
