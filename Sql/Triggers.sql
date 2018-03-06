@@ -162,7 +162,7 @@ create trigger redondea_promedio_ciclo before update
 on ciclo for each row execute procedure fun_redondea_ciclo();
 
 
-********************************************************************
+/*******************************************************************
 *        	CREAR TRIGGER PARA CREAR QUIMESTRES AL MATRICULAR  		*
 ********************************************************************/
 
