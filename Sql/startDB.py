@@ -3,12 +3,18 @@ from psycopg2 import connect
 import os
 DIR = os.path.dirname(os.path.abspath(__file__))
 class DBConnection:
+    def __init__(self,host,user,password,port,dbname):
+        self.host = host
+        self.user = user
+        self.password = password
+        self.port = port
+        self.dbname = dbname
     def __startConnection(self):
         try:
-            self.connection = connect(host='localhost',user='postgres',password='postgres',port=5432,dbname='sino')
+            self.connection = connect(host=self.host,user=self.user,password=self.password,port=self.port,dbname=self.dbname)
             self.cursor = self.connection.cursor()
         except Exception as e:
-            print(e)
+            print('\033[91mError to connect. \n' + str(e) + '\033[0m')
         else:
             print('Connected!')
 
@@ -17,7 +23,7 @@ class DBConnection:
             self.cursor.close()
             self.connection.close()
         except Exception as e:
-            print(e)
+            print('\033[91mError to disconnect. \n' + str(e) + '\033[0m')
         else:
             print('Disconected')
 
@@ -26,16 +32,40 @@ class DBConnection:
             self.__startConnection()
             self.cursor.execute(sql)
         except Exception as e:
-            self.connection.rolback()
-            print(e)
+            self.connection.rollback()
+            print('\033[91mError to execute query. \n' + str(e) + '\033[0m')
         else:
             self.connection.commit()
             print(self.cursor.statusmessage)
         finally:
             self.__closeConnection()
 
+    def test(self):
+        self.__startConnection()
+        self.__closeConnection()
 
-dbc = DBConnection()
+
+host = input('Host [default : localhost]  >>  ')
+user = input('User [default : postgres]  >>  ')
+port = input('Port [default : 5432]  >>  ')
+dbname = ''
+password = ''
+
+if host == '':
+    host = 'localhost'
+if user == '':
+    user = 'postgres'
+if port == '':
+    port = '5432'
+while dbname=='':
+    dbname = input('Database  >>  ')
+while password=='':
+    password = input('Password  >>  ')
+
+
+
+dbc = DBConnection(host,user,password,port,dbname)
+dbc.test()
 fileList = os.listdir(DIR)
 fileList.sort()
 files = []
