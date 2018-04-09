@@ -45,11 +45,11 @@ class DBConnection:
         self.__closeConnection()
 
 
-host = input('Host [default : localhost]  >>  ')
-user = input('User [default : postgres]  >>  ')
-port = input('Port [default : 5432]  >>  ')
-dbname = ''
-password = ''
+host = input('Server [localhost]:  ')
+user = input('User [postgres]:  ')
+port = input('Port [ 5432]:  ')
+dbname = input('Database [postgres]:  ')
+
 
 if host == '':
     host = 'localhost'
@@ -57,15 +57,18 @@ if user == '':
     user = 'postgres'
 if port == '':
     port = '5432'
-while dbname=='':
-    dbname = input('Database  >>  ')
-while password=='':
-    password = input('Password  >>  ')
+if dbname=='':
+    dbname = 'postgres'
+msm = 'Password  for  {} user:  '.format(user)
+password = input(msm)
+if password=='':
+    input('Enter to continue.')
+    exit()
+
 
 
 
 dbc = DBConnection(host,user,password,port,dbname)
-dbc.test()
 fileList = os.listdir(DIR)
 fileList.sort()
 files = []
@@ -91,3 +94,5 @@ if opc=='Y' or opc=='y':
         dbc.querySet(sql)
 else:
     print('It has not been executed.')
+
+input('Enter to exit.')
